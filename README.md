@@ -13,13 +13,17 @@ Doinfine also includes a "fine" feature.
 
 ### 2022 - Launch
 
-Doinfine launched for the first time in 2022 and onboarded its first team. A couple months later, it had 3 teams using it.
+> [✨Doinfine POC](https://github.com/hercobezuidenhout/doinfine-poc)
+
+Doinfine launched for the first time in 2022 and onboarded its first team. A couple months later, it had 3 teams using it. This version of Doinfine was later dubbed as the POC (Proof of Concept).
 
 #### Team
 
 - Herco Bezuidenhout | Software Engineer
 
 ### 2023 - Entelect Tech Accelerator
+
+> [🏆Doinfine Tech Accelerator 2023](https://github.com/hercobezuidenhout/doinfine-techacc2023)
 
 ![Doinfine Hero Image](./public/assets/marketing/techacc.webp)
 

@@ -1,6 +1,6 @@
 {
-    "name": "app",
-    "short_name": "app",
+    "name": "doinfine",
+    "short_name": "doinfine",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

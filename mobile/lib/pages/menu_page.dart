@@ -10,7 +10,6 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = AuthService();
-    var user = authService.getCurrentUser();
 
     return Scaffold(
         appBar: AppBar(

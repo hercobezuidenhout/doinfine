@@ -1,5 +1,10 @@
+import 'package:doinfine/extensions/context_extension.dart';
+import 'package:doinfine/models/profile.dart';
 import 'package:doinfine/pages/add_friend_page.dart';
+import 'package:doinfine/services/auth_service.dart';
+import 'package:doinfine/services/friends_service.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -9,126 +14,100 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  final String defaultAvatar = 'https://api.dicebear.com/9.x/thumbs/png';
-  final TextEditingController _searchController = TextEditingController();
-  final List<String> _allFriends = [
-    'Steve Pickleberry',
-    'John Doe',
-    'Jane Smith',
-    'Emily Johnson',
-    'Michael Brown',
-    'Chris Evans',
-    'Robert Downey',
-    'Scarlett Johansson',
-    'Tom Holland',
-    'Natalie Portman',
-  ];
+  final _friendsService = FriendsService();
+  final _authService = AuthService();
 
-  List<String> _filteredFriends = [];
+  late Future<List<Profile>> _friendsListFuture;
+
+  Future<List<Profile>> _getAllFriends() async {
+    try {
+      final userId = _authService.getCurrentUserId();
+      return await _friendsService.getAllFriends(userId);
+    } on PostgrestException catch (error) {
+      if (mounted) context.showSnackBar(error.message, isError: true);
+      rethrow;
+    } catch (error) {
+      if (mounted) {
+        context.showSnackBar('Unexpected error occurred', isError: true);
+      }
+      rethrow;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
-    _filteredFriends = _allFriends;
-    _searchController.addListener(_filterFriends);
-  }
-
-  void _filterFriends() {
-    String query = _searchController.text.toLowerCase();
-    setState(() {
-      _filteredFriends = _allFriends
-          .where((friend) => friend.toLowerCase().contains(query))
-          .toList();
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchController.removeListener(_filterFriends);
-    _searchController.dispose();
-
-    super.dispose();
+    _friendsListFuture = _getAllFriends();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: Text('Friends'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AddFriendPage()));
-              },
-              icon: Icon(Icons.person_add))
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-                filled: true,
-                hintText: 'Search...',
+    return FutureBuilder(
+        future: _friendsListFuture,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final allFriends = snapshot.data;
+
+            if (allFriends == null) {
+              return Text('You don not have any friends.');
+            }
+
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: false,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                title: Text('Friends'),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AddFriendPage()));
+                      },
+                      icon: Icon(Icons.person_add))
+                ],
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
-                child: _filteredFriends.isEmpty
-                    ? Center(
-                        key: ValueKey('empty'),
-                        child: Text('No friends found'),
-                      )
-                    : ListView.builder(
-                        key: ValueKey(
-                          _filteredFriends.length,
-                        ),
-                        itemCount: _filteredFriends.length,
-                        itemBuilder: (context, index) {
-                          return AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            child: Card(
-                              key: ValueKey(
-                                _filteredFriends[index],
-                              ),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.amber,
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      defaultAvatar,
-                                      fit: BoxFit.cover,
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
+              body: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        child: allFriends.isEmpty
+                            ? Center(
+                                key: ValueKey('empty'),
+                                child: Text('No friends found'),
+                              )
+                            : ListView.builder(
+                                key: ValueKey(
+                                  allFriends.length,
                                 ),
-                                title: Text(_filteredFriends[index]),
+                                itemCount: allFriends.length,
+                                itemBuilder: (context, index) {
+                                  return AnimatedContainer(
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                    child: Card(
+                                      key: ValueKey(
+                                        allFriends[index],
+                                      ),
+                                      child: ListTile(
+                                        title: Text(allFriends[index].fullname),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            ),
-                          );
-                        },
                       ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }

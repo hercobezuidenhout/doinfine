@@ -1,7 +1,6 @@
 import 'package:doinfine/components/molecules/main_bottom_bar.dart';
 import 'package:doinfine/pages/feed_page.dart';
 import 'package:doinfine/pages/friends_page.dart';
-import 'package:doinfine/pages/profile_page.dart';
 import 'package:doinfine/services/auth_service.dart';
 import 'package:doinfine/services/profile_service.dart';
 import 'package:flutter/material.dart';

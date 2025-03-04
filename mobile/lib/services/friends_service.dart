@@ -1,8 +1,18 @@
 import 'package:doinfine/main.dart';
 import 'package:doinfine/models/detailed_friend_request.dart';
 import 'package:doinfine/models/profile.dart';
+import 'package:doinfine/repository/friends_repository.dart';
 
 class FriendsService {
+  final _friendsRepository = FriendsRepository();
+
+  Future<List<Profile>> getAllFriends(String userId) async {
+    final friends = await _friendsRepository.findFriendsByUserId(userId);
+    return friends
+        .map((friend) => Profile(id: friend.id, fullname: friend.fullname))
+        .toList();
+  }
+
   Future<void> sendFriendRequest(String receiverId) async {
     try {
       await supabase.from('FriendRequest').insert({
@@ -30,7 +40,6 @@ class FriendsService {
         return Profile(
           id: friend['id'],
           fullname: friend['fullname'],
-          username: friend['username'],
         );
       }).toList();
     } catch (e) {

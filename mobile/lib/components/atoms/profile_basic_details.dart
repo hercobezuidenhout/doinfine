@@ -8,8 +8,6 @@ class ProfileBasicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String username = profile.username;
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -22,7 +20,6 @@ class ProfileBasicDetails extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          Text('@$username')
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:doinfine/components/atoms/profile_basic_details.dart';
-import 'package:doinfine/components/atoms/profile_picture.dart';
 import 'package:doinfine/models/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,6 @@ class ProfileDetailsBanner extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ProfilePicture(imageUrl: profile.avatarUrl ?? defaultAvatar),
         ProfileBasicDetails(
           profile: profile,
         ),

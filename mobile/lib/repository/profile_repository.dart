@@ -26,8 +26,7 @@ class ProfileRepository {
   Future<void> update(Profile profile) async {
     final updates = {
       'id': profile.id,
-      'username': profile.username,
-      'fullname': profile.fullname
+      'fullname': profile.fullname,
     };
     await supabase.from('User').upsert(updates);
   }

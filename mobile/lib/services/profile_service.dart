@@ -10,6 +10,16 @@ class ProfileService {
   final ProfileRepository _profileRepository = ProfileRepository();
   final UserAvatarRepository _userAvatarRepository = UserAvatarRepository();
 
+  Future<void> checkAndCreateUser(String userId) async {
+    var defaultFullname = 'Doinfiner';
+
+    var user = await _profileRepository.tryAndGetUserById(userId);
+
+    if (user == null) {
+      await _profileRepository.create(userId, defaultFullname);
+    }
+  }
+
   Future<Profile> getUserProfile(String userId) async {
     final user = await _profileRepository.getUserById(userId);
 

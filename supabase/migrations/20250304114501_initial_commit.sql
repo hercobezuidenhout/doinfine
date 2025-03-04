@@ -9,3 +9,11 @@ CREATE TABLE IF NOT EXISTS user_friends (
     friend_id UUID NOT NULL REFERENCES users(id),
     created_at TIMESTAMP DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS friend_requests (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sender_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    CONSTRAINT uniq_sender_receiver_status UNIQUE (sender_id, receiver_id)
+);

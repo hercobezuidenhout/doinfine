@@ -1,5 +1,6 @@
 import 'package:doinfine/components/molecules/friend_request_list_item.dart';
 import 'package:doinfine/models/detailed_friend_request.dart';
+import 'package:doinfine/services/friends_service.dart';
 import 'package:flutter/material.dart';
 
 class ReceivedFriendRequestListItem extends StatefulWidget {
@@ -14,6 +15,12 @@ class ReceivedFriendRequestListItem extends StatefulWidget {
 
 class _ReceivedFriendRequestListItemState
     extends State<ReceivedFriendRequestListItem> {
+  final _friendService = FriendsService();
+  void _acceptRequest() {
+    Navigator.of(context).pop();
+    _friendService.acceptFriendRequest(widget.friendRequest.id);
+  }
+
   void _handleReceivedTap() {
     var fullname = widget.friendRequest.sender.fullname;
 
@@ -38,10 +45,8 @@ class _ReceivedFriendRequestListItemState
               },
             ),
             TextButton(
+              onPressed: _acceptRequest,
               child: const Text('Accept'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
           ],
         );

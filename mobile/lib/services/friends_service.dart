@@ -1,10 +1,17 @@
 import 'package:doinfine/main.dart';
 import 'package:doinfine/models/detailed_friend_request.dart';
 import 'package:doinfine/models/profile.dart';
+import 'package:doinfine/repository/entities/friend_request_entity.dart';
+import 'package:doinfine/repository/friend_request_repository.dart';
 import 'package:doinfine/repository/friends_repository.dart';
+import 'package:doinfine/repository/profile_repository.dart';
+import 'package:doinfine/services/auth_service.dart';
 
 class FriendsService {
+  final _authService = AuthService();
   final _friendsRepository = FriendsRepository();
+  final _friendRequestRepository = FriendRequestRepository();
+  final _profileRepository = ProfileRepository();
 
   Future<List<Profile>> getAllFriends(String userId) async {
     final friends = await _friendsRepository.findFriendsByUserId(userId);
@@ -15,13 +22,8 @@ class FriendsService {
 
   Future<void> sendFriendRequest(String receiverId) async {
     try {
-      await supabase.from('FriendRequest').insert({
-        'senderId': supabase.auth.currentUser!.id,
-        'receiverId': receiverId,
-        'status': 'PENDING',
-      });
-
-      print('Friend request sent successfully!');
+      final userId = _authService.getCurrentUserId();
+      await _friendRequestRepository.createFriendRequest(userId, receiverId);
     } catch (e) {
       rethrow;
     }
@@ -29,12 +31,7 @@ class FriendsService {
 
   Future<List<Profile>> searchAllUsers(String query) async {
     try {
-      final data = await supabase
-          .from('User')
-          .select('id, fullname, username')
-          .ilike('fullname', '%$query%')
-          .or('username.ilike.%$query%')
-          .limit(10);
+      final data = await _profileRepository.getAllBySearchQuery(query);
 
       return data.map((friend) {
         return Profile(
@@ -50,12 +47,8 @@ class FriendsService {
   Future<List<DetailedFriendRequest>> getUserRequests() async {
     String userId = supabase.auth.currentUser!.id;
 
-    final response = await supabase
-        .from('FriendRequest')
-        .select(
-            'id, status, createdAt, sender: senderId (id, fullname, username), receiver: receiverId (id, fullname, username)')
-        .or('receiverId.eq.$userId, senderId.eq.$userId')
-        .order('createdAt', ascending: false);
+    final response =
+        await _friendRequestRepository.getFriendRequestsByUserId(userId);
 
     return response
         .map(
@@ -68,5 +61,16 @@ class FriendsService {
           ),
         )
         .toList();
+  }
+
+  Future<void> acceptFriendRequest(String requestId) async {
+    final data = await _friendRequestRepository.getFriendRequestById(requestId);
+
+    final friendRequest = FriendRequestEntity.fromJson(data);
+
+    var userFriend = await _friendsRepository.getUserFriend(
+        friendRequest.receiverId, friendRequest.senderId);
+
+    print(friendRequest);
   }
 }

@@ -2,14 +2,12 @@ import 'package:doinfine/models/profile.dart';
 
 class DetailedFriendRequest {
   final String id;
-  final String status;
   final DateTime createdAt;
   final Profile sender;
   final Profile receiver;
 
   DetailedFriendRequest({
     required this.id,
-    required this.status,
     required this.createdAt,
     required this.sender,
     required this.receiver,
@@ -19,8 +17,7 @@ class DetailedFriendRequest {
       {required Profile sender, required Profile receiver}) {
     return DetailedFriendRequest(
       id: json['id'],
-      status: json['status'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['created_at']),
       sender: sender,
       receiver: receiver,
     );

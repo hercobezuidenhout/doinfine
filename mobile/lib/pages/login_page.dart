@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:doinfine/extensions/context_extension.dart';
 import 'package:doinfine/main.dart';
 import 'package:doinfine/pages/home_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,6 +29,15 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
+
+      if (kDebugMode) {
+        await supabase.auth.signInWithPassword(
+          email: _emailController.text.trim(),
+          password: 'jouma',
+        );
+
+        return;
+      }
 
       await supabase.auth.signInWithOtp(
         email: _emailController.text.trim(),

@@ -8,7 +8,7 @@
             "name": "doinfine",
             "request": "launch",
             "type": "dart",
-            "program": "./app/lib/main.dart",
+            "program": "./mobile/lib/main.dart",
             "args": [
                 "--dart-define-from-file=.env"
             ]
@@ -17,7 +17,7 @@
             "name": "doinfine (release mode)",
             "request": "launch",
             "type": "dart",
-            "program": "./app/lib/main.dart",
+            "program": "./mobile/lib/main.dart",
             "flutterMode": "release",
             "args": [
                 "--dart-define-from-file=.env"

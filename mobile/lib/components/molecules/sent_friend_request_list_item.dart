@@ -19,7 +19,6 @@ class SentFriendRequestListItem extends StatefulWidget {
 
 class _SentFriendRequestListItemState extends State<SentFriendRequestListItem> {
   final _friendService = FriendsService();
-  final String defaultAvatar = 'https://api.dicebear.com/9.x/thumbs/png';
 
   void _cancelRequest() async {
     Navigator.of(context).pop();

@@ -20,6 +20,15 @@ class FriendsService {
         .toList();
   }
 
+  Future<List<Profile>> getUserFriends(String query) async {
+    final userId = _authService.getCurrentUserId();
+    final friends =
+        await _friendsRepository.findFriendsWhereQuery(userId, query);
+    return friends
+        .map((friend) => Profile(id: friend.id, fullname: friend.fullname))
+        .toList();
+  }
+
   Future<void> sendFriendRequest(String receiverId) async {
     try {
       final userId = _authService.getCurrentUserId();

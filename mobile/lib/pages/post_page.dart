@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:doinfine/models/profile.dart';
+import 'package:doinfine/services/friends_service.dart';
 import 'package:flutter/material.dart';
 
 class PostPage extends StatefulWidget {
@@ -8,9 +12,49 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
+  Timer? _debounce;
+
+  final _friendService = FriendsService();
+  final TextEditingController _searchController = TextEditingController();
+
+  List<Profile> _userFriends = [];
+  late Profile _selectedFriend;
+
+  Future<void> _filterFriends() async {
+    String query = _searchController.text.toLowerCase();
+    if (_debounce?.isActive ?? false) {
+      _debounce?.cancel();
+    }
+
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      if (query.isEmpty) {
+        return;
+      }
+
+      try {
+        List<Profile> results = await _friendService.getUserFriends(query);
+        setState(() {
+          _userFriends = results;
+        });
+      } catch (e) {
+        // Handle error (e.g., show an error message)
+        print('Error searching for friends: $e');
+      }
+    });
+  }
+
+  Future<void> _fetchUserFriends() async {
+    final userFriends = await _friendService.getUserFriends('');
+    setState(() {
+      _userFriends = userFriends;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _fetchUserFriends();
+    _searchController.addListener(_filterFriends);
   }
 
   @override
@@ -41,21 +85,26 @@ class _PostPageState extends State<PostPage> {
           child: ListView(
             children: [
               DropdownMenu(
-                enableSearch: true,
+                requestFocusOnTap: true,
                 width: double.infinity,
                 onSelected: (menuItem) {
-                  print(menuItem);
+                  setState(() {
+                    if (menuItem != null) {
+                      _selectedFriend = menuItem;
+                      print(_selectedFriend.fullname);
+                    }
+                  });
                 },
                 label: Text('Who'),
                 helperText: 'Who do you want to fine?',
-                enableFilter: true,
-                dropdownMenuEntries: [
-                  DropdownMenuEntry(value: "leo", label: "Leo Whitman"),
-                  DropdownMenuEntry(value: "ivy", label: "Ivy Caldwell"),
-                  DropdownMenuEntry(value: "zane", label: "Zane Holloway"),
-                  DropdownMenuEntry(value: "mia", label: "Mia Kensington"),
-                ],
-                requestFocusOnTap: true,
+                controller: _searchController,
+                enabled: _userFriends.isNotEmpty,
+                dropdownMenuEntries: _userFriends
+                    .map(
+                      (friend) => DropdownMenuEntry(
+                          value: friend, label: friend.fullname),
+                    )
+                    .toList(),
               ),
               SizedBox(
                 height: 20,

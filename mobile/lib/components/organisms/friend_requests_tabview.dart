@@ -25,7 +25,9 @@ class _FriendRequestsTabviewState extends State<FriendRequestsTabview> {
         friendRequest.sender.id == _authService.getCurrentUserId();
 
     return currentUserIsSender
-        ? SentFriendRequestListItem(friendRequest: friendRequest)
+        ? SentFriendRequestListItem(
+            friendRequest: friendRequest,
+            onRefreshRequestsClick: widget.onRefreshRequestsClick)
         : ReceivedFriendRequestListItem(
             friendRequest: friendRequest,
             onRefreshRequestsClick: widget.onRefreshRequestsClick);

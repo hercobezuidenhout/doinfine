@@ -1,11 +1,16 @@
 import 'package:doinfine/components/molecules/friend_request_list_item.dart';
 import 'package:doinfine/models/detailed_friend_request.dart';
+import 'package:doinfine/services/friends_service.dart';
 import 'package:flutter/material.dart';
 
 class SentFriendRequestListItem extends StatefulWidget {
   final DetailedFriendRequest friendRequest;
+  final Function onRefreshRequestsClick;
 
-  const SentFriendRequestListItem({super.key, required this.friendRequest});
+  const SentFriendRequestListItem(
+      {super.key,
+      required this.friendRequest,
+      required this.onRefreshRequestsClick});
 
   @override
   State<SentFriendRequestListItem> createState() =>
@@ -13,7 +18,14 @@ class SentFriendRequestListItem extends StatefulWidget {
 }
 
 class _SentFriendRequestListItemState extends State<SentFriendRequestListItem> {
+  final _friendService = FriendsService();
   final String defaultAvatar = 'https://api.dicebear.com/9.x/thumbs/png';
+
+  void _cancelRequest() async {
+    Navigator.of(context).pop();
+    await _friendService.cancelFriendRequest(widget.friendRequest.id);
+    widget.onRefreshRequestsClick();
+  }
 
   void _handleReceivedTap() {
     var fullname = widget.friendRequest.receiver.fullname;
@@ -39,10 +51,8 @@ class _SentFriendRequestListItemState extends State<SentFriendRequestListItem> {
               },
             ),
             TextButton(
+              onPressed: _cancelRequest,
               child: const Text('Yes'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
           ],
         );

@@ -1,4 +1,5 @@
 import 'package:doinfine/main.dart';
+import 'package:doinfine/repository/entities/friend_request_entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FriendRequestRepository {
@@ -23,8 +24,24 @@ class FriendRequestRepository {
   Future getFriendRequestById(String requestId) async {
     return await supabase
         .from(_tableName)
-        .select('sender_id, receiver_id')
+        .select('id, sender_id, receiver_id, created_at')
         .eq('id', requestId)
         .single();
+  }
+
+  Future<FriendRequestEntity?> getFriendRequestByIds(
+      String senderId, String receiverId) async {
+    final data = await supabase
+        .from(_tableName)
+        .select('id, sender_id, receiver_id, created_at')
+        .eq('sender_id', senderId)
+        .eq('receiver_id', receiverId)
+        .maybeSingle();
+
+    return data == null ? null : FriendRequestEntity.fromJson(data);
+  }
+
+  Future<void> removeFriendRequest(String requestId) async {
+    await supabase.from(_tableName).delete().eq('id', requestId);
   }
 }

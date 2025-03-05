@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 
 class ReceivedFriendRequestListItem extends StatefulWidget {
   final DetailedFriendRequest friendRequest;
+  final Function onRefreshRequestsClick;
 
-  const ReceivedFriendRequestListItem({super.key, required this.friendRequest});
+  const ReceivedFriendRequestListItem(
+      {super.key,
+      required this.friendRequest,
+      required this.onRefreshRequestsClick});
 
   @override
   State<ReceivedFriendRequestListItem> createState() =>
@@ -16,9 +20,11 @@ class ReceivedFriendRequestListItem extends StatefulWidget {
 class _ReceivedFriendRequestListItemState
     extends State<ReceivedFriendRequestListItem> {
   final _friendService = FriendsService();
-  void _acceptRequest() {
+
+  void _acceptRequest() async {
     Navigator.of(context).pop();
-    _friendService.acceptFriendRequest(widget.friendRequest.id);
+    await _friendService.acceptFriendRequest(widget.friendRequest.id);
+    widget.onRefreshRequestsClick();
   }
 
   void _handleReceivedTap() {

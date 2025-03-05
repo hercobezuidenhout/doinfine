@@ -17,7 +17,7 @@ class FriendsRepository {
     return friends;
   }
 
-  Future<UserFriendEntity> getUserFriend(userId, friendId) async {
+  Future<UserFriendEntity?> getUserFriend(userId, friendId) async {
     final data = await supabase
         .from(_tableName)
         .select()
@@ -25,10 +25,21 @@ class FriendsRepository {
         .eq('friend_id', friendId)
         .maybeSingle();
 
-    if (data == null) {
-      throw Exception('No friend found');
-    }
+    return data != null ? UserFriendEntity.fromJson(data) : null;
+  }
 
-    return UserFriendEntity.fromJson(data);
+  Future<void> createUserFriend(userId, friendId) async {
+    final userFriend = {
+      'user_id': userId,
+      'friend_id': friendId,
+    };
+
+    final friendOfUser = {
+      'user_id': friendId,
+      'friend_id': userId,
+    };
+
+    await supabase.from(_tableName).insert(userFriend);
+    await supabase.from(_tableName).insert(friendOfUser);
   }
 }

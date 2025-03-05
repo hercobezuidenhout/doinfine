@@ -68,9 +68,24 @@ class FriendsService {
 
     final friendRequest = FriendRequestEntity.fromJson(data);
 
-    var userFriend = await _friendsRepository.getUserFriend(
+    var userHasFriend = await _friendsRepository.getUserFriend(
         friendRequest.receiverId, friendRequest.senderId);
 
-    print(friendRequest);
+    var userIsFriend = await _friendsRepository.getUserFriend(
+        friendRequest.senderId, friendRequest.receiverId);
+
+    if (userHasFriend == null && userIsFriend == null) {
+      await _friendsRepository.createUserFriend(
+          friendRequest.receiverId, friendRequest.senderId);
+
+      await _friendRequestRepository.removeFriendRequest(friendRequest.id);
+
+      final otherRequest = await _friendRequestRepository.getFriendRequestByIds(
+          friendRequest.receiverId, friendRequest.senderId);
+
+      if (otherRequest != null) {
+        await _friendRequestRepository.removeFriendRequest(otherRequest.id);
+      }
+    }
   }
 }

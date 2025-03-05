@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS user_friends (
     user_id UUID NOT NULL REFERENCES users(id),
     friend_id UUID NOT NULL REFERENCES users(id),
-    created_at TIMESTAMP DEFAULT now()
+    created_at TIMESTAMP DEFAULT now(),
+    PRIMARY KEY(user_id, friend_id)
 );
 
 CREATE TABLE IF NOT EXISTS friend_requests (

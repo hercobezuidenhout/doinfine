@@ -65,8 +65,12 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
           padding: const EdgeInsets.all(8.0),
           child: TabBarView(
             children: <Widget>[
-              FriendRequestsTabview(friendRequests: _receivedFriendRequests),
-              FriendRequestsTabview(friendRequests: _sentFriendRequests),
+              FriendRequestsTabview(
+                  friendRequests: _receivedFriendRequests,
+                  onRefreshRequestsClick: _fetchUserRequests),
+              FriendRequestsTabview(
+                  friendRequests: _sentFriendRequests,
+                  onRefreshRequestsClick: _fetchUserRequests),
             ],
           ),
         ),

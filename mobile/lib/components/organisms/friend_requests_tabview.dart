@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 
 class FriendRequestsTabview extends StatefulWidget {
   final List<DetailedFriendRequest> friendRequests;
+  final Function() onRefreshRequestsClick;
 
-  const FriendRequestsTabview({super.key, required this.friendRequests});
+  const FriendRequestsTabview(
+      {super.key,
+      required this.friendRequests,
+      required this.onRefreshRequestsClick});
 
   @override
   State<FriendRequestsTabview> createState() => _FriendRequestsTabviewState();
@@ -22,7 +26,9 @@ class _FriendRequestsTabviewState extends State<FriendRequestsTabview> {
 
     return currentUserIsSender
         ? SentFriendRequestListItem(friendRequest: friendRequest)
-        : ReceivedFriendRequestListItem(friendRequest: friendRequest);
+        : ReceivedFriendRequestListItem(
+            friendRequest: friendRequest,
+            onRefreshRequestsClick: widget.onRefreshRequestsClick);
   }
 
   @override

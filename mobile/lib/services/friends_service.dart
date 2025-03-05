@@ -88,4 +88,8 @@ class FriendsService {
       }
     }
   }
+
+  Future<void> cancelFriendRequest(String requestId) async {
+    await _friendRequestRepository.removeFriendRequest(requestId);
+  }
 }

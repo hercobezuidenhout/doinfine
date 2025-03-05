@@ -16,30 +16,30 @@ class _SentFriendRequestListItemState extends State<SentFriendRequestListItem> {
   final String defaultAvatar = 'https://api.dicebear.com/9.x/thumbs/png';
 
   void _handleReceivedTap() {
-    var fullname = widget.friendRequest.sender.fullname;
+    var fullname = widget.friendRequest.receiver.fullname;
 
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Friend request'),
+          title: const Text('Cancel friend request'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('$fullname wants to be friends'),
+                Text('Do you want to cancel the friend request to $fullname?'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Decline'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Accept'),
+              child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -27,6 +27,12 @@ class _ReceivedFriendRequestListItemState
     widget.onRefreshRequestsClick();
   }
 
+  void _declineRequest() async {
+    Navigator.of(context).pop();
+    await _friendService.cancelFriendRequest(widget.friendRequest.id);
+    widget.onRefreshRequestsClick();
+  }
+
   void _handleReceivedTap() {
     var fullname = widget.friendRequest.sender.fullname;
 
@@ -45,10 +51,8 @@ class _ReceivedFriendRequestListItemState
           ),
           actions: <Widget>[
             TextButton(
+              onPressed: _declineRequest,
               child: const Text('Decline'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
             TextButton(
               onPressed: _acceptRequest,

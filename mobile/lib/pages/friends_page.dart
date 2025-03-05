@@ -61,8 +61,11 @@ class _FriendsPageState extends State<FriendsPage> {
                 actions: [
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AddFriendPage()));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddFriendPage(),
+                          ),
+                        );
                       },
                       icon: Icon(Icons.person_add))
                 ],

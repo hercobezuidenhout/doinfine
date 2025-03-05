@@ -1,4 +1,5 @@
 import 'package:doinfine/pages/menu_page.dart';
+import 'package:doinfine/pages/post_page.dart';
 import 'package:flutter/material.dart';
 
 class FeedPage extends StatelessWidget {
@@ -22,6 +23,16 @@ class FeedPage extends StatelessWidget {
             icon: Icon(Icons.menu),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const PostPage(),
+            ),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

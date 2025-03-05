@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:doinfine/extensions/context_extension.dart';
 import 'package:doinfine/main.dart';
-import 'package:doinfine/pages/home_page.dart';
+import 'package:doinfine/pages/feed_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
           _isRedirecting = true;
 
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const FeedPage()),
           );
         }
       },

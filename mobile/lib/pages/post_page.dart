@@ -65,6 +65,7 @@ class _PostPageState extends State<PostPage> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'What',
+                  alignLabelWithHint: true,
                   helperText: 'What did they do?',
                   border: OutlineInputBorder(),
                 ),

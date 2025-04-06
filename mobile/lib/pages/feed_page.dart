@@ -1,9 +1,31 @@
+import 'package:doinfine/enums/post_type.dart';
+import 'package:doinfine/models/enriched_post.dart';
+import 'package:doinfine/models/fine.dart';
+import 'package:doinfine/models/profile.dart';
 import 'package:doinfine/pages/menu_page.dart';
 import 'package:doinfine/pages/post_page.dart';
+import 'package:doinfine/services/post_service.dart';
 import 'package:flutter/material.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
+
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
+  final _postService = PostService();
+
+  Future<List<EnrichedPost>> fetchPosts() async {
+    await Future.delayed(const Duration(seconds: 1)); // simulate network delay
+
+    return await _postService.fetchUserFeed();
+  }
+
+  String formatTime(DateTime dt) {
+    return '${dt.hour}:${dt.minute.toString().padLeft(2, '0')}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +55,49 @@ class FeedPage extends StatelessWidget {
           );
         },
         child: Icon(Icons.add),
+      ),
+      body: FutureBuilder<List<EnrichedPost>>(
+        future: fetchPosts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError || !snapshot.hasData) {
+            return const Center(child: Text('Error loading posts'));
+          }
+
+          final posts = snapshot.data!;
+          if (posts.isEmpty) {
+            return const Center(child: Text('No posts yet'));
+          }
+
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final post = posts[index];
+              final created = formatTime(post.createdAt);
+
+              String subtitle;
+              if (post.metaData is Fine) {
+                final fine = post.metaData as Fine;
+                subtitle =
+                    '${post.user.fullname} fined ${fine.issuedTo.fullname}';
+              } else {
+                subtitle = post.content;
+              }
+
+              return ListTile(
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: Text(post.content),
+                ),
+                subtitle: Text(subtitle),
+                trailing: Text(created,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              );
+            },
+          );
+        },
       ),
     );
   }

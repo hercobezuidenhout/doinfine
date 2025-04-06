@@ -20,14 +20,15 @@ class FriendsRepository {
   Future<List<UserEntity>> findFriendsWhereQuery(
       String userId, String query) async {
     var data = await supabase
-        .from(_tableName)
-        .select('users!user_friends_friend_id_fkey(id, fullname, created_at)')
-        .ilike('users.fullname', '%$query%')
-        .eq('user_id', userId)
+        .from('users')
+        .select(
+            'id, fullname, created_at, user_friends!user_friends_friend_id_fkey(user_id)')
+        .ilike('fullname', '%$query%')
+        .eq('user_friends.user_id', userId)
+        .neq('id', userId)
         .limit(10);
 
-    var friends =
-        data.map((item) => UserEntity.fromJson(item['users'])).toList();
+    var friends = data.map((item) => UserEntity.fromJson(item)).toList();
 
     return friends;
   }

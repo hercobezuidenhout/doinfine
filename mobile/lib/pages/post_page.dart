@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:doinfine/models/profile.dart';
+import 'package:doinfine/services/post_service.dart';
 import 'package:doinfine/services/friends_service.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,10 @@ class _PostPageState extends State<PostPage> {
   Timer? _debounce;
 
   final _friendService = FriendsService();
+  final _postService = PostService();
+
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _postController = TextEditingController();
 
   List<Profile> _userFriends = [];
   late Profile _selectedFriend;
@@ -50,11 +54,29 @@ class _PostPageState extends State<PostPage> {
     });
   }
 
+  Future<void> _post() async {
+    await _postService.fineSomeone(
+      someoneId: _selectedFriend.id,
+      content: _postController.text,
+    );
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchUserFriends();
     _searchController.addListener(_filterFriends);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+    _postController.dispose();
   }
 
   @override
@@ -74,9 +96,7 @@ class _PostPageState extends State<PostPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: _post,
           label: Text('Post'),
           icon: Icon(Icons.post_add),
         ),
@@ -91,7 +111,6 @@ class _PostPageState extends State<PostPage> {
                   setState(() {
                     if (menuItem != null) {
                       _selectedFriend = menuItem;
-                      print(_selectedFriend.fullname);
                     }
                   });
                 },
@@ -109,7 +128,8 @@ class _PostPageState extends State<PostPage> {
               SizedBox(
                 height: 20,
               ),
-              const TextField(
+              TextField(
+                controller: _postController,
                 minLines: 5,
                 maxLines: 5,
                 decoration: InputDecoration(

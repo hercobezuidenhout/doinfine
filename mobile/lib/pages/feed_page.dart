@@ -20,13 +20,15 @@ class _FeedPageState extends State<FeedPage> {
   bool _isLoading = true;
 
   Future<void> _refreshPosts() async {
-    setState(() {
-      _isLoading = true;
-    });
-    _posts = await _postService.fetchUserFeed();
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      final newPosts = await _postService.fetchUserFeed();
+      setState(() {
+        _posts = newPosts;
+      });
+    } catch (e) {
+      // Silently handle errors during refresh
+      debugPrint('Error refreshing posts: $e');
+    }
   }
 
   Future<List<EnrichedPost>> fetchPosts() async {
@@ -87,6 +89,7 @@ class _FeedPageState extends State<FeedPage> {
           return RefreshIndicator(
             onRefresh: _refreshPosts,
             child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: posts.length,
               itemBuilder: (context, index) {
                 final post = posts[index];

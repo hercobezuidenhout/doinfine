@@ -14,5 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Improved feed list readability by adding vertical spacing between title and subtitle
+- Enhanced pull-to-refresh to update posts in the background without showing loading spinner
 
 [0.1.0]: https://github.com/username/doinfine/releases/tag/v0.1.0 

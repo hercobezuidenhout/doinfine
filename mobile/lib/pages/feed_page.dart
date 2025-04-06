@@ -74,7 +74,8 @@ class _FeedPageState extends State<FeedPage> {
       body: FutureBuilder<List<EnrichedPost>>(
         future: fetchPosts(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting &&
+              _isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError || !snapshot.hasData) {

@@ -16,11 +16,24 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage> {
   final _postService = PostService();
+  List<EnrichedPost>? _posts;
+  bool _isLoading = true;
+
+  Future<void> _refreshPosts() async {
+    setState(() {
+      _isLoading = true;
+    });
+    _posts = await _postService.fetchUserFeed();
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   Future<List<EnrichedPost>> fetchPosts() async {
     await Future.delayed(const Duration(seconds: 1)); // simulate network delay
-
-    return await _postService.fetchUserFeed();
+    _posts = await _postService.fetchUserFeed();
+    _isLoading = false;
+    return _posts!;
   }
 
   String formatTime(DateTime dt) {
@@ -71,31 +84,34 @@ class _FeedPageState extends State<FeedPage> {
             return const Center(child: Text('No posts yet'));
           }
 
-          return ListView.builder(
-            itemCount: posts.length,
-            itemBuilder: (context, index) {
-              final post = posts[index];
-              final created = formatTime(post.createdAt);
+          return RefreshIndicator(
+            onRefresh: _refreshPosts,
+            child: ListView.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                final post = posts[index];
+                final created = formatTime(post.createdAt);
 
-              String subtitle;
-              if (post.metaData is Fine) {
-                final fine = post.metaData as Fine;
-                subtitle =
-                    '${post.user.fullname} fined ${fine.issuedTo.fullname}';
-              } else {
-                subtitle = post.content;
-              }
+                String subtitle;
+                if (post.metaData is Fine) {
+                  final fine = post.metaData as Fine;
+                  subtitle =
+                      '${post.user.fullname} fined ${fine.issuedTo.fullname}';
+                } else {
+                  subtitle = post.content;
+                }
 
-              return ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: Text(post.content),
-                ),
-                subtitle: Text(subtitle),
-                trailing: Text(created,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
-              );
-            },
+                return ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Text(post.content),
+                  ),
+                  subtitle: Text(subtitle),
+                  trailing: Text(created,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                );
+              },
+            ),
           );
         },
       ),

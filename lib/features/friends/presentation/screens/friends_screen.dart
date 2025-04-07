@@ -9,13 +9,26 @@ class FriendsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Friends'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchUsersScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
-              Icons.people_outline,
+              Icons.people,
               size: 64,
               color: Colors.grey,
             ),

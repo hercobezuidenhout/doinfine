@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../friends/presentation/screens/friends_screen.dart';
+import '../../../fines/presentation/screens/create_fine_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -74,6 +75,29 @@ class MenuScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const FriendsScreen(),
+                ),
+              );
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+            child: Text(
+              'Actions',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: const Text('Create Fine'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CreateFineScreen(),
                 ),
               );
             },

@@ -83,8 +83,26 @@ class SentRequestsTab extends StatelessWidget {
                   subtitle: Text('@${user.username}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.cancel, color: Colors.red),
-                    onPressed: () {
-                      // TODO: Implement cancel request logic
+                    onPressed: () async {
+                      try {
+                        await _friendRepository
+                            .cancelFriendRequest(request['id']);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Friend request cancelled'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Error: ${e.toString()}'),
+                            ),
+                          );
+                        }
+                      }
                     },
                   ),
                 );

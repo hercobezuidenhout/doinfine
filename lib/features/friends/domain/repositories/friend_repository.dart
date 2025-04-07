@@ -69,4 +69,8 @@ class FriendRepository {
     if (!doc.exists) return null;
     return app.User.fromFirestore(doc);
   }
+
+  Future<void> cancelFriendRequest(String requestId) async {
+    await _firestore.collection('friendRequests').doc(requestId).delete();
+  }
 }

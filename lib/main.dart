@@ -53,8 +53,13 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Welcome to Doinfine!'),
+      body: Consumer<AuthProvider>(
+        builder: (context, authProvider, _) {
+          return Center(
+            child:
+                Text('Welcome to Doinfine, ${authProvider.user?.email ?? ""}!'),
+          );
+        },
       ),
     );
   }

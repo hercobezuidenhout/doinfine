@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/auth_provider.dart' as auth;
+import '../../providers/auth_provider.dart';
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -14,15 +14,18 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<auth.AuthProvider>(
-      builder: (context, authProvider, _) {
+    return Consumer<AuthProvider>(
+      builder: (context, provider, child) {
         return ElevatedButton(
-          onPressed: authProvider.isLoading ? null : onPressed,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-          child: authProvider.isLoading
-              ? const CircularProgressIndicator()
+          onPressed: provider.isLoading ? null : onPressed,
+          child: provider.isLoading
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                )
               : Text(text),
         );
       },

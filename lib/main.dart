@@ -4,8 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/auth/presentation/screens/sign_in_screen.dart';
 import 'features/auth/presentation/widgets/auth_wrapper.dart';
-import 'features/auth/presentation/widgets/auth/welcome_message.dart';
+import 'features/profile/data/repositories/firebase_user_repository.dart';
+import 'features/profile/presentation/providers/profile_provider.dart';
+import 'features/profile/presentation/screens/profile_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +24,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
+    final userRepository = FirebaseUserRepository();
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(
+            userRepository: userRepository,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(userRepository),
+        ),
+      ],
       child: MaterialApp(
         title: 'Doinfine',
         theme: ThemeData(
@@ -47,6 +61,17 @@ class HomePage extends StatelessWidget {
         title: const Text('Doinfine'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
               context.read<AuthProvider>().signOut();
@@ -54,7 +79,9 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const WelcomeMessage(),
+      body: const Center(
+        child: Text('Welcome to Doinfine!'),
+      ),
     );
   }
 }

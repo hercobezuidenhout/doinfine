@@ -46,4 +46,27 @@ class FriendRepository {
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
+
+  Stream<List<Map<String, dynamic>>> getSentFriendRequests(String userId) {
+    return _firestore
+        .collection('friendRequests')
+        .where('senderId', isEqualTo: userId)
+        .where('status', isEqualTo: 'pending')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = doc.data();
+              return {
+                'id': doc.id,
+                'receiverId': data['receiverId'],
+                'status': data['status'],
+                'createdAt': data['createdAt'],
+              };
+            }).toList());
+  }
+
+  Future<app.User?> getUserById(String userId) async {
+    final doc = await _firestore.collection('users').doc(userId).get();
+    if (!doc.exists) return null;
+    return app.User.fromFirestore(doc);
+  }
 }

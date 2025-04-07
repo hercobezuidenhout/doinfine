@@ -144,34 +144,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           )
                         : const Text('Save Changes'),
                   ),
-                  const SizedBox(height: 24),
-                  const Text(
-                    'Badges',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  if (user.badges.isEmpty)
-                    const Text('No badges earned yet')
-                  else
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: user.badges.length,
-                      itemBuilder: (context, index) {
-                        final badge = user.badges[index];
-                        return ListTile(
-                          leading: Icon(
-                            Icons.emoji_events,
-                            color: Colors.amber,
-                          ),
-                          title: Text(badge.name),
-                          subtitle: Text(badge.description),
-                        );
-                      },
-                    ),
                 ],
               ),
             ),

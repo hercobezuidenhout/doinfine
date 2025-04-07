@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../friends/presentation/screens/friends_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -28,7 +29,12 @@ class MenuScreen extends StatelessWidget {
             leading: const Icon(Icons.people),
             title: const Text('Friends'),
             onTap: () {
-              // TODO: Navigate to friends screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FriendsScreen(),
+                ),
+              );
             },
           ),
           const Divider(),

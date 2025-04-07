@@ -77,33 +77,63 @@ class SentRequestsTab extends StatelessWidget {
                   );
                 }
 
-                return ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(user.fullName),
-                  subtitle: Text('@${user.username}'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.cancel, color: Colors.red),
-                    onPressed: () async {
-                      try {
-                        await _friendRepository
-                            .cancelFriendRequest(request['id']);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Friend request cancelled'),
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error: ${e.toString()}'),
-                            ),
-                          );
-                        }
+                return Dismissible(
+                  key: Key(request['id']),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  confirmDismiss: (direction) async {
+                    return await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Cancel Friend Request'),
+                        content: Text(
+                            'Are you sure you want to cancel the friend request to ${user.fullName}?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  onDismissed: (direction) async {
+                    try {
+                      await _friendRepository
+                          .cancelFriendRequest(request['id']);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Friend request cancelled'),
+                          ),
+                        );
                       }
-                    },
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: ${e.toString()}'),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: ListTile(
+                    leading: const CircleAvatar(child: Icon(Icons.person)),
+                    title: Text(user.fullName),
+                    subtitle: Text('@${user.username}'),
                   ),
                 );
               },

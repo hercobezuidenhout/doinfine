@@ -39,15 +39,19 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
 
     try {
       final usersRef = _firestore.collection('users');
+
+      // Simplified query that doesn't require a composite index
       final querySnapshot = await usersRef
-          .where('privacySettings.profileVisibility', isEqualTo: 'public')
           .where('username', isGreaterThanOrEqualTo: query.toLowerCase())
           .where('username',
               isLessThanOrEqualTo: '${query.toLowerCase()}\uf8ff')
           .get();
 
-      final results =
-          querySnapshot.docs.map((doc) => app.User.fromFirestore(doc)).toList();
+      // Filter for public profiles in memory
+      final results = querySnapshot.docs
+          .map((doc) => app.User.fromFirestore(doc))
+          .where((user) => user.privacySettings.profileVisibility == 'public')
+          .toList();
 
       setState(() {
         _searchResults = results;

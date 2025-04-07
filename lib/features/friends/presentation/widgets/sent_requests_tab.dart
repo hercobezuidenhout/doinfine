@@ -81,9 +81,11 @@ class SentRequestsTab extends StatelessWidget {
                   leading: const CircleAvatar(child: Icon(Icons.person)),
                   title: Text(user.fullName),
                   subtitle: Text('@${user.username}'),
-                  trailing: const Chip(
-                    label: Text('Pending'),
-                    backgroundColor: Colors.orange,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.cancel, color: Colors.red),
+                    onPressed: () {
+                      // TODO: Implement cancel request logic
+                    },
                   ),
                 );
               },

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../profile/domain/models/user.dart' as app;
+import '../../domain/repositories/friend_repository.dart';
 
 class SearchUsersScreen extends StatefulWidget {
   const SearchUsersScreen({super.key});
@@ -12,7 +12,7 @@ class SearchUsersScreen extends StatefulWidget {
 
 class _SearchUsersScreenState extends State<SearchUsersScreen> {
   final _searchController = TextEditingController();
-  final _firestore = FirebaseFirestore.instance;
+  final _friendRepository = FriendRepository();
   List<app.User> _searchResults = [];
   bool _isLoading = false;
   String? _error;
@@ -24,35 +24,13 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   }
 
   Future<void> _searchUsers(String query) async {
-    if (query.isEmpty) {
-      setState(() {
-        _searchResults = [];
-        _isLoading = false;
-      });
-      return;
-    }
-
     setState(() {
       _isLoading = true;
       _error = null;
     });
 
     try {
-      final usersRef = _firestore.collection('users');
-
-      // Simplified query that doesn't require a composite index
-      final querySnapshot = await usersRef
-          .where('username', isGreaterThanOrEqualTo: query.toLowerCase())
-          .where('username',
-              isLessThanOrEqualTo: '${query.toLowerCase()}\uf8ff')
-          .get();
-
-      // Filter for public profiles in memory
-      final results = querySnapshot.docs
-          .map((doc) => app.User.fromFirestore(doc))
-          .where((user) => user.privacySettings.profileVisibility == 'public')
-          .toList();
-
+      final results = await _friendRepository.searchPublicUsers(query);
       setState(() {
         _searchResults = results;
         _isLoading = false;
@@ -70,31 +48,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     if (currentUser == null) return;
 
     try {
-      final friendRequestsRef = _firestore.collection('friendRequests');
-
-      // Check if request already exists
-      final existingRequest = await friendRequestsRef
-          .where('senderId', isEqualTo: currentUser.uid)
-          .where('receiverId', isEqualTo: receiverId)
-          .get();
-
-      if (existingRequest.docs.isNotEmpty) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Friend request already sent')),
-          );
-        }
-        return;
-      }
-
-      // Create new friend request
-      await friendRequestsRef.add({
-        'senderId': currentUser.uid,
-        'receiverId': receiverId,
-        'status': 'pending',
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
+      await _friendRepository.sendFriendRequest(currentUser.uid, receiverId);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Friend request sent!')),

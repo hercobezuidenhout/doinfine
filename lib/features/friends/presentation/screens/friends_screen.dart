@@ -6,49 +6,21 @@ class FriendsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Friends'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchUsersScreen(),
-                ),
-              );
-            },
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Friends'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Friends'),
+              Tab(text: 'Sent'),
+              Tab(text: 'Received'),
+            ],
           ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.people,
-              size: 64,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'No Friends Yet',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Your friends will appear here',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.person_add),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -57,11 +29,97 @@ class FriendsScreen extends StatelessWidget {
                   ),
                 );
               },
-              icon: const Icon(Icons.person_add),
-              label: const Text('Add Friends'),
             ),
           ],
         ),
+        body: TabBarView(
+          children: [
+            _buildEmptyState(
+              icon: Icons.people,
+              title: 'No Friends Yet',
+              subtitle: 'Your friends will appear here',
+              buttonText: 'Add Friends',
+              onButtonPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchUsersScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildEmptyState(
+              icon: Icons.send,
+              title: 'No Sent Requests',
+              subtitle: 'Your sent friend requests will appear here',
+              buttonText: 'Find Friends',
+              onButtonPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchUsersScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildEmptyState(
+              icon: Icons.inbox,
+              title: 'No Received Requests',
+              subtitle: 'Friend requests from others will appear here',
+              buttonText: 'Find Friends',
+              onButtonPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchUsersScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required String buttonText,
+    required VoidCallback onButtonPressed,
+  }) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 64,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: const TextStyle(
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: onButtonPressed,
+            icon: const Icon(Icons.person_add),
+            label: Text(buttonText),
+          ),
+        ],
       ),
     );
   }

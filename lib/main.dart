@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
 import 'features/auth/presentation/widgets/auth_wrapper.dart';
+import 'features/auth/presentation/widgets/auth/welcome_message.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,9 +54,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Welcome to Doinfine!'),
-      ),
+      body: const WelcomeMessage(),
     );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
+import '../providers/auth_provider.dart' as auth;
+import '../widgets/auth/email_field.dart';
+import '../widgets/auth/password_field.dart';
+import '../widgets/auth/auth_error.dart';
+import '../widgets/auth/submit_button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -13,21 +17,30 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+  final _confirmPasswordController = TextEditingController();
+  bool _isSignIn = true;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _signIn() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      await context.read<AuthProvider>().signInWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+  Future<void> _submit() async {
+    if (_formKey.currentState!.validate()) {
+      if (_isSignIn) {
+        await context.read<auth.AuthProvider>().signIn(
+              _emailController.text,
+              _passwordController.text,
+            );
+      } else {
+        await context.read<auth.AuthProvider>().register(
+              _emailController.text,
+              _passwordController.text,
+            );
+      }
     }
   }
 
@@ -44,90 +57,48 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Welcome Back',
-                    style: TextStyle(
+                  Text(
+                    _isSignIn ? 'Sign In' : 'Create Account',
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+                  EmailField(controller: _emailController),
+                  const SizedBox(height: 16),
+                  PasswordField(
+                    controller: _passwordController,
+                    isSignIn: _isSignIn,
+                  ),
+                  if (!_isSignIn) ...[
+                    const SizedBox(height: 16),
+                    PasswordField(
+                      controller: _confirmPasswordController,
+                      labelText: 'Confirm Password',
+                      isSignIn: _isSignIn,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!value.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
+                  ],
+                  const SizedBox(height: 24),
+                  const AuthError(),
+                  SubmitButton(
+                    onPressed: _submit,
+                    text: _isSignIn ? 'Sign In' : 'Register',
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isSignIn = !_isSignIn;
+                        _formKey.currentState?.reset();
+                      });
+                    },
+                    child: Text(
+                      _isSignIn
+                          ? 'Don\'t have an account? Register'
+                          : 'Already have an account? Sign in',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  Consumer<AuthProvider>(
-                    builder: (context, auth, _) {
-                      if (auth.error != null) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Text(
-                            auth.error!,
-                            style: const TextStyle(color: Colors.red),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  Consumer<AuthProvider>(
-                    builder: (context, auth, _) {
-                      return ElevatedButton(
-                        onPressed: auth.isLoading ? null : _signIn,
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: auth.isLoading
-                            ? const CircularProgressIndicator()
-                            : const Text('Sign In'),
-                      );
-                    },
                   ),
                 ],
               ),

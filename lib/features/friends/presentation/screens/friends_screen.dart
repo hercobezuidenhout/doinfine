@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'search_users_screen.dart';
 import '../widgets/sent_requests_tab.dart';
+import '../widgets/received_requests_tab.dart';
 
 class FriendsScreen extends StatelessWidget {
   const FriendsScreen({super.key});
@@ -50,20 +51,7 @@ class FriendsScreen extends StatelessWidget {
               },
             ),
             SentRequestsTab(),
-            _buildEmptyState(
-              icon: Icons.inbox,
-              title: 'No Received Requests',
-              subtitle: 'Friend requests from others will appear here',
-              buttonText: 'Find Friends',
-              onButtonPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchUsersScreen(),
-                  ),
-                );
-              },
-            ),
+            ReceivedRequestsTab(),
           ],
         ),
       ),

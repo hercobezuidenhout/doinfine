@@ -64,6 +64,23 @@ class FriendRepository {
             }).toList());
   }
 
+  Stream<List<Map<String, dynamic>>> getReceivedFriendRequests(String userId) {
+    return _firestore
+        .collection('friendRequests')
+        .where('receiverId', isEqualTo: userId)
+        .where('status', isEqualTo: 'pending')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = doc.data();
+              return {
+                'id': doc.id,
+                'senderId': data['senderId'],
+                'status': data['status'],
+                'createdAt': data['createdAt'],
+              };
+            }).toList());
+  }
+
   Future<app.User?> getUserById(String userId) async {
     final doc = await _firestore.collection('users').doc(userId).get();
     if (!doc.exists) return null;
@@ -72,5 +89,19 @@ class FriendRepository {
 
   Future<void> cancelFriendRequest(String requestId) async {
     await _firestore.collection('friendRequests').doc(requestId).delete();
+  }
+
+  Future<void> acceptFriendRequest(String requestId) async {
+    await _firestore.collection('friendRequests').doc(requestId).update({
+      'status': 'accepted',
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> rejectFriendRequest(String requestId) async {
+    await _firestore.collection('friendRequests').doc(requestId).update({
+      'status': 'rejected',
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
   }
 }

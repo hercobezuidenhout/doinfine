@@ -48,15 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().signOut();
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
       ),
       body: Consumer<ProfileProvider>(
         builder: (context, provider, child) {

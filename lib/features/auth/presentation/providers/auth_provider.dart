@@ -30,6 +30,29 @@ class AuthProvider with ChangeNotifier {
     });
   }
 
+  String _getErrorMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'email-already-in-use':
+        return 'This email is already registered. Please sign in or use a different email.';
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'operation-not-allowed':
+        return 'Email/password accounts are not enabled. Please contact support.';
+      case 'weak-password':
+        return 'The password is too weak. Please use a stronger password.';
+      case 'user-disabled':
+        return 'This account has been disabled. Please contact support.';
+      case 'user-not-found':
+        return 'No account found with this email. Please register first.';
+      case 'wrong-password':
+        return 'Incorrect password. Please try again.';
+      case 'too-many-requests':
+        return 'Too many attempts. Please try again later.';
+      default:
+        return 'An error occurred. Please try again later.';
+    }
+  }
+
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     _isLoading = true;
     _error = null;
@@ -40,8 +63,10 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
+    } on FirebaseAuthException catch (e) {
+      _error = _getErrorMessage(e);
     } catch (e) {
-      _error = e.toString();
+      _error = 'An unexpected error occurred. Please try again.';
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -64,7 +89,7 @@ class AuthProvider with ChangeNotifier {
       if (userCredential.user != null) {
         final newUser = app.User(
           uid: userCredential.user!.uid,
-          username: _generateUsername(email),
+          username: email.split('@')[0].toLowerCase(),
           fullName: '',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
@@ -77,8 +102,10 @@ class AuthProvider with ChangeNotifier {
 
         await _userRepository.createUser(newUser);
       }
+    } on FirebaseAuthException catch (e) {
+      _error = _getErrorMessage(e);
     } catch (e) {
-      _error = e.toString();
+      _error = 'An unexpected error occurred. Please try again.';
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -93,30 +120,10 @@ class AuthProvider with ChangeNotifier {
     try {
       await _auth.signOut();
     } catch (e) {
-      _error = e.toString();
+      _error = 'An unexpected error occurred. Please try again.';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-  }
-
-  String _generateUsername(String email) {
-    // Generate a random username from color + animal + action
-    final colors = ['Red', 'Blue', 'Green', 'Purple', 'Yellow', 'Orange'];
-    final animals = ['Lion', 'Tiger', 'Bear', 'Wolf', 'Eagle', 'Fox'];
-    final actions = [
-      'Runner',
-      'Jumper',
-      'Dancer',
-      'Singer',
-      'Player',
-      'Wrangler'
-    ];
-
-    final color = colors[DateTime.now().microsecond % colors.length];
-    final animal = animals[DateTime.now().millisecond % animals.length];
-    final action = actions[DateTime.now().second % actions.length];
-
-    return '$color$animal$action'.toLowerCase();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import '../../../profile/domain/models/user.dart' as app;
 import '../../../profile/domain/repositories/user_repository.dart';

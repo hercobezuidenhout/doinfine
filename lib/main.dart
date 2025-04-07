@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
-import 'features/auth/presentation/screens/sign_in_screen.dart';
 import 'features/auth/presentation/widgets/auth_wrapper.dart';
 import 'features/profile/data/repositories/firebase_user_repository.dart';
 import 'features/profile/presentation/providers/profile_provider.dart';
@@ -69,12 +68,6 @@ class HomePage extends StatelessWidget {
                   builder: (context) => const ProfileScreen(),
                 ),
               );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().signOut();
             },
           ),
         ],

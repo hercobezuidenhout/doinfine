@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "955137499372",
+    "project_id": "doinfine-v0",
+    "storage_bucket": "doinfine-v0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955137499372:android:eebd2de98a7ad9d7f945c9",
+        "android_client_info": {
+          "package_name": "app.doinfine.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQKteORt1x_hkdYoHEp07f6o87r4bWl2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955137499372:android:fbf481a2c61a196af945c9",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQKteORt1x_hkdYoHEp07f6o87r4bWl2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

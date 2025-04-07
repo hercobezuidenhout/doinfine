@@ -14,30 +14,27 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _searchController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _friendRepository = FriendRepository();
   final _postRepository = PostRepository();
-  List<app.User> _searchResults = [];
+  List<app.User> _friends = [];
   app.User? _selectedFriend;
   bool _isLoading = false;
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    _loadFriends();
+  }
+
+  @override
   void dispose() {
-    _searchController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }
 
-  Future<void> _searchFriends(String query) async {
-    if (query.isEmpty) {
-      setState(() {
-        _searchResults = [];
-      });
-      return;
-    }
-
+  Future<void> _loadFriends() async {
     final currentUser = auth.FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
@@ -47,15 +44,20 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     });
 
     try {
-      final friends = await _friendRepository.getFriends(currentUser.uid).first;
-      setState(() {
-        _searchResults = friends
-            .where((friend) =>
-                friend.username.toLowerCase().contains(query.toLowerCase()) ||
-                friend.fullName.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-        _isLoading = false;
-      });
+      _friendRepository.getFriends(currentUser.uid).listen(
+        (friends) {
+          setState(() {
+            _friends = friends;
+            _isLoading = false;
+          });
+        },
+        onError: (error) {
+          setState(() {
+            _error = error.toString();
+            _isLoading = false;
+          });
+        },
+      );
     } catch (e) {
       setState(() {
         _error = e.toString();
@@ -122,72 +124,30 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
-                controller: _searchController,
+              DropdownButtonFormField<app.User>(
+                value: _selectedFriend,
                 decoration: const InputDecoration(
-                  labelText: 'Search Friends',
+                  labelText: 'Select Friend',
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.search),
                 ),
-                onChanged: _searchFriends,
+                items: _friends.map((friend) {
+                  return DropdownMenuItem(
+                    value: friend,
+                    child: Text('${friend.fullName} (@${friend.username})'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedFriend = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a friend';
+                  }
+                  return null;
+                },
               ),
-              if (_isLoading)
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              else if (_error != null)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    _error!,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                )
-              else if (_searchResults.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade300),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  constraints: const BoxConstraints(maxHeight: 200),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _searchResults.length,
-                    itemBuilder: (context, index) {
-                      final friend = _searchResults[index];
-                      final isSelected = _selectedFriend?.uid == friend.uid;
-                      return ListTile(
-                        leading: const CircleAvatar(child: Icon(Icons.person)),
-                        title: Text(friend.fullName),
-                        subtitle: Text('@${friend.username}'),
-                        selected: isSelected,
-                        onTap: () {
-                          setState(() {
-                            _selectedFriend = friend;
-                            _searchController.text = friend.fullName;
-                            _searchResults = [];
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ),
-              if (_selectedFriend != null) ...[
-                const SizedBox(height: 24),
-                Chip(
-                  avatar:
-                      const CircleAvatar(child: Icon(Icons.person, size: 16)),
-                  label: Text(_selectedFriend!.fullName),
-                  onDeleted: () {
-                    setState(() {
-                      _selectedFriend = null;
-                      _searchController.clear();
-                    });
-                  },
-                ),
-              ],
               const SizedBox(height: 24),
               TextFormField(
                 controller: _descriptionController,

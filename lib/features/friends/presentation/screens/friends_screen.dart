@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'search_users_screen.dart';
 
 class FriendsScreen extends StatelessWidget {
   const FriendsScreen({super.key});
@@ -36,7 +37,12 @@ class FriendsScreen extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
-                // TODO: Navigate to add friends screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchUsersScreen(),
+                  ),
+                );
               },
               icon: const Icon(Icons.person_add),
               label: const Text('Add Friends'),

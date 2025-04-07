@@ -7,7 +7,7 @@ import 'features/auth/presentation/providers/auth_provider.dart';
 import 'features/auth/presentation/widgets/auth_wrapper.dart';
 import 'features/profile/data/repositories/firebase_user_repository.dart';
 import 'features/profile/presentation/providers/profile_provider.dart';
-import 'features/profile/presentation/screens/profile_screen.dart';
+import 'features/menu/presentation/screens/menu_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,15 +57,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Doinfine'),
+        centerTitle: false,
+        title: const Text(
+          'Doinfine',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.menu),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
+                  builder: (context) => const MenuScreen(),
                 ),
               );
             },

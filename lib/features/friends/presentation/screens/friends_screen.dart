@@ -20,7 +20,7 @@ class _FriendsScreenState extends State<FriendsScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -40,6 +40,48 @@ class _FriendsScreenState extends State<FriendsScreen>
     ]);
   }
 
+  Widget _buildEmptyState({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required String buttonText,
+    required VoidCallback onButtonPressed,
+  }) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 64,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: const TextStyle(
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: onButtonPressed,
+            icon: const Icon(Icons.person_add),
+            label: Text(buttonText),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +90,7 @@ class _FriendsScreenState extends State<FriendsScreen>
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
+            Tab(text: 'Friends'),
             Tab(text: 'Received'),
             Tab(text: 'Sent'),
           ],
@@ -58,6 +101,20 @@ class _FriendsScreenState extends State<FriendsScreen>
         child: TabBarView(
           controller: _tabController,
           children: [
+            _buildEmptyState(
+              icon: Icons.people,
+              title: 'No Friends Yet',
+              subtitle: 'Your friends will appear here',
+              buttonText: 'Add Friends',
+              onButtonPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchUsersScreen(),
+                  ),
+                );
+              },
+            ),
             ReceivedRequestsTab(),
             SentRequestsTab(),
           ],

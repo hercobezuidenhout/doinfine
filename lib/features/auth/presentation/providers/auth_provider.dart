@@ -1,31 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import '../../../profile/domain/models/user.dart' as app;
+import '../../../profile/domain/repositories/user_repository.dart';
 
 class AuthProvider with ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
+  final FirebaseAuth _auth;
+  final UserRepository _userRepository;
   bool _isLoading = false;
   String? _error;
+  User? _user;
 
-  AuthProvider() {
+  AuthProvider({
+    FirebaseAuth? auth,
+    required UserRepository userRepository,
+  })  : _auth = auth ?? FirebaseAuth.instance,
+        _userRepository = userRepository {
     _init();
   }
 
-  User? get user => _user;
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isAuthenticated => _user != null;
+  User? get user => _user;
 
   void _init() {
     _auth.authStateChanges().listen((User? user) {
       _user = user;
       notifyListeners();
     });
-  }
-
-  void _clearError() {
-    _error = null;
-    notifyListeners();
   }
 
   String _getErrorMessage(FirebaseAuthException e) {
@@ -51,44 +53,59 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signIn(String email, String password) async {
-    try {
-      _isLoading = true;
-      _clearError();
-      notifyListeners();
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
 
+    try {
       await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
       _error = _getErrorMessage(e);
-      notifyListeners();
     } catch (e) {
       _error = 'An unexpected error occurred. Please try again.';
-      notifyListeners();
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> register(String email, String password) async {
-    try {
-      _isLoading = true;
-      _clearError();
-      notifyListeners();
+  Future<void> createUserWithEmailAndPassword(
+      String email, String password) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
 
-      await _auth.createUserWithEmailAndPassword(
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Create user profile
+      if (userCredential.user != null) {
+        final newUser = app.User(
+          uid: userCredential.user!.uid,
+          username: email.split('@')[0].toLowerCase(),
+          fullName: '',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          badges: [],
+          privacySettings: app.PrivacySettings(
+            profileVisibility: 'public',
+            postVisibility: 'public',
+          ),
+        );
+
+        await _userRepository.createUser(newUser);
+      }
     } on FirebaseAuthException catch (e) {
       _error = _getErrorMessage(e);
-      notifyListeners();
     } catch (e) {
       _error = 'An unexpected error occurred. Please try again.';
-      notifyListeners();
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -96,15 +113,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    try {
-      _isLoading = true;
-      _clearError();
-      notifyListeners();
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
 
+    try {
       await _auth.signOut();
     } catch (e) {
       _error = 'An unexpected error occurred. Please try again.';
-      notifyListeners();
     } finally {
       _isLoading = false;
       notifyListeners();

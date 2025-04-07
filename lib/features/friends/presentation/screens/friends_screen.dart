@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import '../../../profile/domain/models/user.dart' as app;
 import '../../domain/repositories/friend_repository.dart';
 import '../widgets/received_requests_tab.dart';
 import '../widgets/sent_requests_tab.dart';
@@ -33,11 +34,62 @@ class _FriendsScreenState extends State<FriendsScreen>
     final currentUser = auth.FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
-    // Refresh both sent and received requests
+    // Refresh friends and requests
     await Future.wait([
+      _friendRepository.getFriends(currentUser.uid).first,
       _friendRepository.getSentFriendRequests(currentUser.uid).first,
       _friendRepository.getReceivedFriendRequests(currentUser.uid).first,
     ]);
+  }
+
+  Widget _buildFriendsList() {
+    final currentUser = auth.FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return const Center(child: Text('Please sign in to view friends'));
+    }
+
+    return StreamBuilder<List<app.User>>(
+      stream: _friendRepository.getFriends(currentUser.uid),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final friends = snapshot.data!;
+        if (friends.isEmpty) {
+          return _buildEmptyState(
+            icon: Icons.people,
+            title: 'No Friends Yet',
+            subtitle: 'Your friends will appear here',
+            buttonText: 'Add Friends',
+            onButtonPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchUsersScreen(),
+                ),
+              );
+            },
+          );
+        }
+
+        return ListView.builder(
+          itemCount: friends.length,
+          itemBuilder: (context, index) {
+            final friend = friends[index];
+            return ListTile(
+              leading: const CircleAvatar(child: Icon(Icons.person)),
+              title: Text(friend.fullName),
+              subtitle: Text('@${friend.username}'),
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget _buildEmptyState({
@@ -101,20 +153,7 @@ class _FriendsScreenState extends State<FriendsScreen>
         child: TabBarView(
           controller: _tabController,
           children: [
-            _buildEmptyState(
-              icon: Icons.people,
-              title: 'No Friends Yet',
-              subtitle: 'Your friends will appear here',
-              buttonText: 'Add Friends',
-              onButtonPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchUsersScreen(),
-                  ),
-                );
-              },
-            ),
+            _buildFriendsList(),
             ReceivedRequestsTab(),
             SentRequestsTab(),
           ],

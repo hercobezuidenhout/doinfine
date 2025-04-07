@@ -92,16 +92,70 @@ class FriendRepository {
   }
 
   Future<void> acceptFriendRequest(String requestId) async {
-    await _firestore.collection('friendRequests').doc(requestId).update({
+    // Get the friend request data
+    final requestDoc =
+        await _firestore.collection('friendRequests').doc(requestId).get();
+    if (!requestDoc.exists) {
+      throw Exception('Friend request not found');
+    }
+
+    final requestData = requestDoc.data()!;
+    final senderId = requestData['senderId'];
+    final receiverId = requestData['receiverId'];
+
+    // Start a batch write
+    final batch = _firestore.batch();
+
+    // Update the friend request status
+    batch.update(requestDoc.reference, {
       'status': 'accepted',
       'updatedAt': FieldValue.serverTimestamp(),
     });
+
+    // Create friendship documents for both users
+    final friendshipId = '${senderId}_${receiverId}';
+    final reverseFriendshipId = '${receiverId}_${senderId}';
+
+    // Create friendship for sender
+    batch.set(_firestore.collection('friendships').doc(friendshipId), {
+      'userId': senderId,
+      'friendId': receiverId,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    // Create friendship for receiver
+    batch.set(_firestore.collection('friendships').doc(reverseFriendshipId), {
+      'userId': receiverId,
+      'friendId': senderId,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    // Commit the batch
+    await batch.commit();
   }
 
   Future<void> rejectFriendRequest(String requestId) async {
     await _firestore.collection('friendRequests').doc(requestId).update({
       'status': 'rejected',
       'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Stream<List<app.User>> getFriends(String userId) {
+    return _firestore
+        .collection('friendships')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      final friendIds =
+          snapshot.docs.map((doc) => doc.data()['friendId'] as String).toList();
+      if (friendIds.isEmpty) return [];
+
+      final friends = await Future.wait(
+        friendIds.map((id) => getUserById(id)),
+      );
+
+      return friends.whereType<app.User>().toList();
     });
   }
 }

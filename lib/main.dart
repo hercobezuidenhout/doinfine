@@ -12,6 +12,7 @@ import 'features/posts/presentation/screens/create_post_screen.dart';
 import 'features/posts/domain/models/post.dart';
 import 'features/posts/domain/repositories/post_repository.dart';
 import 'features/profile/domain/repositories/user_repository.dart';
+import 'core/providers/analytics_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProfileProvider(userRepository),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AnalyticsProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Doinfine',
@@ -64,6 +68,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _postRepository = PostRepository();
   final _userRepository = FirebaseUserRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    _logScreenView();
+  }
+
+  Future<void> _logScreenView() async {
+    await context.read<AnalyticsProvider>().logScreenView(
+          screenName: 'HomePage',
+        );
+  }
 
   @override
   Widget build(BuildContext context) {

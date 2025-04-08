@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../friends/presentation/screens/friends_screen.dart';
+import '../../../../core/providers/analytics_provider.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -101,6 +102,29 @@ class MenuScreen extends StatelessWidget {
             title: const Text('Help & Support'),
             onTap: () {
               // TODO: Navigate to help screen
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+            child: Text(
+              'Pre-Alpha',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.analytics),
+            title: const Text('Test Analytics'),
+            onTap: () async {
+              await context.read<AnalyticsProvider>().logFineCreated();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Test analytics event sent!')),
+                );
+              }
             },
           ),
         ],

@@ -1,3 +1,5 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,7 +13,6 @@ import 'features/menu/presentation/screens/menu_screen.dart';
 import 'features/posts/presentation/screens/create_post_screen.dart';
 import 'features/posts/domain/models/post.dart';
 import 'features/posts/domain/repositories/post_repository.dart';
-import 'features/profile/domain/repositories/user_repository.dart';
 import 'core/providers/analytics_provider.dart';
 
 Future<void> main() async {
@@ -20,6 +21,16 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   runApp(const MyApp());
 }
 

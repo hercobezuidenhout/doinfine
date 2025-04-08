@@ -127,6 +127,11 @@ class MenuScreen extends StatelessWidget {
               }
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.analytics),
+            title: const Text('Test Crashlytics'),
+            onTap: () => throw Exception(),
+          ),
         ],
       ),
     );

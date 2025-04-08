@@ -13,6 +13,7 @@ import 'features/posts/domain/models/post.dart';
 import 'features/posts/domain/repositories/post_repository.dart';
 import 'features/profile/domain/repositories/user_repository.dart';
 import 'core/providers/analytics_provider.dart';
+import 'core/providers/crashlytics_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => AnalyticsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CrashlyticsProvider()..initialize(),
         ),
       ],
       child: MaterialApp(

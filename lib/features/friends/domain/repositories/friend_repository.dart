@@ -113,8 +113,8 @@ class FriendRepository {
     });
 
     // Create friendship documents for both users
-    final friendshipId = '${senderId}_${receiverId}';
-    final reverseFriendshipId = '${receiverId}_${senderId}';
+    final friendshipId = '${senderId}_$receiverId';
+    final reverseFriendshipId = '${receiverId}_$senderId';
 
     // Create friendship for sender
     batch.set(_firestore.collection('friendships').doc(friendshipId), {

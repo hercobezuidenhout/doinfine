@@ -71,12 +71,6 @@ class ReceivedRequestsTab extends StatelessWidget {
                 }
 
                 final user = snapshot.data!;
-                if (user == null) {
-                  return const ListTile(
-                    leading: CircleAvatar(child: Icon(Icons.person)),
-                    title: Text('User not found'),
-                  );
-                }
 
                 return Dismissible(
                   key: Key(request['id']),

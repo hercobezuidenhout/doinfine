@@ -121,30 +121,18 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const ListTile(
-                      leading: CircleAvatar(child: Icon(Icons.person)),
                       title: Text('Loading...'),
                     );
                   }
 
                   final [author, finedUser] = snapshot.data!;
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: ListTile(
-                      leading: const CircleAvatar(child: Icon(Icons.person)),
-                      title: Text(author?.fullName ?? 'Unknown'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Fined ${finedUser?.fullName ?? 'Unknown'}'),
-                          Text(post.description),
-                          Text(
-                            post.createdAt.toString(),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
+                  return ListTile(
+                    title: Text(post.description),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        '${author?.fullName ?? 'Unknown'} fined ${finedUser?.fullName ?? 'Unknown'}',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
                   );

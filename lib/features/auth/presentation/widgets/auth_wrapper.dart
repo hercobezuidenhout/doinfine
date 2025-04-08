@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../screens/sign_in_screen.dart';
 import '../../../profile/presentation/providers/profile_provider.dart';
+import '../../../../core/providers/analytics_provider.dart';
 
 class AuthWrapper extends StatelessWidget {
   final Widget child;
@@ -28,9 +29,19 @@ class AuthWrapper extends StatelessWidget {
           return const SignInScreen();
         }
 
-        // Load user profile when authenticated
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          context.read<ProfileProvider>().loadUser(authProvider.user!.uid);
+        // Load user profile and set analytics properties when authenticated
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          final profileProvider = context.read<ProfileProvider>();
+          final analyticsProvider = context.read<AnalyticsProvider>();
+
+          await profileProvider.loadUser(authProvider.user!.uid);
+
+          if (profileProvider.user != null) {
+            await analyticsProvider.setUserProperties(
+              userId: profileProvider.user!.uid,
+              username: profileProvider.user!.username,
+            );
+          }
         });
 
         return child;

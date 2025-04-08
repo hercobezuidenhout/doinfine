@@ -81,17 +81,6 @@ class MenuScreen extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
             child: Text(
-              'Actions',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-            child: Text(
               'Preferences',
               style: TextStyle(
                 fontSize: 14,

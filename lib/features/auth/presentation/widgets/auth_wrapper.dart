@@ -4,7 +4,6 @@ import '../providers/auth_provider.dart';
 import '../screens/sign_in_screen.dart';
 import '../../../profile/presentation/providers/profile_provider.dart';
 import '../../../../core/providers/analytics_provider.dart';
-import '../../../../core/providers/crashlytics_provider.dart';
 
 class AuthWrapper extends StatelessWidget {
   final Widget child;
@@ -30,22 +29,18 @@ class AuthWrapper extends StatelessWidget {
           return const SignInScreen();
         }
 
-        // Load user profile and set analytics/crashlytics properties when authenticated
+        // Load user profile and set analytics properties when authenticated
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           final profileProvider = context.read<ProfileProvider>();
           final analyticsProvider = context.read<AnalyticsProvider>();
-          final crashlyticsProvider = context.read<CrashlyticsProvider>();
 
           await profileProvider.loadUser(authProvider.user!.uid);
 
           if (profileProvider.user != null) {
-            await Future.wait([
-              analyticsProvider.setUserProperties(
-                userId: profileProvider.user!.uid,
-                username: profileProvider.user!.username,
-              ),
-              crashlyticsProvider.setUserIdentifier(profileProvider.user!.uid),
-            ]);
+            await analyticsProvider.setUserProperties(
+              userId: profileProvider.user!.uid,
+              username: profileProvider.user!.username,
+            );
           }
         });
 

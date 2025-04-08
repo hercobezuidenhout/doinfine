@@ -4,7 +4,6 @@ import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../friends/presentation/screens/friends_screen.dart';
 import '../../../../core/providers/analytics_provider.dart';
-import '../../../../core/providers/crashlytics_provider.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -125,22 +124,6 @@ class MenuScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Test analytics event sent!')),
                 );
-              }
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.bug_report),
-            title: const Text('Test Crash'),
-            onTap: () async {
-              try {
-                throw Exception('Test crash from menu');
-              } catch (e, stack) {
-                await context.read<CrashlyticsProvider>().recordError(e, stack);
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Test crash recorded!')),
-                  );
-                }
               }
             },
           ),

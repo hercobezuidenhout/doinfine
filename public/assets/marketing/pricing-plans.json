@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Free",
+    "price": {
+      "value": 0
+    },
+    "audience": "1 - 5 users",
+    "benefits": ["Unlimted Fines, Payments & Wins", "Unlimited Values & Links"]
+  },
+  {
+    "name": "Doinfine+",
+    "price": {
+      "value": 1999,
+      "unit": "/month"
+    },
+    "audience": "Unlimited users",
+    "benefits": [
+      "Unlimted Fines, Payments & Wins",
+      "Unlimited Values & Links",
+      "Unlimited Teams"
+    ],
+    "highlight": true
+  }
+]

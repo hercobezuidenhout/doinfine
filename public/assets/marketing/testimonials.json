@@ -1,0 +1,30 @@
+[
+  {
+    "author": "Ike Thabethe",
+    "position": "Business Analyst",
+    "image": "/assets/marketing/ike-thabethe.jpeg",
+    "industry": "Mining & Business",
+    "testimonial": "Doinfine has been a fun way for our team to hold each other accountable. Its a great tool and easy to use. Would recommend it to a team of any size team."
+  },
+  {
+    "author": "Nicholas Visentin",
+    "position": "Software Engineer",
+    "image": "/assets/marketing/nicholas-visentin.jpeg",
+    "industry": "Sofware Development",
+    "testimonial": "A simplistic yet synergetic marvel, this platform excels in instilling team culture with a touch of accountability. The perfect blend for seamless collaboration."
+  },
+  {
+    "author": "Kyle McAllister",
+    "position": "Team Lead",
+    "image": "/assets/marketing/kyle-mcallister.png",
+    "industry": "Management",
+    "testimonial": "Before Doinfine, the team sought an efficient way to manage fines. Initially using an Excel sheet in Teams, it proved functional but lacked excitement. Doinfine improved upon this, introducing fun features like reactions to fines and streamlining the approval and rejection tracking process. It surpassed our Excel sheet, and we've consistently used it since."
+  },
+  {
+    "author": "Nikki Truter",
+    "position": "Software Engineer",
+    "image": "/assets/marketing/nikki-truter.jpeg",
+    "industry": "Software Development",
+    "testimonial": "Doinfine has transformed the way our team operates, particularly in terms of accountability and maintaining team traditions. This system has become our go-to solution for ensuring everyone remembers team traditions. The integration of Doinfine into our workflow has not only streamlined accountability processes but has also strengthened our team bonds through the consistent observance of team traditions. If you're looking for a tool that not only keeps your team on track but also fosters a sense of camaraderie, Doinfine is the ideal choice. Highly recommended for teams that value accountability and cherish their unique traditions."
+  }
+]

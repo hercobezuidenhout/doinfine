@@ -18,7 +18,7 @@ export const BackToScopeButton = ({ scope }: BackToScopeButtonProps) => {
     const navigateBack = () => router.push(SCOPE);
 
     return (
-        <Button hidden={!isFromSettings ?? false} onClick={navigateBack} leftIcon={<Icon as={FiArrowLeftCircle} />} size="sm" width="fit-content" px={4} variant="secondary">
+        <Button hidden={!isFromSettings} onClick={navigateBack} leftIcon={<Icon as={FiArrowLeftCircle} />} size="sm" width="fit-content" px={4} variant="secondary">
             Back to settings
         </Button>
     );

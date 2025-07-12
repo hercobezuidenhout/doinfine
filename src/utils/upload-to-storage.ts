@@ -29,7 +29,7 @@ export const uploadToStorage = async (
     throw new InternalServerErrorException();
   }
 
-  let file = files['avatar'];
+  let file = files['avatar'] as formidable.File | formidable.File[];
 
   if (!file) {
     throw new BadRequestException(
@@ -42,7 +42,13 @@ export const uploadToStorage = async (
       throw new BadRequestException('Please upload a single file');
     }
 
-    file = file[0];
+    file = file[0] as formidable.File;
+  }
+
+  if (!file) {
+    throw new BadRequestException(
+      'File is no longer defined'
+    );
   }
 
   if (file.mimetype !== 'image/png') {

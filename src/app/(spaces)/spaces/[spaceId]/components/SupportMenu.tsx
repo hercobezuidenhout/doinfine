@@ -1,3 +1,4 @@
+import { getVersion } from '@/package';
 import {
   IconButton,
   Link,
@@ -8,15 +9,13 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import {
-  FaEnvelope,
-  FaLinkedin,
-  FaXTwitter,
-  FaYoutube,
+  FaEnvelope
 } from 'react-icons/fa6';
-import { FiHelpCircle } from 'react-icons/fi';
+import { FiGitCommit, FiHelpCircle } from 'react-icons/fi';
 
 export const SupportMenu = () => {
-  //TODO: Simplify with {menuItems.map()}, add external link icons
+  const version = getVersion();
+
   return (
     <Menu>
       <MenuButton
@@ -28,14 +27,7 @@ export const SupportMenu = () => {
       <MenuList>
         <MenuItem
           as={Link}
-          href="https://www.youtube.com/@doinfinehq"
-          icon={<FaYoutube />}
-        >
-          Youtube
-        </MenuItem>
-        <MenuItem
-          as={Link}
-          href="mailto:support@doinfine.app?subject=<Add your subject here>"
+          href="mailto:herco.bezuidenhout@gmail.com?subject=Doinfine Support"
           icon={<FaEnvelope />}
         >
           Email Support
@@ -43,19 +35,11 @@ export const SupportMenu = () => {
         <MenuDivider />
         <MenuItem
           as={Link}
-          href="https://twitter.com/DoinfineHQ"
-          icon={<FaXTwitter />}
+          href="https://github.com/hercobezuidenhout/doinfine/blob/main/CHANGELOG.md"
+          icon={<FiGitCommit />}
         >
-          X (Twitter)
+          v{version}
         </MenuItem>
-        <MenuItem
-          as={Link}
-          href="https://www.linkedin.com/company/doinfine"
-          icon={<FaLinkedin />}
-        >
-          LinkedIn
-        </MenuItem>
-        <MenuDivider />
       </MenuList>
     </Menu>
   );

@@ -6,10 +6,10 @@ export const HeroSection = () => {
     <VStack>
       <VStack gap={{ base: 2, md: 8 }} my={{ base: 10, md: 20 }} textAlign="center">
         <Heading size="2xl">
-          Create a team charter for your team
+          Fine your friends
         </Heading>
         <Text fontSize="2xl">
-          Over 70+ teams have used Doinfine to build a stronger team culture - and its 100% free.
+          Then challenge them to pay it off
         </Text>
         <CallToActionButtons />
       </VStack>

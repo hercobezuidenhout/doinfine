@@ -5,9 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { HeroSection } from './components/HeroSection';
-import { BenefitsSection } from './components/BenefitsSection';
 import { getFeatureFlags } from '@/prisma/queries/get-feature-flags';
-import { TestimonialsSection } from './components/TestimonialsSection';
 import { GetStartedSection } from './components/GetStartedSection';
 import { RefreshLoggedInUser } from './components/RefreshLoggedInUser';
 
@@ -24,11 +22,6 @@ const MarketingPage = async () => {
       <RefreshLoggedInUser />
       <VStack alignItems="stretch" gap={32} pb={32}>
         <HeroSection />
-        {/* <PartnerSection /> */}
-        <BenefitsSection />
-        <TestimonialsSection />
-        {/* <PricingPlansSection /> */}
-        {/* <QuestionsSection /> */}
         <GetStartedSection />
       </VStack>
     </HydrationBoundary>

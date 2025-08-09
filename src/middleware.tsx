@@ -69,11 +69,7 @@ export async function middleware(request: NextRequest) {
 
   const isRoot = pathname === '/';
 
-  if (hasSession && isRoot) {
-    return NextResponse.redirect(new URL('/spaces', request.url));
-  }
-
-  if (isRoot) {
+  if (!hasSession && isRoot) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

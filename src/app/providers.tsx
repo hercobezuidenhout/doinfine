@@ -1,10 +1,7 @@
 'use client';
 
+import { Provider } from '@/components/ui/provider';
 import { AbilityContextProvider } from '@/contexts/AbilityContextProvider';
-import { AnalyticsProvider } from '@/contexts/AnalyticsProvider';
-import { DialogProvider } from '@/contexts/DialogProvider';
-import { theme } from '@/theme/theme';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Session, SessionContextProvider } from '@supabase/auth-helpers-react';
 import { createBrowserClient } from '@supabase/ssr';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -43,21 +40,17 @@ export const AppProviders = ({
   }
 
   return (
-    <ChakraProvider theme={theme}>
+    <Provider>
       <QueryClientProvider client={queryClient}>
         <SessionContextProvider
           supabaseClient={supabaseClient}
           initialSession={initialSession}
         >
-          <AnalyticsProvider>
-            <AbilityContextProvider>
-              <DialogProvider>
-                {children}
-              </DialogProvider>
-            </AbilityContextProvider>
-          </AnalyticsProvider>
+          <AbilityContextProvider>
+            {children}
+          </AbilityContextProvider>
         </SessionContextProvider>
       </QueryClientProvider>
-    </ChakraProvider>
+    </Provider>
   );
 };

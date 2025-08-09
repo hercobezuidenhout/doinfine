@@ -1,7 +1,6 @@
 'use client';
 
-import { VStack } from '@chakra-ui/layout';
-import { Flex, Link, Text } from '@chakra-ui/react';
+import { VStack, Flex, Link, Text } from '@chakra-ui/react';
 import { OtpLogin } from './OtpLogin';
 import { DevLogin } from './DevLogin';
 
@@ -14,21 +13,21 @@ interface LoginFormProps {
 export const LoginForm = ({ redirectTo = '/', signup, width }: LoginFormProps) => {
   return (
     <>
-      <VStack spacing={3} alignItems="stretch" gap={8}>
-        <VStack alignItems="stretch" gap={5}>
+      <VStack gap={8} alignItems="stretch">
+        <VStack gap={5} alignItems="stretch">
           {process.env.NODE_ENV && process.env.NODE_ENV === 'development' ? (
-             <DevLogin width={width} redirectTo={redirectTo} />
+            <DevLogin width={width} redirectTo={redirectTo} />
           ) : (
             <OtpLogin width={width} redirectTo={redirectTo} />
           )}
-          
+
         </VStack>
       </VStack>
-      <Flex justifyContent="space-around">
+      <Flex justify="space-around">
         {signup ? (
-          <Text>Already have an account? <Link href="/login"><b>Login</b></Link></Text>
-        ): (
-          <Text>Don&apos;t have an account? <Link href="/signup"><b>Sign Up</b></Link></Text>
+          <Text>Already have an account? <Link href="/login" fontWeight="bold">Login</Link></Text>
+        ) : (
+          <Text>Don&apos;t have an account? <Link href="/signup" fontWeight="bold">Sign Up</Link></Text>
         )}
       </Flex>
     </>

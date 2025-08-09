@@ -1,34 +1,44 @@
 'use client';
 
-import { ColorModeButton } from "@/components/ui/color-mode";
-import { createClient } from "@/utils/supabase/client";
-import { Box, Button, Heading, Text, Stack } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Box, Heading, Card, VStack } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+
+interface Post {
+    id: number;
+    group: string;
+    finee: string;
+    description: string;
+    createdAt: string;
+}
 
 export default function Home() {
-    const supabase = createClient();
-    const router = useRouter();
-
-    const signOut = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            console.error("Sign out error:", error);
-        } else {
-            console.info("Successfully signed out");
-        }
-
-        router.refresh();
-    };
+    const { data } = useQuery({
+        queryKey: ["feed"],
+        queryFn: async () => {
+            return fetch("/api/v1/feed").then((res: Response) => res.json());
+        },
+        refetchOnWindowFocus: false,
+    });
 
     return (
-        <Box minH="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-            <Stack gap={8} align="center">
-                <Heading size="2xl">Welcome to Doinfine</Heading>
-                <Text>A simple, elegant landing page for your app.</Text>
-                <Button width="full" onClick={signOut}>Sign Out</Button>
-                <ColorModeButton />
-            </Stack>
+        <Box minH="100vh" display="flex" mt={10} flexDirection="column" alignItems="center" justifyContent="center">
+            {data?.length > 0 && (
+                <Box mt={8} width="full" p={4}>
+                    <VStack alignItems="stretch" gap={8}>
+                        {data.map((post: Post) => (
+                            <Card.Root size="md" key={post.id}>
+                                <Card.Header>
+                                    <Heading size="md">{post.finee} - {post.group}</Heading>
+                                </Card.Header>
+                                <Card.Body color="fg.muted">
+                                    {post.description}
+                                </Card.Body>
+                            </Card.Root>
+                        ))}
+                    </VStack>
+                </Box>
+            )}
+
         </Box>
     );
 }

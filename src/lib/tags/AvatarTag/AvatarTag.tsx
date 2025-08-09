@@ -8,7 +8,6 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { AvatarStub } from '@/models';
-import * as CSS from 'csstype';
 
 interface AvatarTagProps extends BoxProps {
   avatar?: AvatarStub<string | number>;
@@ -29,14 +28,14 @@ export const AvatarTag = ({
 
   return (
     <HStack
-      maxW={styles.container['maxW'] as string | number}
+      maxW="container.lg"
       __css={styles.container}
       {...rest}
     >
       {hideLabel ? (
         <Tooltip label={name} borderRadius="md" backgroundColor="chakra-subtle-bg" color="chakra-subtle-text">
           <Avatar
-            size={styles.avatar['size']}
+            size="md"
             name={avatarName}
             src={avatar?.image ?? undefined}
           />
@@ -44,13 +43,13 @@ export const AvatarTag = ({
       ) : (
         <>
           <Avatar
-            size={styles.avatar['size']}
+            size="md"
             name={avatarName}
             src={avatar?.image ?? undefined}
           />
           <Skeleton isLoaded={isLoaded} overflow="hidden">
             <Text
-              fontSize={styles.label['fontSize'] as CSS.Property.FontSize}
+              fontSize="medium"
               isTruncated
             >
               {name}

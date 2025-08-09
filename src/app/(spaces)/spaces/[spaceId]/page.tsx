@@ -25,7 +25,7 @@ const Page = async ({ params }: PageProps) => {
     }
 
     return (
-        <VStack width={['full', 'md', '2xl']} m="auto" spacing={5}>
+        <VStack width="full" m="auto" spacing={5}>
             <TeamHeader scope={currentSpace} />
             <PostForm scope={currentSpace} />
             <Feed scopeId={spaceId} />

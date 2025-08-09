@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { Stack, Heading, PinInput, Button } from "@chakra-ui/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface OtpFormValues {
@@ -15,7 +15,7 @@ interface OtpFormProps {
 
 export const OtpForm = ({ email }: OtpFormProps) => {
     const router = useRouter();
-    const { register, handleSubmit, formState: { errors } } = useForm<OtpFormValues>({
+    const { register, handleSubmit } = useForm<OtpFormValues>({
         defaultValues: {
             otp: '',
         },

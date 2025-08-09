@@ -1,4 +1,4 @@
-import { Box, Button, Heading, PinInput, Stack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { OtpForm } from "./components/OtpForm";
 
 interface LoginOtpPageProps {

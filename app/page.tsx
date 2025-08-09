@@ -1,5 +1,6 @@
 'use client';
 
+import { ColorModeButton } from "@/components/ui/color-mode";
 import { createClient } from "@/utils/supabase/client";
 import { Box, Button, Heading, Text, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -37,6 +38,7 @@ export default function Home() {
         <Heading size="2xl">Welcome to Doinfine</Heading>
         <Text>A simple, elegant landing page for your app.</Text>
         <Button width="full" onClick={signOut}>Sign Out</Button>
+        <ColorModeButton />
       </Stack>
     </Box>
   );

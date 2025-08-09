@@ -17,12 +17,12 @@ export const AuthHeader = ({ signup }: AuthHeaderProps) => {
       {!signup
         ? (
           <Link href='/signup'>
-            <Button variant="link">Sign Up</Button>
+            <Button>Sign Up</Button>
           </Link>
         )
         : (
           <Link href='/login'>
-            <Button variant="link">Login</Button>
+            <Button>Login</Button>
           </Link>
         )}
     </HStack>

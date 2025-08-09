@@ -8,7 +8,7 @@ interface LoginPageHeaderProps {
 }
 
 export const LoginPageHeader = ({ signup }: LoginPageHeaderProps) => (
-  <VStack spacing={3}>
+  <VStack gap={3}>
     <DoinfineLogo />
     <Heading as="h1" size="xl">
       {signup ? 'Get Started with Doinfine' : 'Log in to Doinfine'}

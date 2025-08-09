@@ -1,13 +1,10 @@
 'use client';
 
-import { FormInput } from '@/lib/inputs/FormInput/FormInput';
-import { LoadingButton } from '@/lib/buttons/LoadingButton/LoadingButton';
-import { FormContainer } from '@/lib/forms/FormContainer/FormContainer';
-import { VStack, useToast } from '@chakra-ui/react';
+import { Button, Field, Input, VStack } from '@chakra-ui/react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 type OtpLoginFormData = {
   email: string;
@@ -18,11 +15,10 @@ interface OtpLoginProps {
   width?: string;
 }
 
-export const OtpLogin = ({ redirectTo, width }: OtpLoginProps) => {
+export const OtpLogin = ({ redirectTo }: OtpLoginProps) => {
   const supabase = useSupabaseClient();
-  const formMethods = useForm<OtpLoginFormData>();
-  const email = formMethods.watch('email');
-  const toast = useToast();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<OtpLoginFormData>();
+  const email = watch('email');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,14 +32,12 @@ export const OtpLogin = ({ redirectTo, width }: OtpLoginProps) => {
     }
 
     setIsLoading(true);
-    const { data, error } = await supabase.auth.signInWithOtp({ email: email });
+
+    const { error } = await supabase.auth.signInWithOtp({ email: email });
 
     if (error) {
-      toast({ title: error.message, variant: 'error' });
       return;
     }
-
-    console.info(data);
 
     setIsLoading(false);
 
@@ -53,15 +47,15 @@ export const OtpLogin = ({ redirectTo, width }: OtpLoginProps) => {
   };
 
   return (
-    <FormContainer name="Sign in" onSubmit={formMethods.handleSubmit(onSubmit, () => setIsLoading(false))} width={width ? width : { base: 'full', md: 'md', lg: 'lg' }}>
-      <FormProvider {...formMethods} >
-        <VStack align="stretch" spacing={5}>
-          <FormInput name="email" required placeholder="name@work-email.com" size="lg" />
-          <LoadingButton size="lg" width="full" type="submit" variant="primary" isLoading={isLoading}>
-            Continue
-          </LoadingButton>
-        </VStack>
-      </FormProvider>
-    </FormContainer>
+    <form onSubmit={handleSubmit(onSubmit, () => setIsLoading(false))}>
+      <VStack align="stretch" gap={5}>
+        <Field.Root invalid={!!errors.email}>
+          <Input {...register("email")} />
+        </Field.Root>
+        <Button size="lg" width="full" type="submit" loading={isLoading}>
+          Continue
+        </Button>
+      </VStack>
+    </form>
   );
 };

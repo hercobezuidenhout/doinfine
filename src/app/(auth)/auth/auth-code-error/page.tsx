@@ -5,7 +5,7 @@ const AuthCodeErrorPage = () => {
 
   return (
     <ErrorMessage />
-  )
-}
+  );
+};
 
 export default AuthCodeErrorPage;

@@ -1,7 +1,6 @@
 'use client';
 
-import { LoadingButton } from '@/lib/buttons/LoadingButton/LoadingButton';
-import { PinInput, PinInputField, HStack, VStack, useToast } from '@chakra-ui/react';
+import { PinInput, HStack, VStack, Button } from '@chakra-ui/react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -14,7 +13,6 @@ interface VerifyOtpFormProps {
 
 export const VerifyOtpForm = ({ redirectTo, email }: VerifyOtpFormProps) => {
   const supabase = useSupabaseClient();
-  const toast = useToast();
   const router = useRouter();
   const [otp, setOtp] = useState<string>('');
   const [verifying, setVerifying] = useState(false);
@@ -30,7 +28,6 @@ export const VerifyOtpForm = ({ redirectTo, email }: VerifyOtpFormProps) => {
 
     if (error) {
       console.error(error.cause, error.stack);
-      toast({ title: error.message, variant: 'error' });
       setVerifying(false);
       return;
     }
@@ -51,19 +48,20 @@ export const VerifyOtpForm = ({ redirectTo, email }: VerifyOtpFormProps) => {
   };
 
   return (
-    <VStack spacing={3} alignItems="stretch" gap={8}>
+    <VStack gap={8} alignItems="stretch">
       <VStack alignItems="stretch" gap={5}>
         <HStack>
-          <PinInput value={otp} onChange={handleOtpChange}>
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-          </PinInput>
+          <PinInput.Root otp handleChange={handleOtpChange} value={otp}>
+            <PinInput.HiddenInput />
+            <PinInput.Control>
+              <PinInput.Input />
+              <PinInput.Input />
+              <PinInput.Input />
+              <PinInput.Input />
+            </PinInput.Control>
+          </PinInput.Root>
         </HStack>
-        <LoadingButton disabled={verifying} isLoading={verifying} onClick={verifyOtp} size="lg" variant="primary" width="full">Continue</LoadingButton>
+        <Button disabled={verifying} loading={verifying} onClick={() => verifyOtp()} size="lg" width="full">Continue</Button>
       </VStack>
     </VStack>
   );

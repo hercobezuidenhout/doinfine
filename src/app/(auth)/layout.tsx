@@ -7,7 +7,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
     <AuthProviders>
       {children}
     </AuthProviders>
-  )
-}
+  );
+};
 
 export default AuthLayout;

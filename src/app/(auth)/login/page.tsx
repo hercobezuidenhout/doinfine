@@ -17,7 +17,7 @@ const LogInPage = ({ searchParams = {} }: PageProps) => {
     <>
       <AuthHeader />
       <Flex gap={8} alignItems="center" height={{ md: '75vh', lg: '85vh' }} justifyContent="space-around">
-        <VStack spacing={8}>
+        <VStack gap={8}>
           <LoginPageHeader />
           <LoginForm redirectTo={returnTo} />
         </VStack>

@@ -23,7 +23,7 @@ const VerifyOtpPage = ({ searchParams = {} }: PageProps) => {
         <>
             <AuthHeader />
             <Flex gap={8} alignItems="center" height={{ base: '75vh', sm: '75vh' }} justifyContent="space-around">
-                <VStack spacing={8}>
+                <VStack gap={8}>
                     <VerifyOtpPageHeader />
                     <VerifyOtpForm email={String(email)} redirectTo={returnTo} />
                 </VStack>

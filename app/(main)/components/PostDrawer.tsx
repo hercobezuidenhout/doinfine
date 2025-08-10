@@ -8,9 +8,10 @@ const DEFAULT_TITLE = "Fine someone";
 
 export const PostDrawer = () => {
     const [title, setTitle] = useState(DEFAULT_TITLE);
+    const [open, setOpen] = useState(false);
 
     return (
-        <Drawer.Root placement='bottom' size='full'>
+        <Drawer.Root placement='bottom' size='full' open={open} onOpenChange={(e) => setOpen(e.open)}>
             <Drawer.Trigger asChild>
                 <Button width="full">
                     Fine someone
@@ -26,7 +27,7 @@ export const PostDrawer = () => {
                             <Drawer.Title>{title}</Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
-                            <PostStepper onStepChange={(stepTitle) => setTitle(stepTitle)} />
+                            <PostStepper onStepChange={(stepTitle) => setTitle(stepTitle)} onDone={() => setOpen(false)} />
                         </Drawer.Body>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />

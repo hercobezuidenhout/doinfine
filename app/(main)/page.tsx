@@ -1,8 +1,8 @@
 'use client';
 
 import { Box, Heading, Card, VStack } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { NewPostButton } from "./components/NewPostButton";
+import { useFeedQuery } from "@/queries/useFeedQuery";
 
 interface Post {
     id: number;
@@ -13,13 +13,7 @@ interface Post {
 }
 
 export default function Home() {
-    const { data } = useQuery({
-        queryKey: ["feed"],
-        queryFn: async () => {
-            return fetch("/api/v1/feed").then((res: Response) => res.json());
-        },
-        refetchOnWindowFocus: false,
-    });
+    const { data } = useFeedQuery();
 
     return (
         <Box minH="100vh" display="flex" mt={10} flexDirection="column" alignItems="center" justifyContent="center">

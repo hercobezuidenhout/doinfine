@@ -6,16 +6,21 @@ import { LuCheck } from "react-icons/lu";
 import { SelectGroupStep } from "./SelectGroupStep";
 import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
+import { useEffect, useState } from "react";
+import { Scope } from "@prisma/client";
 
 interface PostStepperProps {
     onStepChange?: (stepTitle: string) => void;
+    onDone?: () => void;
 }
 
-export const PostStepper = ({ ...rest }: PostStepperProps) => {
+export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
+    const [selectedGroup, setSelectedGroup] = useState<Scope | null>(null);
+
     const steps = [
         {
             icon: <FiEye />,
-            component: <SelectGroupStep {...rest} />
+            component: <SelectGroupStep {...rest} onGroupSelect={setSelectedGroup} />
         },
         {
             icon: <FiUser />,
@@ -26,6 +31,10 @@ export const PostStepper = ({ ...rest }: PostStepperProps) => {
             component: <SetDescriptionStep {...rest} />,
         },
     ];
+
+    useEffect(() => {
+        console.info("Selected group changed:", selectedGroup);
+    }, [selectedGroup]);
 
     return (
         <Steps.Root defaultStep={0} count={steps.length} size="xs">
@@ -51,7 +60,7 @@ export const PostStepper = ({ ...rest }: PostStepperProps) => {
                 <Stack gap={4} mt={4}>
                     <Text>Are you sure you want to fine <b>Billy Anderson</b> in <b>Braai Maatjies</b> for:</Text>
                     <Text>Spilling his beer!</Text>
-                    <Button mt={4}>Full send!</Button>
+                    <Button mt={4} onClick={onDone}>Full send!</Button>
                 </Stack>
             </Steps.CompletedContent>
         </Steps.Root>

@@ -2,7 +2,6 @@
 
 import { InputGroup, Input, Stack, Steps, HStack, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
 import { PostStepProps } from "./PostStep";
 import { useCurrentUserScopesQuery } from "@/queries/useCurrentUserScopesQuery";
 import { Scope } from "@prisma/client";

@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Stack, Steps, Text } from "@chakra-ui/react";
-import { FiEye, FiUser, FiPenTool } from "react-icons/fi";
 import { LuCheck, LuGavel, LuShieldHalf, LuUser } from "react-icons/lu";
 import { SelectGroupStep } from "./SelectGroupStep";
 import { SelectUserStep } from "./SelectUserStep";

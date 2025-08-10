@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/client";
 import { Blockquote, Button, CloseButton, Drawer, Heading, HStack, Icon, IconButton, Portal, Separator, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FiArrowRight, FiMenu, FiMoon, FiSun } from "react-icons/fi";
 import { LuArrowRight, LuMenu, LuMoon, LuSun } from "react-icons/lu";
 
 export const MenuButton = () => {

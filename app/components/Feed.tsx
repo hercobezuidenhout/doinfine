@@ -13,7 +13,7 @@ interface Post {
 }
 
 interface FeedProps {
-    scopeId?: string;
+    scopeId?: number;
 }
 
 export const Feed = ({ scopeId }: FeedProps) => {

@@ -1,17 +1,19 @@
 import { Card, Tabs, Text } from "@chakra-ui/react";
 import { GuildHeader } from "../../components/GuildHeader";
 import { Feed } from "@/app/components/Feed";
+import { getScopeDetails } from "@/prisma/queries/get-scope-details";
 
-export default async function GuildPage({ params }: { params: Promise<{ guildId: string; }>; }) {
+export default async function GuildPage({ params }: { params: Promise<{ guildId: number; }>; }) {
     const { guildId } = await params;
+    const guild = await getScopeDetails(Number(guildId));
 
     return (
         <>
-            <GuildHeader title={`Guild ${guildId}`} />
+            <GuildHeader title={guild.name} />
             <Card.Root variant="subtle">
                 <Card.Body>
                     <Text>
-                        Drop your beer... and you get fined!
+                        {guild.description}
                     </Text>
                 </Card.Body>
             </Card.Root>

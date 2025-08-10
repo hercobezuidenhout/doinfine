@@ -7,7 +7,7 @@ import { SelectGroupStep } from "./SelectGroupStep";
 import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
 import { useEffect, useState } from "react";
-import { Scope } from "@prisma/client";
+import { Scope, User } from "@prisma/client";
 
 interface PostStepperProps {
     onStepChange?: (stepTitle: string) => void;
@@ -15,7 +15,9 @@ interface PostStepperProps {
 }
 
 export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
-    const [selectedGroup, setSelectedGroup] = useState<Scope | null>(null);
+    const [selectedGroup, setSelectedGroup] = useState<Scope>();
+    const [selectedUser, setSelectedUser] = useState<User>();
+    const [description, setDescription] = useState("");
 
     const steps = [
         {
@@ -24,11 +26,11 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
         },
         {
             icon: <FiUser />,
-            component: <SelectUserStep {...rest} />,
+            component: selectedGroup && <SelectUserStep {...rest} scopeId={selectedGroup?.id} onUserSelect={setSelectedUser} />,
         },
         {
             icon: <FiPenTool />,
-            component: <SetDescriptionStep {...rest} />,
+            component: <SetDescriptionStep {...rest} user={selectedUser} description={description} onDescriptionChange={setDescription} />,
         },
     ];
 
@@ -58,8 +60,8 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
             ))}
             <Steps.CompletedContent>
                 <Stack gap={4} mt={4}>
-                    <Text>Are you sure you want to fine <b>Billy Anderson</b> in <b>Braai Maatjies</b> for:</Text>
-                    <Text>Spilling his beer!</Text>
+                    <Text>Are you sure you want to fine <b>{selectedUser?.name}</b> in <b>{selectedGroup?.name}</b> for:</Text>
+                    <Text>{description}</Text>
                     <Button mt={4} onClick={onDone}>Full send!</Button>
                 </Stack>
             </Steps.CompletedContent>

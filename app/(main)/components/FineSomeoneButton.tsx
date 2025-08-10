@@ -1,8 +1,8 @@
 'use client';
 
-import { Avatar, Box, Button, ButtonGroup, CloseButton, Drawer, Field, HStack, Input, InputGroup, Portal, Stack, Steps, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, CloseButton, Drawer, HStack, Input, InputGroup, Portal, Stack, Steps, Text } from "@chakra-ui/react";
 import { FiEye, FiPenTool, FiSearch, FiUser } from "react-icons/fi";
-import { LuUser, LuWallet, LuCalendar, LuCheck } from "react-icons/lu";
+import { LuCheck } from "react-icons/lu";
 
 export const FineSomeoneButton = () => {
     const users = [

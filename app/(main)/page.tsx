@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Heading, Card, VStack, Button } from "@chakra-ui/react";
+import { Box, Heading, Card, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { FineSomeoneButton } from "./components/FineSomeoneButton";
 

@@ -1,5 +1,5 @@
-import { VStack, HStack, Icon, Heading, IconButton } from "@chakra-ui/react";
-import { LuShieldHalf, LuShieldPlus } from "react-icons/lu";
+import { VStack, HStack, Icon, Heading } from "@chakra-ui/react";
+import { LuShieldHalf } from "react-icons/lu";
 import { BackButton } from "./BackButton";
 import { CreateGuildDrawer } from "./CreateGuildDrawer";
 

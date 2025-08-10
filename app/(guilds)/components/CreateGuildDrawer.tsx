@@ -1,6 +1,6 @@
 'use client';
 
-import { Drawer, Button, Portal, CloseButton, IconButton } from "@chakra-ui/react";
+import { Drawer, Portal, CloseButton, IconButton } from "@chakra-ui/react";
 import { LuShieldPlus } from "react-icons/lu";
 import { CreateGuildSteps } from "./CreateGuildSteps";
 

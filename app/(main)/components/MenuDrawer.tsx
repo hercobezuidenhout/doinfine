@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Blockquote, Button, CloseButton, Drawer, IconButton, Portal } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuMenu, LuMoon, LuShieldHalf, LuSun, LuUserRound } from "react-icons/lu";
+import { LuLogOut, LuMenu, LuMoon, LuSun } from "react-icons/lu";
 import { MenuSection } from "./MenuSection";
 
 export const MenuDrawer = () => {
@@ -29,7 +29,7 @@ export const MenuDrawer = () => {
 
     return (
         <>
-            <Drawer.Root open={open} onOpenChange={(e) => setOpen(e.open)} size="full">
+            <Drawer.Root open={open} onOpenChange={(e) => setOpen(e.open)} placement="start">
                 <Drawer.Trigger asChild>
                     <IconButton variant="ghost" aria-label="Menu">
                         <LuMenu />
@@ -52,29 +52,16 @@ export const MenuDrawer = () => {
                                     </Blockquote.Caption>
                                 </Blockquote.Root>
 
-                                <MenuSection title="settings" items={[
-                                    {
-                                        label: "Profile",
-                                        icon: <LuUserRound />,
-                                        onClick: () => router.push("/profile")
-                                    },
+                                <MenuSection title="theme" items={[
                                     {
                                         label: colorMode.colorMode === 'dark' ? "Switch to light mode" : "Switch to dark mode",
                                         icon: colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />,
                                         onClick: colorMode.toggleColorMode
                                     }
                                 ]} />
-
-                                <MenuSection title="guilds" items={[
-                                    {
-                                        label: "View guilds",
-                                        icon: <LuShieldHalf />,
-                                        onClick: () => router.push("/guilds")
-                                    }
-                                ]} />
                             </Drawer.Body>
                             <Drawer.Footer>
-                                <Button width="full" onClick={handleSignOut}>Sign Out</Button>
+                                <Button width="full" variant="outline" onClick={handleSignOut}><LuLogOut /> Sign Out</Button>
                             </Drawer.Footer>
                             <Drawer.CloseTrigger asChild>
                                 <CloseButton />

@@ -2,6 +2,7 @@
 
 import { Box, Heading, Card, VStack, Button } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { FineSomeoneButton } from "./components/FineSomeoneButton";
 
 interface Post {
     id: number;
@@ -38,9 +39,7 @@ export default function Home() {
                     </VStack>
                 </Box>
             )}
-            <Box position="fixed" bottom={0} left={0} right={0} p={4} bg={{ base: 'white', _dark: 'black' }} boxShadow="md">
-                <Button width="full">Fine someone</Button>
-            </Box>
+            <FineSomeoneButton />
         </Box>
     );
 }

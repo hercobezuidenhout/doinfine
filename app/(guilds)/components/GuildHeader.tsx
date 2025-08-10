@@ -17,7 +17,7 @@ export const GuildHeader = ({ title = DEFAULT_TITLE }: GuildHeaderProps) => (
                 <Icon size="lg"><LuShieldHalf /></Icon>
                 <Heading size="2xl">{title}</Heading>
             </HStack>
-            <CreateGuildDrawer />
+            {title === DEFAULT_TITLE && <CreateGuildDrawer />}
         </HStack>
     </VStack>
 );

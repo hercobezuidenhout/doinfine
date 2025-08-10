@@ -1,6 +1,8 @@
 import { getScopeMembers } from "@/prisma/queries/get-scope-members";
 
-export async function GET(request: Request, { params }: { params: { scopeId: string; }; }) {
+export async function GET(
+    request: Request,
+    { params }: { params: Promise<{ scopeId: string; }>; }) {
     const { scopeId } = await params;
 
     const scopeMembers = await getScopeMembers(Number(scopeId));

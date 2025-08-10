@@ -2,12 +2,13 @@
 
 import { useColorMode } from "@/components/ui/color-mode";
 import { createClient } from "@/utils/supabase/client";
-import { Blockquote, Button, CloseButton, Drawer, Heading, HStack, Icon, IconButton, Portal, Separator, Text, VStack } from "@chakra-ui/react";
+import { Blockquote, Button, CloseButton, Drawer, IconButton, Portal } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuArrowRight, LuMenu, LuMoon, LuSun } from "react-icons/lu";
+import { LuMenu, LuMoon, LuShieldHalf, LuSun, LuUserRound } from "react-icons/lu";
+import { MenuSection } from "./MenuSection";
 
-export const MenuButton = () => {
+export const MenuDrawer = () => {
     const [open, setOpen] = useState(false);
     const supabase = createClient();
     const router = useRouter();
@@ -43,7 +44,7 @@ export const MenuButton = () => {
                             </Drawer.Header>
                             <Drawer.Body>
                                 <Blockquote.Root>
-                                    <Blockquote.Content cite="Uzumaki Naruto">
+                                    <Blockquote.Content cite="Plato">
                                         You can discover more about a person in an hour of play than in a year of conversation.
                                     </Blockquote.Content>
                                     <Blockquote.Caption>
@@ -51,24 +52,26 @@ export const MenuButton = () => {
                                     </Blockquote.Caption>
                                 </Blockquote.Root>
 
-                                <VStack alignItems="stretch" mt={8}>
-                                    <Heading size="xs">ACCOUNT</Heading>
-                                    <VStack alignItems="stretch">
-                                        <HStack width="full" justifyContent="space-between" py={3}>
-                                            <Text fontSize="md">hercobez@icloud.com</Text>
-                                            <Icon size="md">
-                                                <LuArrowRight />
-                                            </Icon>
-                                        </HStack>
-                                        <Separator />
-                                        <HStack width="full" justifyContent="space-between" py={3} onClick={colorMode.toggleColorMode}>
-                                            <Text fontSize="md">Theme</Text>
-                                            <Icon size="md">
-                                                {colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />}
-                                            </Icon>
-                                        </HStack>
-                                    </VStack>
-                                </VStack>
+                                <MenuSection title="settings" items={[
+                                    {
+                                        label: "Profile",
+                                        icon: <LuUserRound />,
+                                        onClick: () => router.push("/profile")
+                                    },
+                                    {
+                                        label: colorMode.colorMode === 'dark' ? "Switch to light mode" : "Switch to dark mode",
+                                        icon: colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />,
+                                        onClick: colorMode.toggleColorMode
+                                    }
+                                ]} />
+
+                                <MenuSection title="guilds" items={[
+                                    {
+                                        label: "View guilds",
+                                        icon: <LuShieldHalf />,
+                                        onClick: () => router.push("/guilds")
+                                    }
+                                ]} />
                             </Drawer.Body>
                             <Drawer.Footer>
                                 <Button width="full" onClick={handleSignOut}>Sign Out</Button>

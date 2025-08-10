@@ -24,7 +24,7 @@ export const SelectUserStep = ({ onStepChange, scopeId, onUserSelect }: SelectUs
     return (
         <>
             <InputGroup startElement={<LuSearch />} mt={4}>
-                <Input placeholder="Search friends" value={filter} onChange={(event) => setFilter(event.target.value)} />
+                <Input placeholder="Search friends" variant="subtle" value={filter} onChange={(event) => setFilter(event.target.value)} />
             </InputGroup>
             <Stack gap="8" my={8}>
                 {users?.filter((user: User) =>

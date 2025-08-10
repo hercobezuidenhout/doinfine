@@ -2,7 +2,7 @@
 
 import { Box, Heading, Card, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { FineSomeoneButton } from "./components/FineSomeoneButton";
+import { NewPostButton } from "./components/NewPostButton";
 
 interface Post {
     id: number;
@@ -29,9 +29,9 @@ export default function Home() {
                         {data.map((post: Post) => (
                             <Card.Root size="md" key={post.id}>
                                 <Card.Header>
-                                    <Heading size="md">{post.finee} - {post.group}</Heading>
+                                    <Heading size="xs" color="fg.muted">{post.finee} - {post.group}</Heading>
                                 </Card.Header>
-                                <Card.Body color="fg.muted">
+                                <Card.Body>
                                     {post.description}
                                 </Card.Body>
                             </Card.Root>
@@ -39,7 +39,7 @@ export default function Home() {
                     </VStack>
                 </Box>
             )}
-            <FineSomeoneButton />
+            <NewPostButton />
         </Box>
     );
 }

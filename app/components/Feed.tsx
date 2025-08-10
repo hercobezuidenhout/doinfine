@@ -22,7 +22,7 @@ export const Feed = ({ scopeId }: FeedProps) => {
     return (
         <Box minH="100vh" display="flex" mt={scopeId ? 0 : 10} flexDirection="column" alignItems="center" justifyContent="center">
             {data?.length > 0 && (
-                <Box mt={scopeId ? 0 : 8} width="full" p={4}>
+                <Box mt={scopeId ? 0 : 8} width="full" p={scopeId ? 0 : 4}>
                     <VStack alignItems="stretch" gap={8}>
                         {data.map((post: Post) => (
                             <Card.Root size="md" key={post.id}>

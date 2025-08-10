@@ -4,7 +4,7 @@ const ENDPOINT = "/api/v1/feed";
 const KEY = ["feed"];
 
 export const useFeedQuery = (scopeId?: number) => useQuery({
-    queryKey: KEY,
+    queryKey: scopeId ? ["feed", scopeId] : ["feed"],
     queryFn: async () => {
         return fetch(scopeId ? `${ENDPOINT}?scopeId=${scopeId}` : ENDPOINT).then((res: Response) => res.json());
     },

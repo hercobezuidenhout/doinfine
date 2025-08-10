@@ -1,9 +1,9 @@
 import { getUserFeed } from "@/prisma/queries/get-user-feed";
 import { getUser } from "@/utils/supabase/server";
 
-export async function GET(request: Request, { params }: { params: Promise<{ scopeId?: string; }>; }) {
-    const param = await params;
-
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const scopeId = searchParams.get('scopeId');
     const user = await getUser();
 
     if (!user) {
@@ -15,7 +15,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ scop
         });
     }
 
-    const posts = await getUserFeed(user.id, param && param.scopeId ? Number(param.scopeId) : undefined);
+    const posts = await getUserFeed(user.id, scopeId ? Number(scopeId) : undefined);
 
     return new Response(JSON.stringify(posts), {
         headers: {

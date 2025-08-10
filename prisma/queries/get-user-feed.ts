@@ -1,7 +1,7 @@
 import prisma from '../index';
 
-export const getUserFeed = async (userId: string) => {
-    var userScopeRoles = await prisma.scopeRole.findMany({
+export const getUserFeed = async (userId: string, scopeId?: number) => {
+    var userScopeRoles = scopeId ? [] : await prisma.scopeRole.findMany({
         where: { userId },
         select: { scopeId: true }
     });
@@ -9,7 +9,7 @@ export const getUserFeed = async (userId: string) => {
     const posts = await prisma.post.findMany({
         where: {
             scopeId: {
-                in: userScopeRoles.map(role => role.scopeId)
+                in: scopeId ? [scopeId] : userScopeRoles.map(role => role.scopeId)
             }
         },
         include: {

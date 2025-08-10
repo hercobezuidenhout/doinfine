@@ -3,12 +3,14 @@
 import { useCurrentUserScopesQuery } from "@/queries/useCurrentUserScopesQuery";
 import { HStack, Input, InputGroup, Separator, Stack, Text } from "@chakra-ui/react";
 import { Scope } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { LuSearch } from "react-icons/lu";
 
 export const GuildsList = () => {
     const [filter, setFilter] = React.useState("");
     const { data: guilds } = useCurrentUserScopesQuery();
+    const router = useRouter();
 
     return (
         <>
@@ -22,7 +24,7 @@ export const GuildsList = () => {
                 guild.description?.toLowerCase().includes(filter.toLowerCase())
             ).map((group: Scope, index: number) => (
                 <React.Fragment key={group.id}>
-                    <HStack gap="6" cursor="pointer">
+                    <HStack gap="6" cursor="pointer" onClick={() => router.push(`/guilds/${group.id}`)}>
                         <Stack gap="2">
                             <Text fontWeight="bold">{group.name}</Text>
                             <Text color="fg.muted" textStyle="sm">

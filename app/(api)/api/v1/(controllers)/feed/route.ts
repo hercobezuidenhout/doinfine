@@ -1,21 +1,21 @@
 import { getUserFeed } from "@/prisma/queries/get-user-feed";
-import { createClient } from "@/utils/supabase/server";
+import { getUser } from "@/utils/supabase/server";
 
-export async function GET() {
-    const supabase = await createClient();
+export async function GET(request: Request, { params }: { params: Promise<{ scopeId?: string; }>; }) {
+    const param = await params;
 
-    const { data } = await supabase.auth.getUser();
+    const user = await getUser();
 
-    if (!data.user) {
-        return new Response(JSON.stringify({ error: "User not authenticated" }), {
+    if (!user) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+            status: 401,
             headers: {
                 "Content-Type": "application/json",
             },
-            status: 401,
         });
     }
 
-    const posts = await getUserFeed(data.user?.id);
+    const posts = await getUserFeed(user.id, param && param.scopeId ? Number(param.scopeId) : undefined);
 
     return new Response(JSON.stringify(posts), {
         headers: {

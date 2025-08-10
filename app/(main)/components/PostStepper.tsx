@@ -2,7 +2,7 @@
 
 import { Button, Stack, Steps, Text } from "@chakra-ui/react";
 import { FiEye, FiUser, FiPenTool } from "react-icons/fi";
-import { LuCheck } from "react-icons/lu";
+import { LuCheck, LuGavel, LuShieldHalf, LuUser } from "react-icons/lu";
 import { SelectGroupStep } from "./SelectGroupStep";
 import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
@@ -21,15 +21,15 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
 
     const steps = [
         {
-            icon: <FiEye />,
+            icon: <LuShieldHalf />,
             component: <SelectGroupStep {...rest} onGroupSelect={setSelectedGroup} />
         },
         {
-            icon: <FiUser />,
+            icon: <LuUser />,
             component: selectedGroup && <SelectUserStep {...rest} scopeId={selectedGroup?.id} onUserSelect={setSelectedUser} />,
         },
         {
-            icon: <FiPenTool />,
+            icon: <LuGavel />,
             component: <SetDescriptionStep {...rest} user={selectedUser} description={description} onDescriptionChange={setDescription} />,
         },
     ];

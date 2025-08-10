@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import { PostStepProps } from "./PostStep";
 import { useCurrentUserScopesQuery } from "@/queries/useCurrentUserScopesQuery";
 import { Scope } from "@prisma/client";
+import { LuSearch } from "react-icons/lu";
 
 interface SelectGroupStepProps extends PostStepProps {
     onGroupSelect?: (group: Scope) => void;
@@ -22,8 +23,8 @@ export const SelectGroupStep = ({ onStepChange, onGroupSelect }: SelectGroupStep
 
     return (
         <>
-            <InputGroup startElement={<FiSearch />} mt={4}>
-                <Input placeholder="Group" value={filter} onChange={(event) => setFilter(event.target.value)} />
+            <InputGroup startElement={<LuSearch />} mt={4}>
+                <Input placeholder="Search guilds" value={filter} onChange={(event) => setFilter(event.target.value)} />
             </InputGroup>
             <Stack gap="8" my={8}>
                 {groups?.filter((group: Scope) =>

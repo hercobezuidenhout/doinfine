@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import { PostStepProps } from "./PostStep";
 import { useScopeMembersQuery } from "@/queries/useScopeMembersQuery";
 import { User } from "@prisma/client";
+import { LuSearch } from "react-icons/lu";
 
 interface SelectUserStepProps extends PostStepProps {
     scopeId: number;
@@ -23,8 +24,8 @@ export const SelectUserStep = ({ onStepChange, scopeId, onUserSelect }: SelectUs
 
     return (
         <>
-            <InputGroup startElement={<FiSearch />} mt={4}>
-                <Input placeholder="Friend" value={filter} onChange={(event) => setFilter(event.target.value)} />
+            <InputGroup startElement={<LuSearch />} mt={4}>
+                <Input placeholder="Search friends" value={filter} onChange={(event) => setFilter(event.target.value)} />
             </InputGroup>
             <Stack gap="8" my={8}>
                 {users?.filter((user: User) =>

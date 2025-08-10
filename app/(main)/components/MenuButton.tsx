@@ -6,6 +6,7 @@ import { Blockquote, Button, CloseButton, Drawer, Heading, HStack, Icon, IconBut
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiArrowRight, FiMenu, FiMoon, FiSun } from "react-icons/fi";
+import { LuArrowRight, LuMenu, LuMoon, LuSun } from "react-icons/lu";
 
 export const MenuButton = () => {
     const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ export const MenuButton = () => {
             <Drawer.Root open={open} onOpenChange={(e) => setOpen(e.open)} size="full">
                 <Drawer.Trigger asChild>
                     <IconButton variant="ghost" aria-label="Menu">
-                        <FiMenu />
+                        <LuMenu />
                     </IconButton>
                 </Drawer.Trigger>
                 <Portal>
@@ -57,14 +58,14 @@ export const MenuButton = () => {
                                         <HStack width="full" justifyContent="space-between" py={3}>
                                             <Text fontSize="md">hercobez@icloud.com</Text>
                                             <Icon size="md">
-                                                <FiArrowRight />
+                                                <LuArrowRight />
                                             </Icon>
                                         </HStack>
                                         <Separator />
                                         <HStack width="full" justifyContent="space-between" py={3} onClick={colorMode.toggleColorMode}>
                                             <Text fontSize="md">Theme</Text>
                                             <Icon size="md">
-                                                {colorMode.colorMode === 'dark' ? <FiSun /> : <FiMoon />}
+                                                {colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />}
                                             </Icon>
                                         </HStack>
                                     </VStack>

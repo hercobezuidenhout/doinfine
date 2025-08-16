@@ -5,12 +5,13 @@ import { LuArrowLeft, LuCheck, LuDot } from "react-icons/lu";
 import { GuildNameStep } from "./GuildNameStep";
 import { GuildDescriptionStep } from "./GuildDescriptionStep";
 import { ReviewGuildStep } from "./ReviewGuildStep";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GuildRulesStep } from "./GuildRulesStep";
 
 export const CreateGuildSteps = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [rules, setRules] = useState<string[]>([]);
 
     const steps = [
         {
@@ -23,9 +24,13 @@ export const CreateGuildSteps = () => {
         },
         {
             icon: <LuDot />,
-            description: <GuildRulesStep />,
+            description: <GuildRulesStep rules={rules} onAdd={(newRule) => setRules([...rules, newRule])} onRemove={(oldRule) => setRules(rules.filter(rule => rule !== oldRule))} />,
         },
     ];
+
+    useEffect(() => {
+        console.log(rules);
+    }, [rules]);
 
     return (
         <Steps.Root defaultStep={0} count={steps.length} size="xs">

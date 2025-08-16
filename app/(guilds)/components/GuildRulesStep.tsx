@@ -1,9 +1,17 @@
 'use client';
 
-import { Blockquote, Button, CloseButton, Drawer, EmptyState, Field, Heading, HStack, IconButton, Input, Portal, Stack, VStack } from "@chakra-ui/react";
+import { Blockquote, Button, Card, CloseButton, Drawer, EmptyState, Field, Heading, HStack, IconButton, Input, Portal, Stack, VStack } from "@chakra-ui/react";
 import { LuBadge, LuBadgePlus } from "react-icons/lu";
+import { ScopeRulesEmptyState } from "./ScopeRulesEmptyState";
+import { ScopeRulesDrawer } from "./ScopeRulesDrawer";
 
-export const GuildRulesStep = () => (
+interface GuildRulesStepProps {
+    rules: string[];
+    onAdd: (rule: string) => void;
+    onRemove: (rule: string) => void;
+}
+
+export const GuildRulesStep = ({ rules, onAdd, onRemove }: GuildRulesStepProps) => (
     <Stack gap={4}>
         <Blockquote.Root>
             <Blockquote.Content>
@@ -13,56 +21,20 @@ export const GuildRulesStep = () => (
         <HStack justifyContent="space-between">
             <Heading>Guild Rules</Heading>
 
-            <Drawer.Root placement="bottom">
-                <Drawer.Trigger asChild>
-                    <IconButton size="sm">
-                        <LuBadgePlus />
-                    </IconButton>
-                </Drawer.Trigger>
-                <Portal>
-                    <Drawer.Backdrop />
-                    <Drawer.Positioner>
-                        <Drawer.Content>
-                            <Drawer.Header>
-                                <Drawer.Title>New Rule</Drawer.Title>
-                            </Drawer.Header>
-                            <Drawer.Body>
-                                <Stack>
-                                    <Field.Root required>
-                                        <Field.Label>
-                                            Rule <Field.RequiredIndicator />
-                                        </Field.Label>
-                                        <Input placeholder="Rule" />
-                                        <Field.HelperText>e.g. Don&apos;t drop your beer</Field.HelperText>
-                                    </Field.Root>
-                                </Stack>
-                            </Drawer.Body>
-                            <Drawer.Footer>
-                                <Button variant="outline">Cancel</Button>
-                                <Button>Save</Button>
-                            </Drawer.Footer>
-                            <Drawer.CloseTrigger asChild>
-                                <CloseButton size="sm" />
-                            </Drawer.CloseTrigger>
-                        </Drawer.Content>
-                    </Drawer.Positioner>
-                </Portal>
-            </Drawer.Root>
+            <ScopeRulesDrawer onAddRule={onAdd} />
         </HStack>
         <VStack>
-            <EmptyState.Root>
-                <EmptyState.Content>
-                    <EmptyState.Indicator>
-                        <LuBadge />
-                    </EmptyState.Indicator>
-                    <VStack textAlign="center">
-                        <EmptyState.Title>No rules yet</EmptyState.Title>
-                        <EmptyState.Description>
-                            Add your guild&apos;s first rule
-                        </EmptyState.Description>
-                    </VStack>
-                </EmptyState.Content>
-            </EmptyState.Root>
+            {rules.map((rule, index) => (
+                <Card.Root key={index} width="full">
+                    <Card.Body>
+                        <HStack justifyContent="space-between">
+                            <Card.Title>{rule}</Card.Title>
+                            <CloseButton onClick={() => onRemove(rule)} size="sm" />
+                        </HStack>
+                    </Card.Body>
+                </Card.Root>
+            ))}
+            {rules.length <= 0 && <ScopeRulesEmptyState />}
         </VStack>
     </Stack>
 );

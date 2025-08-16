@@ -1,7 +1,6 @@
 'use client';
 
-import { Blockquote, Button, Card, CloseButton, Drawer, EmptyState, Field, Heading, HStack, IconButton, Input, Portal, Stack, VStack } from "@chakra-ui/react";
-import { LuBadge, LuBadgePlus } from "react-icons/lu";
+import { Blockquote, Card, CloseButton, Heading, HStack, Stack, VStack } from "@chakra-ui/react";
 import { ScopeRulesEmptyState } from "./ScopeRulesEmptyState";
 import { ScopeRulesDrawer } from "./ScopeRulesDrawer";
 

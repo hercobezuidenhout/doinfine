@@ -8,7 +8,7 @@ export const CreateScopeDrawer = () => {
     return (
         <Drawer.Root placement="bottom" size="full">
             <Drawer.Trigger asChild>
-                <IconButton aria-label="Create guild">
+                <IconButton aria-label="Create group">
                     <LuShieldPlus />
                 </IconButton>
             </Drawer.Trigger>
@@ -17,7 +17,7 @@ export const CreateScopeDrawer = () => {
                 <Drawer.Positioner>
                     <Drawer.Content>
                         <Drawer.Header>
-                            <Drawer.Title>Create new guild</Drawer.Title>
+                            <Drawer.Title>Create new group</Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
                             <CreateScopeSteps />

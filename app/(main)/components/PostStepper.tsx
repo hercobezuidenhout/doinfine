@@ -2,7 +2,7 @@
 
 import { Button, Stack, Steps, Text } from "@chakra-ui/react";
 import { LuCheck, LuGavel, LuShieldHalf, LuUser } from "react-icons/lu";
-import { SelectGuildStep } from "./SelectGuildStep";
+import { SelectScopeStep } from "./SelectScopeStep";
 import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
     const steps = [
         {
             icon: <LuShieldHalf />,
-            component: <SelectGuildStep {...rest} onGroupSelect={setSelectedGroup} />
+            component: <SelectScopeStep {...rest} onGroupSelect={setSelectedGroup} />
         },
         {
             icon: <LuUser />,

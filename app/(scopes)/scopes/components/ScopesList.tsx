@@ -24,7 +24,7 @@ export const ScopesList = () => {
                 scope.description?.toLowerCase().includes(filter.toLowerCase())
             ).map((scope: Scope, index: number) => (
                 <React.Fragment key={scope.id}>
-                    <HStack gap="6" cursor="pointer" onClick={() => router.push(`/guilds/${scope.id}`)}>
+                    <HStack gap="6" cursor="pointer" onClick={() => router.push(`/scopes/${scope.id}`)}>
                         <Stack gap="2">
                             <Text fontWeight="bold">{scope.name}</Text>
                             <Text color="fg.muted" textStyle="sm">

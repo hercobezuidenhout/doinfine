@@ -7,11 +7,11 @@ import { useCurrentUserScopesQuery } from "@/queries/useCurrentUserScopesQuery";
 import { Scope } from "@prisma/client";
 import { LuSearch } from "react-icons/lu";
 
-interface SelectGuildStepProps extends PostStepProps {
+interface SelectScopeStepProps extends PostStepProps {
     onGroupSelect?: (group: Scope) => void;
 }
 
-export const SelectGuildStep = ({ onStepChange, onGroupSelect }: SelectGuildStepProps) => {
+export const SelectScopeStep = ({ onStepChange, onGroupSelect }: SelectScopeStepProps) => {
     const [filter, setFilter] = useState("");
     const { data: groups } = useCurrentUserScopesQuery();
 
@@ -23,7 +23,7 @@ export const SelectGuildStep = ({ onStepChange, onGroupSelect }: SelectGuildStep
     return (
         <>
             <InputGroup startElement={<LuSearch />} mt={4}>
-                <Input placeholder="Search guilds" variant="subtle" value={filter} onChange={(event) => setFilter(event.target.value)} />
+                <Input placeholder="Search groups" variant="subtle" value={filter} onChange={(event) => setFilter(event.target.value)} />
             </InputGroup>
             <Stack gap="8" my={8}>
                 {groups?.filter((group: Scope) =>

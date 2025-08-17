@@ -4,17 +4,17 @@ import { Feed } from "@/app/components/Feed";
 import { getScopeDetails } from "@/prisma/queries/get-scope-details";
 import { ScopeMembers } from "./components/ScopeMembers";
 
-export default async function Page({ params }: { params: Promise<{ guildId: number; }>; }) {
-    const { guildId } = await params;
-    const guild = await getScopeDetails(Number(guildId));
+export default async function Page({ params }: { params: Promise<{ scopeId: number; }>; }) {
+    const { scopeId } = await params;
+    const scope = await getScopeDetails(Number(scopeId));
 
     return (
         <>
-            <ScopeHeader title={guild.name} />
+            <ScopeHeader title={scope.name} />
             <Card.Root variant="subtle">
                 <Card.Body>
                     <Text>
-                        {guild.description}
+                        {scope.description}
                     </Text>
                 </Card.Body>
             </Card.Root>
@@ -29,10 +29,10 @@ export default async function Page({ params }: { params: Promise<{ guildId: numb
                     </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="posts">
-                    <Feed scopeId={guildId} />
+                    <Feed scopeId={scopeId} />
                 </Tabs.Content>
                 <Tabs.Content value="members">
-                    <ScopeMembers scopeId={guildId} />
+                    <ScopeMembers scopeId={scopeId} />
                 </Tabs.Content>
             </Tabs.Root>
         </>

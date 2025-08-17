@@ -1,7 +1,7 @@
 import { ScopesList } from "./components/ScopesList";
 import { ScopeHeader } from "../components/ScopeHeader";
 
-export default async function GuildsPage() {
+export default async function Page() {
     return (
         <>
             <ScopeHeader />

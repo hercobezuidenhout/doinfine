@@ -11,7 +11,7 @@ export const ScopeDescriptionStep = ({ description, onDescriptionChange }: Scope
     <Stack gap={4}>
         <Heading>Group description</Heading>
         <Field.Root required>
-            <Input placeholder="Choose your guild's creed" value={description} onChange={(event) => onDescriptionChange(event.target.value)} />
+            <Input placeholder="What is your group about?" value={description} onChange={(event) => onDescriptionChange(event.target.value)} />
             <Field.HelperText>e.g. We protect the kittens of earth.</Field.HelperText>
         </Field.Root>
 

@@ -12,7 +12,7 @@ export const ScopeRulesEmptyState = () => (
             <VStack textAlign="center">
                 <EmptyState.Title>No rules yet</EmptyState.Title>
                 <EmptyState.Description>
-                    Add your guild&apos;s first rule
+                    Add your group&apos;s first rule
                 </EmptyState.Description>
             </VStack>
         </EmptyState.Content>

@@ -8,9 +8,10 @@ interface ReviewScopeStepProps {
     description: string;
     rules: string[];
     onCreate: () => void;
+    isLoading?: boolean;
 }
 
-export const ReviewScopeStep = ({ name, description, rules, onCreate }: ReviewScopeStepProps) => (
+export const ReviewScopeStep = ({ name, description, rules, onCreate, isLoading }: ReviewScopeStepProps) => (
     <Stack gap={4} mt={4}>
         <Card.Root size="sm" variant="subtle">
             <Card.Header>
@@ -44,7 +45,7 @@ export const ReviewScopeStep = ({ name, description, rules, onCreate }: ReviewSc
                 </VStack>
             </Card.Body>
         </Card.Root>
-        <Button onClick={onCreate}>Create Group</Button>
+        <Button onClick={onCreate} disabled={isLoading} loading={isLoading}>Create Group</Button>
         <Steps.PrevTrigger asChild>
             <Button variant="outline">Back</Button>
         </Steps.PrevTrigger>

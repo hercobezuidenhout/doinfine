@@ -7,11 +7,13 @@ import { ScopeDescriptionStep } from "./ScopeDescriptionStep";
 import { ReviewScopeStep } from "./ReviewScopeStep";
 import { useState } from "react";
 import { ScopeRulesStep } from "./ScopeRulesStep";
+import { useCreateScopeMutation } from "@/mutations/useCreateScopeMutation";
 
 export const CreateScopeSteps = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [rules, setRules] = useState<string[]>([]);
+    const { mutateAsync, isPending, data } = useCreateScopeMutation();
 
     const steps = [
         {
@@ -28,11 +30,14 @@ export const CreateScopeSteps = () => {
         },
     ];
 
-    const handleCreate = () => {
-        console.log("Guild created with the following details:");
-        console.log("Name:", name);
-        console.log("Description:", description);
-        console.log("Rules:", rules);
+    const handleCreate = async () => {
+        await mutateAsync({
+            name,
+            description,
+            values: rules,
+        });
+
+        console.log(data);
     };
 
     return (
@@ -55,7 +60,7 @@ export const CreateScopeSteps = () => {
             ))}
 
             <Steps.CompletedContent>
-                <ReviewScopeStep name={name} description={description} rules={rules} onCreate={handleCreate} />
+                <ReviewScopeStep name={name} description={description} rules={rules} onCreate={handleCreate} isLoading={isPending} />
             </Steps.CompletedContent>
         </Steps.Root >
     );

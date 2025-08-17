@@ -1,7 +1,9 @@
 'use client';
 
+import { useUpdateScopeMutation } from "@/mutations/useUpdateScopeMutation";
 import { Button, Field, Input, Stack, Textarea } from "@chakra-ui/react";
 import { Scope } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface EditScopeFormProps {
@@ -9,8 +11,19 @@ interface EditScopeFormProps {
 }
 
 export const EditScopeForm = ({ scope }: EditScopeFormProps) => {
+    const router = useRouter();
+    const { mutateAsync, isPending } = useUpdateScopeMutation(scope.id);
     const [name, setName] = useState(scope.name || '');
     const [description, setDescription] = useState(scope.description || '');
+
+    const handleUpdate = async () => {
+        await mutateAsync({
+            name,
+            description
+        });
+
+        router.push(`/scopes/${scope.id}`);
+    };
 
     return (
         <Stack gap={4}>
@@ -28,7 +41,7 @@ export const EditScopeForm = ({ scope }: EditScopeFormProps) => {
             </Field.Root>
 
             <Stack>
-                <Button>Save</Button>
+                <Button loading={isPending} disabled={isPending} onClick={handleUpdate}>Save</Button>
             </Stack>
         </Stack>
     );

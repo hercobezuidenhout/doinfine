@@ -10,14 +10,16 @@ export default async function Page({ params }: { params: Promise<{ scopeId: numb
 
     return (
         <>
-            <ScopeHeader title={scope.name} />
-            <Card.Root variant="subtle">
-                <Card.Body>
-                    <Text>
-                        {scope.description}
-                    </Text>
-                </Card.Body>
-            </Card.Root>
+            <ScopeHeader title={scope.name} scopeId={scopeId} />
+            {scope.description && (
+                <Card.Root variant="subtle">
+                    <Card.Body>
+                        <Text>
+                            {scope.description}
+                        </Text>
+                    </Card.Body>
+                </Card.Root>
+            )}
 
             <Tabs.Root defaultValue="posts" position="sticky" top={0}>
                 <Tabs.List position="sticky" top={0} zIndex={1} bg={{ base: 'white', _dark: 'black' }} pt={2}>

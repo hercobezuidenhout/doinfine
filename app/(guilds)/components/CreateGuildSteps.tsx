@@ -1,11 +1,11 @@
 'use client';
 
-import { Steps, ButtonGroup, Button } from "@chakra-ui/react";
-import { LuArrowLeft, LuCheck, LuDot } from "react-icons/lu";
+import { Steps } from "@chakra-ui/react";
+import { LuCheck, LuDot } from "react-icons/lu";
 import { GuildNameStep } from "./GuildNameStep";
 import { GuildDescriptionStep } from "./GuildDescriptionStep";
 import { ReviewGuildStep } from "./ReviewGuildStep";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GuildRulesStep } from "./GuildRulesStep";
 
 export const CreateGuildSteps = () => {

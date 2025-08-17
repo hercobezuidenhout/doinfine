@@ -1,6 +1,6 @@
 'use client';
 
-import { Stack, Blockquote, Field, Input, Button, Steps, Heading } from "@chakra-ui/react";
+import { Stack, Field, Input, Button, Steps, Heading } from "@chakra-ui/react";
 
 interface GuildNameStepProps {
     name: string;

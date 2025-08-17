@@ -1,6 +1,6 @@
 'use client';
 
-import { Blockquote, Button, Card, CloseButton, Heading, HStack, Stack, Steps, VStack } from "@chakra-ui/react";
+import { Button, Card, CloseButton, Heading, HStack, Stack, Steps, VStack } from "@chakra-ui/react";
 import { ScopeRulesEmptyState } from "./ScopeRulesEmptyState";
 import { ScopeRulesDrawer } from "./ScopeRulesDrawer";
 

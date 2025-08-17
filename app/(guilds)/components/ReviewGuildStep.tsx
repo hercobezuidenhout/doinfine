@@ -1,7 +1,7 @@
 'use client';
 
-import { Stack, Blockquote, Card, Heading, List, Button, Steps, VStack } from "@chakra-ui/react";
-import { LuBadge, LuBadgeAlert, LuBadgeCheck } from "react-icons/lu";
+import { Stack, Card, Heading, List, Button, Steps, VStack } from "@chakra-ui/react";
+import { LuBadgeCheck } from "react-icons/lu";
 
 interface ReviewGuildStepProps {
     name: string;

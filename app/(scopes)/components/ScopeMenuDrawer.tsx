@@ -52,7 +52,7 @@ export const ScopeMenuDrawer = ({ scopeId }: ScopeMenuDrawerProps) => {
                     <Drawer.Body>
                         <Stack>
                             {deleteText !== CONFIRM_DELETE_TEXT && (
-                                <Button disabled={isPending} variant="surface">
+                                <Button onClick={() => router.push(`/scopes/${scopeId}/edit`)} disabled={isPending} variant="surface">
                                     Edit
                                 </Button>
                             )}

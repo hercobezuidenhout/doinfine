@@ -4,16 +4,16 @@ import { Button, Card, CloseButton, Heading, HStack, Stack, Steps, VStack } from
 import { ScopeRulesEmptyState } from "./ScopeRulesEmptyState";
 import { ScopeRulesDrawer } from "./ScopeRulesDrawer";
 
-interface GuildRulesStepProps {
+interface ScopeRulesStepProps {
     rules: string[];
     onAdd: (rule: string) => void;
     onRemove: (rule: string) => void;
 }
 
-export const GuildRulesStep = ({ rules, onAdd, onRemove }: GuildRulesStepProps) => (
+export const ScopeRulesStep = ({ rules, onAdd, onRemove }: ScopeRulesStepProps) => (
     <Stack gap={4}>
         <HStack justifyContent="space-between">
-            <Heading>Guild Rules</Heading>
+            <Heading>Group Rules</Heading>
 
             {rules.length < 4 && <ScopeRulesDrawer onAddRule={onAdd} />}
         </HStack>

@@ -1,16 +1,16 @@
 import { Card, Tabs, Text } from "@chakra-ui/react";
-import { GuildHeader } from "../../components/GuildHeader";
+import { ScopeHeader } from "../../components/ScopeHeader";
 import { Feed } from "@/app/components/Feed";
 import { getScopeDetails } from "@/prisma/queries/get-scope-details";
-import { GuildMembers } from "./components/GuildMembers";
+import { ScopeMembers } from "./components/ScopeMembers";
 
-export default async function GuildPage({ params }: { params: Promise<{ guildId: number; }>; }) {
+export default async function Page({ params }: { params: Promise<{ guildId: number; }>; }) {
     const { guildId } = await params;
     const guild = await getScopeDetails(Number(guildId));
 
     return (
         <>
-            <GuildHeader title={guild.name} />
+            <ScopeHeader title={guild.name} />
             <Card.Root variant="subtle">
                 <Card.Body>
                     <Text>
@@ -32,7 +32,7 @@ export default async function GuildPage({ params }: { params: Promise<{ guildId:
                     <Feed scopeId={guildId} />
                 </Tabs.Content>
                 <Tabs.Content value="members">
-                    <GuildMembers scopeId={guildId} />
+                    <ScopeMembers scopeId={guildId} />
                 </Tabs.Content>
             </Tabs.Root>
         </>

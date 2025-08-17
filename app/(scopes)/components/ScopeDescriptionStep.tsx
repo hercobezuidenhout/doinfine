@@ -2,12 +2,12 @@
 
 import { Stack, Field, Input, Steps, Button, Heading } from "@chakra-ui/react";
 
-interface GuildDescriptionStepProps {
+interface ScopeDescriptionStepProps {
     description: string;
     onDescriptionChange: (description: string) => void;
 }
 
-export const GuildDescriptionStep = ({ description, onDescriptionChange }: GuildDescriptionStepProps) => (
+export const ScopeDescriptionStep = ({ description, onDescriptionChange }: ScopeDescriptionStepProps) => (
     <Stack gap={4}>
         <Heading>Group description</Heading>
         <Field.Root required>

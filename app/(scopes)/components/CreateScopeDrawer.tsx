@@ -2,9 +2,9 @@
 
 import { Drawer, Portal, CloseButton, IconButton } from "@chakra-ui/react";
 import { LuShieldPlus } from "react-icons/lu";
-import { CreateGuildSteps } from "./CreateGuildSteps";
+import { CreateScopeSteps } from "./CreateScopeSteps";
 
-export const CreateGuildDrawer = () => {
+export const CreateScopeDrawer = () => {
     return (
         <Drawer.Root placement="bottom" size="full">
             <Drawer.Trigger asChild>
@@ -20,7 +20,7 @@ export const CreateGuildDrawer = () => {
                             <Drawer.Title>Create new guild</Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
-                            <CreateGuildSteps />
+                            <CreateScopeSteps />
                         </Drawer.Body>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />

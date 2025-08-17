@@ -2,13 +2,13 @@
 
 import { Steps } from "@chakra-ui/react";
 import { LuCheck, LuDot } from "react-icons/lu";
-import { GuildNameStep } from "./GuildNameStep";
-import { GuildDescriptionStep } from "./GuildDescriptionStep";
-import { ReviewGuildStep } from "./ReviewGuildStep";
+import { ScopeNameStep } from "./ScopeNameStep";
+import { ScopeDescriptionStep } from "./ScopeDescriptionStep";
+import { ReviewScopeStep } from "./ReviewScopeStep";
 import { useState } from "react";
-import { GuildRulesStep } from "./GuildRulesStep";
+import { ScopeRulesStep } from "./ScopeRulesStep";
 
-export const CreateGuildSteps = () => {
+export const CreateScopeSteps = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [rules, setRules] = useState<string[]>([]);
@@ -16,15 +16,15 @@ export const CreateGuildSteps = () => {
     const steps = [
         {
             icon: <LuDot />,
-            description: <GuildNameStep name={name} onNameChange={setName} />
+            description: <ScopeNameStep name={name} onNameChange={setName} />
         },
         {
             icon: <LuDot />,
-            description: <GuildDescriptionStep description={description} onDescriptionChange={setDescription} />
+            description: <ScopeDescriptionStep description={description} onDescriptionChange={setDescription} />
         },
         {
             icon: <LuDot />,
-            description: <GuildRulesStep rules={rules} onAdd={(newRule) => setRules([...rules, newRule])} onRemove={(oldRule) => setRules(rules.filter(rule => rule !== oldRule))} />,
+            description: <ScopeRulesStep rules={rules} onAdd={(newRule) => setRules([...rules, newRule])} onRemove={(oldRule) => setRules(rules.filter(rule => rule !== oldRule))} />,
         },
     ];
 
@@ -55,7 +55,7 @@ export const CreateGuildSteps = () => {
             ))}
 
             <Steps.CompletedContent>
-                <ReviewGuildStep name={name} description={description} rules={rules} onCreate={handleCreate} />
+                <ReviewScopeStep name={name} description={description} rules={rules} onCreate={handleCreate} />
             </Steps.CompletedContent>
         </Steps.Root >
     );

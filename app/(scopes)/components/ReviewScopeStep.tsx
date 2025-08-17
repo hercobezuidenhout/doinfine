@@ -3,14 +3,14 @@
 import { Stack, Card, Heading, List, Button, Steps, VStack } from "@chakra-ui/react";
 import { LuBadgeCheck } from "react-icons/lu";
 
-interface ReviewGuildStepProps {
+interface ReviewScopeStepProps {
     name: string;
     description: string;
     rules: string[];
     onCreate: () => void;
 }
 
-export const ReviewGuildStep = ({ name, description, rules, onCreate }: ReviewGuildStepProps) => (
+export const ReviewScopeStep = ({ name, description, rules, onCreate }: ReviewScopeStepProps) => (
     <Stack gap={4} mt={4}>
         <Card.Root size="sm" variant="subtle">
             <Card.Header>

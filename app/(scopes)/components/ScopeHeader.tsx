@@ -1,15 +1,15 @@
 import { VStack, HStack, Icon, Heading } from "@chakra-ui/react";
 import { LuShieldHalf } from "react-icons/lu";
 import { BackButton } from "./BackButton";
-import { CreateGuildDrawer } from "./CreateGuildDrawer";
+import { CreateScopeDrawer } from "./CreateScopeDrawer";
 
-interface GuildHeaderProps {
+interface ScopeHeaderProps {
     title?: string;
 }
 
-const DEFAULT_TITLE = 'Guilds';
+const DEFAULT_TITLE = 'Groups';
 
-export const GuildHeader = ({ title = DEFAULT_TITLE }: GuildHeaderProps) => (
+export const ScopeHeader = ({ title = DEFAULT_TITLE }: ScopeHeaderProps) => (
     <VStack alignItems="start" width="full">
         <BackButton />
         <HStack justifyContent="space-between" width="full">
@@ -17,7 +17,7 @@ export const GuildHeader = ({ title = DEFAULT_TITLE }: GuildHeaderProps) => (
                 <Icon size="lg"><LuShieldHalf /></Icon>
                 <Heading size="2xl">{title}</Heading>
             </HStack>
-            {title === DEFAULT_TITLE && <CreateGuildDrawer />}
+            {title === DEFAULT_TITLE && <CreateScopeDrawer />}
         </HStack>
     </VStack>
 );

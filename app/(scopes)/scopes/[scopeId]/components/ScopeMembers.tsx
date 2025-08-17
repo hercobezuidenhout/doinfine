@@ -6,11 +6,11 @@ import { User } from "@prisma/client";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
 
-interface GuildMembersProps {
+interface ScopeMembersProps {
     scopeId: number;
 }
 
-export const GuildMembers = ({ scopeId }: GuildMembersProps) => {
+export const ScopeMembers = ({ scopeId }: ScopeMembersProps) => {
     const [filter, setFilter] = useState("");
     const { data: users } = useScopeMembersQuery(scopeId);
 

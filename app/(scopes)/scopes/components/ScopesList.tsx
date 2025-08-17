@@ -7,32 +7,32 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { LuSearch } from "react-icons/lu";
 
-export const GuildsList = () => {
+export const ScopesList = () => {
     const [filter, setFilter] = React.useState("");
-    const { data: guilds } = useCurrentUserScopesQuery();
+    const { data: scopes } = useCurrentUserScopesQuery();
     const router = useRouter();
 
     return (
         <>
             <InputGroup startElement={<LuSearch />}>
-                <Input placeholder="Search guilds" value={filter} onChange={(event) => setFilter(event.target.value)} />
+                <Input placeholder="Search groups" value={filter} onChange={(event) => setFilter(event.target.value)} />
             </InputGroup>
 
-            {guilds?.filter((guild: Scope) =>
+            {scopes?.filter((scope: Scope) =>
                 !filter ||
-                guild.name.toLowerCase().includes(filter.toLowerCase()) ||
-                guild.description?.toLowerCase().includes(filter.toLowerCase())
-            ).map((group: Scope, index: number) => (
-                <React.Fragment key={group.id}>
-                    <HStack gap="6" cursor="pointer" onClick={() => router.push(`/guilds/${group.id}`)}>
+                scope.name.toLowerCase().includes(filter.toLowerCase()) ||
+                scope.description?.toLowerCase().includes(filter.toLowerCase())
+            ).map((scope: Scope, index: number) => (
+                <React.Fragment key={scope.id}>
+                    <HStack gap="6" cursor="pointer" onClick={() => router.push(`/guilds/${scope.id}`)}>
                         <Stack gap="2">
-                            <Text fontWeight="bold">{group.name}</Text>
+                            <Text fontWeight="bold">{scope.name}</Text>
                             <Text color="fg.muted" textStyle="sm">
-                                {group.description}
+                                {scope.description}
                             </Text>
                         </Stack>
                     </HStack>
-                    {index !== guilds.length - 1 && <Separator />}
+                    {index !== scopes.length - 1 && <Separator />}
                 </React.Fragment>
             ))}
         </>

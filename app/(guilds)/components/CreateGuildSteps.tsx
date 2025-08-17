@@ -28,9 +28,12 @@ export const CreateGuildSteps = () => {
         },
     ];
 
-    useEffect(() => {
-        console.log(rules);
-    }, [rules]);
+    const handleCreate = () => {
+        console.log("Guild created with the following details:");
+        console.log("Name:", name);
+        console.log("Description:", description);
+        console.log("Rules:", rules);
+    };
 
     return (
         <Steps.Root defaultStep={0} count={steps.length} size="xs">
@@ -52,19 +55,8 @@ export const CreateGuildSteps = () => {
             ))}
 
             <Steps.CompletedContent>
-                <ReviewGuildStep />
+                <ReviewGuildStep name={name} description={description} rules={rules} onCreate={handleCreate} />
             </Steps.CompletedContent>
-
-            <ButtonGroup size="sm" justifyContent="end">
-                <Steps.PrevTrigger asChild>
-                    <Button variant="ghost">
-                        <LuArrowLeft /> Back
-                    </Button>
-                </Steps.PrevTrigger>
-                <Steps.NextTrigger asChild>
-                    <Button>Next</Button>
-                </Steps.NextTrigger>
-            </ButtonGroup>
         </Steps.Root >
     );
 };

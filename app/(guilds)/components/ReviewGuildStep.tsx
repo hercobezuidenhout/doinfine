@@ -1,24 +1,52 @@
 'use client';
 
-import { Stack, Blockquote, Card, Heading } from "@chakra-ui/react";
+import { Stack, Blockquote, Card, Heading, List, Button, Steps, VStack } from "@chakra-ui/react";
+import { LuBadge, LuBadgeAlert, LuBadgeCheck } from "react-icons/lu";
 
-export const ReviewGuildStep = () => {
+interface ReviewGuildStepProps {
+    name: string;
+    description: string;
+    rules: string[];
+    onCreate: () => void;
+}
 
-    return (
-        <Stack gap={4}>
-            <Blockquote.Root>
-                <Blockquote.Content>
-                    Please review your guild before you continue.
-                </Blockquote.Content>
-            </Blockquote.Root>
-            <Card.Root size="sm">
-                <Card.Header>
-                    <Heading size="md">Pink Fluffy Kittens</Heading>
-                </Card.Header>
-                <Card.Body color="fg.muted">
-                    We march with paws of silk and claws of steel, purring in peace until the moment to strike.
-                </Card.Body>
-            </Card.Root>
-        </Stack>
-    );
-};
+export const ReviewGuildStep = ({ name, description, rules, onCreate }: ReviewGuildStepProps) => (
+    <Stack gap={4} mt={4}>
+        <Card.Root size="sm" variant="subtle">
+            <Card.Header>
+                <Heading>{name}</Heading>
+            </Card.Header>
+            <Card.Body>
+                <VStack alignItems="stretch" gap={4}>
+                    <VStack alignItems="stretch">
+                        <Heading size="sm">Description</Heading>
+                        {description}
+                        {!description && (
+                            "No description set. You can add one later."
+                        )}
+                    </VStack>
+                    <VStack alignItems="stretch">
+                        <Heading size="sm">Rules</Heading>
+                        <List.Root gap={2} variant="plain" align="center">
+                            {rules.map((rule, index) => (
+                                <List.Item key={index} alignItems="start">
+                                    <List.Indicator asChild>
+                                        <LuBadgeCheck />
+                                    </List.Indicator>
+                                    {rule}
+                                </List.Item>
+                            ))}
+                        </List.Root>
+                        {rules.length === 0 && (
+                            "No rules. You can create some later."
+                        )}
+                    </VStack>
+                </VStack>
+            </Card.Body>
+        </Card.Root>
+        <Button onClick={onCreate}>Create Group</Button>
+        <Steps.PrevTrigger asChild>
+            <Button variant="outline">Back</Button>
+        </Steps.PrevTrigger>
+    </Stack >
+);

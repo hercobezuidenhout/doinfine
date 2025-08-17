@@ -1,6 +1,6 @@
 'use client';
 
-import { Blockquote, Card, CloseButton, Heading, HStack, Stack, VStack } from "@chakra-ui/react";
+import { Blockquote, Button, Card, CloseButton, Heading, HStack, Stack, Steps, VStack } from "@chakra-ui/react";
 import { ScopeRulesEmptyState } from "./ScopeRulesEmptyState";
 import { ScopeRulesDrawer } from "./ScopeRulesDrawer";
 
@@ -12,22 +12,17 @@ interface GuildRulesStepProps {
 
 export const GuildRulesStep = ({ rules, onAdd, onRemove }: GuildRulesStepProps) => (
     <Stack gap={4}>
-        <Blockquote.Root>
-            <Blockquote.Content>
-                Every guild needs a code — simple, solid, and made to keep the good times rolling.
-            </Blockquote.Content>
-        </Blockquote.Root>
         <HStack justifyContent="space-between">
             <Heading>Guild Rules</Heading>
 
-            <ScopeRulesDrawer onAddRule={onAdd} />
+            {rules.length < 4 && <ScopeRulesDrawer onAddRule={onAdd} />}
         </HStack>
         <VStack>
             {rules.map((rule, index) => (
                 <Card.Root key={index} width="full">
                     <Card.Body>
                         <HStack justifyContent="space-between">
-                            <Card.Title>{rule}</Card.Title>
+                            <Heading size="sm">{rule}</Heading>
                             <CloseButton onClick={() => onRemove(rule)} size="sm" />
                         </HStack>
                     </Card.Body>
@@ -35,5 +30,11 @@ export const GuildRulesStep = ({ rules, onAdd, onRemove }: GuildRulesStepProps) 
             ))}
             {rules.length <= 0 && <ScopeRulesEmptyState />}
         </VStack>
+        <Steps.NextTrigger asChild>
+            <Button>{rules.length === 0 ? 'Skip' : 'Next'}</Button>
+        </Steps.NextTrigger>
+        <Steps.PrevTrigger asChild>
+            <Button variant="outline">Back</Button>
+        </Steps.PrevTrigger>
     </Stack>
 );

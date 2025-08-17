@@ -11,6 +11,11 @@ interface ScopeRulesDrawerProps {
 export const ScopeRulesDrawer = ({ onAddRule }: ScopeRulesDrawerProps) => {
     const [rule, setRule] = useState('');
 
+    const handleAddRule = () => {
+        onAddRule(rule);
+        setRule('');
+    };
+
     return (
         <Drawer.Root placement="bottom">
             <Drawer.Trigger asChild>
@@ -32,12 +37,12 @@ export const ScopeRulesDrawer = ({ onAddRule }: ScopeRulesDrawerProps) => {
                                         Rule <Field.RequiredIndicator />
                                     </Field.Label>
                                     <Input placeholder="Rule" value={rule} onChange={(event) => setRule(event.target.value)} />
-                                    <Field.HelperText>e.g. Don&apos;t drop your beer</Field.HelperText>
+                                    <Field.HelperText>e.g. Always save a kitten from a tree</Field.HelperText>
                                 </Field.Root>
                             </Stack>
                         </Drawer.Body>
                         <Drawer.Footer>
-                            <Button onClick={() => onAddRule(rule)}>Save</Button>
+                            <Button onClick={handleAddRule}>Save</Button>
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />

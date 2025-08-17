@@ -1,6 +1,6 @@
 'use client';
 
-import { Stack, Blockquote, Field, Input } from "@chakra-ui/react";
+import { Stack, Blockquote, Field, Input, Steps, Button, Heading } from "@chakra-ui/react";
 
 interface GuildDescriptionStepProps {
     description: string;
@@ -9,17 +9,17 @@ interface GuildDescriptionStepProps {
 
 export const GuildDescriptionStep = ({ description, onDescriptionChange }: GuildDescriptionStepProps) => (
     <Stack gap={4}>
-        <Blockquote.Root>
-            <Blockquote.Content>
-                A motto sets the tone for the crew — clear, catchy, and easy to remember.
-            </Blockquote.Content>
-        </Blockquote.Root>
-        <Field.Root required gap={2}>
-            <Field.Label>
-                Guild creed <Field.RequiredIndicator />
-            </Field.Label>
+        <Heading>Group description</Heading>
+        <Field.Root required>
             <Input placeholder="Choose your guild's creed" value={description} onChange={(event) => onDescriptionChange(event.target.value)} />
-            <Field.HelperText>e.g. We march with paws of silk and claws of steel, purring in peace until the moment to strike.</Field.HelperText>
+            <Field.HelperText>e.g. We protect the kittens of earth.</Field.HelperText>
         </Field.Root>
+
+        <Steps.NextTrigger asChild mt={4}>
+            <Button>{description.length === 0 ? 'Skip' : 'Next'}</Button>
+        </Steps.NextTrigger>
+        <Steps.PrevTrigger asChild>
+            <Button variant="outline">Back</Button>
+        </Steps.PrevTrigger>
     </Stack>
 );

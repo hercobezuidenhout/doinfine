@@ -8,12 +8,17 @@ import { ReviewScopeStep } from "./ReviewScopeStep";
 import { useState } from "react";
 import { ScopeRulesStep } from "./ScopeRulesStep";
 import { useCreateScopeMutation } from "@/mutations/useCreateScopeMutation";
+import { Scope } from "@prisma/client";
 
-export const CreateScopeSteps = () => {
+interface CreateScopeStepsProps {
+    onScopeCreated: (scope: Scope) => void;
+}
+
+export const CreateScopeSteps = ({ onScopeCreated }: CreateScopeStepsProps) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [rules, setRules] = useState<string[]>([]);
-    const { mutateAsync, isPending, data } = useCreateScopeMutation();
+    const { mutateAsync, isPending } = useCreateScopeMutation();
 
     const steps = [
         {
@@ -31,13 +36,15 @@ export const CreateScopeSteps = () => {
     ];
 
     const handleCreate = async () => {
-        await mutateAsync({
+        const data = await mutateAsync({
             name,
             description,
             values: rules,
         });
 
-        console.log(data);
+        console.log("Scope created:", data);
+
+        onScopeCreated(data);
     };
 
     return (

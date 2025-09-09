@@ -42,8 +42,6 @@ export const CreateScopeSteps = ({ onScopeCreated }: CreateScopeStepsProps) => {
             values: rules,
         });
 
-        console.log("Scope created:", data);
-
         onScopeCreated(data);
     };
 

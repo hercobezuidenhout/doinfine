@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const user = await getUser();
 
     const createdInvite = await createInvitation({
-        scopeId: body.scopeId,
+        scopeId: Number(body.scopeId),
         createdByUserId: user.id,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         defaultRole: 'MEMBER',

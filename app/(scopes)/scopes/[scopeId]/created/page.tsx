@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: Promise<{ scopeId: numb
                     <VStack gap={8}>
                         <SuccessHeader />
                         <SuccessDescription />
-                        <InviteClipboard value={inviteLink} />
+                        <InviteClipboard scopeId={scopeId} />
                     </VStack>
                 </Card.Body>
             </Card.Root>

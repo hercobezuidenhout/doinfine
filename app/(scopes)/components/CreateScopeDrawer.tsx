@@ -12,7 +12,7 @@ export const CreateScopeDrawer = () => {
     const router = useRouter();
 
     const handleScopeCreated = (scope: Scope) => {
-        router.push(`/scopes/${scope.id}`);
+        router.push(`/scopes/${scope.id}/created`);
     };
 
     return (

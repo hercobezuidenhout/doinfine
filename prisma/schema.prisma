@@ -148,7 +148,7 @@ model FeatureFlag {
 
 model Invitation {
   id              Int              @id @default(autoincrement())
-  hash            String
+  hash            String           @unique
   expiresAt       DateTime
   createdByUserId String
   user            User             @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)

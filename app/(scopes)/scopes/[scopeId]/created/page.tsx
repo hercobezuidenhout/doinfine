@@ -4,7 +4,11 @@ import { SuccessDescription } from "./components/SuccessDescription";
 import { InviteClipboard } from "./components/InviteClipboard";
 import { ActionButtons } from "./components/ActionButtons";
 
-export default function Page() {
+export default async function Page({ params }: { params: Promise<{ scopeId: number; }>; }) {
+    const { scopeId } = await params;
+
+    const inviteLink = 'https://doinfine.app/join/example-invite-link';
+
     return (
         <>
             <Card.Root variant="subtle">
@@ -12,11 +16,11 @@ export default function Page() {
                     <VStack gap={8}>
                         <SuccessHeader />
                         <SuccessDescription />
-                        <InviteClipboard value="https://chakra-ui.com" />
+                        <InviteClipboard value={inviteLink} />
                     </VStack>
                 </Card.Body>
             </Card.Root>
-            <ActionButtons />
+            <ActionButtons scopeId={scopeId} inviteLink={inviteLink} />
         </>
     );
 }

@@ -1,1 +1,3 @@
-export type NextParams<T> = { params: Promise<T>; };
+export type NextParams<T> = {
+    params: Promise<T>;
+};

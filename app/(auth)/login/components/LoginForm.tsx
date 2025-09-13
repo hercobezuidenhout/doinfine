@@ -9,7 +9,11 @@ interface LoginFormValues {
     email: string;
 }
 
-export const LoginForm = () => {
+interface LoginFormProps {
+    redirectTo?: string;
+}
+
+export const LoginForm = ({ redirectTo }: LoginFormProps) => {
     const router = useRouter();
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
         defaultValues: {
@@ -33,7 +37,9 @@ export const LoginForm = () => {
             return;
         }
 
-        router.push(`/login/otp?email=${encodeURIComponent(formData.email)}`);
+        redirectTo
+            ? router.push(`/login/otp?email=${encodeURIComponent(formData.email)}&redirectTo=${encodeURIComponent(redirectTo)}`)
+            : router.push(`/login/otp?email=${encodeURIComponent(formData.email)}`);
     };
 
     return (

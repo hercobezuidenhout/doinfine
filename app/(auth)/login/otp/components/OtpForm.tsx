@@ -11,9 +11,10 @@ interface OtpFormValues {
 
 interface OtpFormProps {
     email: string;
+    redirectTo?: string;
 }
 
-export const OtpForm = ({ email }: OtpFormProps) => {
+export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
     const router = useRouter();
     const { register, handleSubmit } = useForm<OtpFormValues>({
         defaultValues: {
@@ -35,7 +36,9 @@ export const OtpForm = ({ email }: OtpFormProps) => {
             return;
         }
 
-        router.push('/');
+        redirectTo
+            ? router.push(redirectTo)
+            : router.push('/');
     };
 
     return (

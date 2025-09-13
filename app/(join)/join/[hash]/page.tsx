@@ -7,9 +7,8 @@ import { createClient } from "@/utils/supabase/server";
 import { UnAuthenticatedActionButtons } from "./components/UnauthenticatedActionButtons";
 import { getScopeMembers } from "@/prisma/queries/get-scope-members";
 import { createInviteResponse } from "@/prisma/commands/create-invite-response";
-import { InviteResponse, InviteResponseType } from "@prisma/client";
+import { InviteResponseType } from "@prisma/client";
 import { createScopeRole } from "@/prisma/commands/create-scope-role";
-import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 
 type PageParams = {

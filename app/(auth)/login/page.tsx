@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import { LoginForm } from "./components/LoginForm";
-import { NextParams } from "@/types/next-params";
 
 interface LoginPageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;

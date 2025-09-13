@@ -25,6 +25,25 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
         console.info("Form submitted with data:", formData);
 
         const supabase = createClient();
+
+        if (process.env.NODE_ENV === 'development') {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: formData.email,
+                password: 'supersecret'
+            });
+
+            if (error) {
+                console.info("Login error:", error);
+                return;
+            }
+
+            if (data) console.info("Login data:", data);
+
+            router.push(redirectTo || '/');
+
+            return;
+        }
+
         const { error } = await supabase.auth.signInWithOtp({
             email: formData.email,
             options: {

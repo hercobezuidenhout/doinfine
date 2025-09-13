@@ -37,9 +37,11 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
             return;
         }
 
-        redirectTo
-            ? router.push(`/login/otp?email=${encodeURIComponent(formData.email)}&redirectTo=${encodeURIComponent(redirectTo)}`)
-            : router.push(`/login/otp?email=${encodeURIComponent(formData.email)}`);
+        if (redirectTo) {
+            router.push(`/login/otp?email=${encodeURIComponent(formData.email)}&redirectTo=${encodeURIComponent(redirectTo)}`);
+        } else {
+            router.push(`/login/otp?email=${encodeURIComponent(formData.email)}`);
+        }
     };
 
     return (

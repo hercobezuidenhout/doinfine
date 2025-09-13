@@ -36,9 +36,11 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
             return;
         }
 
-        redirectTo
-            ? router.push(redirectTo)
-            : router.push('/');
+        if (redirectTo) {
+            router.push(redirectTo);
+        } else {
+            router.push('/');
+        }
     };
 
     return (

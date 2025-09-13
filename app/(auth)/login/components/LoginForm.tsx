@@ -53,7 +53,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
                         {errors.email && <span>{errors.email.message}</span>}
                     </Field.ErrorText>
                 </Field.Root>
-                <Button type="submit">Login</Button>
+                <Button type="submit" width="full">Login</Button>
             </Stack>
         </form>
     );

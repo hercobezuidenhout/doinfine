@@ -1,9 +1,17 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/utils/supabase/middleware';
 
+const unprotectedPathPrefixes = [
+    '/api/healthcheck',
+    '/join'
+];
+
+const isUnprotectedPath = (pathname: string) => {
+    return unprotectedPathPrefixes.some(prefix => pathname.startsWith(prefix));
+};
+
 export async function middleware(request: NextRequest) {
-    console.info("Middleware triggered for request:", request.nextUrl.pathname);
-    if (request.nextUrl.pathname === '/api/healthcheck') {
+    if (isUnprotectedPath(request.nextUrl.pathname)) {
         return NextResponse.next({ request });
     }
 

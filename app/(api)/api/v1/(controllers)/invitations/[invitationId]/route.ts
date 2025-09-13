@@ -1,6 +1,7 @@
 import { createInviteResponse } from "@/prisma/commands/create-invite-response";
 import { createScopeRole } from "@/prisma/commands/create-scope-role";
 import { getInvitationById } from "@/prisma/queries/get-invitation-by-id";
+import { getScopeMembers } from "@/prisma/queries/get-scope-members";
 import { NextParams } from "@/types/next-params";
 import { getUser } from "@/utils/supabase/server";
 import { InviteResponseType } from "@prisma/client";
@@ -23,6 +24,14 @@ export async function POST(
     if (!user) {
         return new Response(JSON.stringify({ status: "error", message: "Unauthorized" }), {
             status: 401,
+        });
+    }
+
+    const scopeMembers = await getScopeMembers(invitation.scopeId);
+
+    if (scopeMembers.find(member => member.id === user.id)) {
+        return new Response(JSON.stringify({ status: "error", message: "You are already a member of the group" }), {
+            status: 400,
         });
     }
 

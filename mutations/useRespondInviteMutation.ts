@@ -10,7 +10,7 @@ export const useRespondInviteMutation = (inviteId: number) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(scope)
-    }).then((res) => res.json());
+    });
 
     return useMutation({
         mutationFn: respondInvite,

@@ -13,8 +13,18 @@ export const ActionButtons = ({ inviteId }: ActionButtonsProps) => {
     const router = useRouter();
 
     const handleAccept = async () => {
-        await mutateAsync({ responseType: InviteResponseType.ACCEPTED });
-        router.push('/scopes');
+        try {
+            const response = await mutateAsync({ responseType: InviteResponseType.ACCEPTED });
+
+            if (response.status === 200) {
+                router.push(`/scopes`);
+            } else {
+                const data = await response.json();
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Failed to accept invitation:", error);
+        }
     };
 
     const handleDecline = async () => {

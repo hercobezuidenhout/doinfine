@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
 const ENDPOINT = "/api/v1/feed";
-const KEY = ["feed"];
 
 export const useFeedQuery = (scopeId?: number) => useQuery({
     queryKey: scopeId ? ["feed", scopeId] : ["feed"],

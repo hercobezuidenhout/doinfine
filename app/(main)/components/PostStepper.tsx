@@ -7,6 +7,7 @@ import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
 import { useEffect, useState } from "react";
 import { Scope, User } from "@prisma/client";
+import { useCreateFineMutation } from "@/mutations/useCreateFineMutation";
 
 interface PostStepperProps {
     onStepChange?: (stepTitle: string) => void;
@@ -14,6 +15,7 @@ interface PostStepperProps {
 }
 
 export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
+    const { mutateAsync, isPending } = useCreateFineMutation();
     const [selectedGroup, setSelectedGroup] = useState<Scope>();
     const [selectedUser, setSelectedUser] = useState<User>();
     const [description, setDescription] = useState("");
@@ -36,6 +38,15 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
     useEffect(() => {
         console.info("Selected group changed:", selectedGroup);
     }, [selectedGroup]);
+
+    const handleCreatePost = async () => {
+        await mutateAsync({
+            description,
+            issuedToId: selectedUser!.id,
+            scopeId: selectedGroup!.id
+        });
+        onDone?.();
+    };
 
     return (
         <Steps.Root defaultStep={0} count={steps.length} size="xs">
@@ -61,7 +72,7 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
                 <Stack gap={4} mt={4}>
                     <Text>Are you sure you want to fine <b>{selectedUser?.name}</b> in <b>{selectedGroup?.name}</b> for:</Text>
                     <Text>{description}</Text>
-                    <Button mt={4} onClick={onDone}>Full send!</Button>
+                    <Button mt={4} onClick={handleCreatePost} disabled={isPending} loading={isPending}>Full send!</Button>
                 </Stack>
             </Steps.CompletedContent>
         </Steps.Root>

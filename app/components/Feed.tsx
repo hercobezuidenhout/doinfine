@@ -20,7 +20,7 @@ export const Feed = ({ scopeId }: FeedProps) => {
     const { data } = useFeedQuery(Number(scopeId));
 
     return (
-        <Box minH="100vh" display="flex" mt={scopeId ? 0 : 10} flexDirection="column" alignItems="center" justifyContent="center">
+        <Box minH="100vh" display="flex" mt={scopeId ? 0 : 10} flexDirection="column" alignItems="top" pb={data.length > 3 ? 100 : 0}>
             {data?.length > 0 && (
                 <Box mt={scopeId ? 0 : 8} width="full" p={scopeId ? 0 : 4}>
                     <VStack alignItems="stretch" gap={8}>

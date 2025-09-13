@@ -1,5 +1,5 @@
 import { VStack, HStack, Icon, Heading } from "@chakra-ui/react";
-import { LuShieldHalf } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
 import { BackButton } from "./BackButton";
 import { CreateScopeDrawer } from "./CreateScopeDrawer";
 import { ScopeMenuDrawer } from "./ScopeMenuDrawer";
@@ -18,9 +18,11 @@ export const ScopeHeader = ({ title = DEFAULT_TITLE, scopeId, icon }: ScopeHeade
         <BackButton />
         <HStack justifyContent="space-between" width="full">
             <HStack>
-                <Icon size="lg">
-                    {icon ? icon : <LuShieldHalf />}
-                </Icon>
+                {!scopeId && (
+                    <Icon size="lg">
+                        {icon ? icon : <LuUsers />}
+                    </Icon>
+                )}
                 <Heading size="2xl">{title}</Heading>
             </HStack>
             {title === DEFAULT_TITLE && <CreateScopeDrawer />}

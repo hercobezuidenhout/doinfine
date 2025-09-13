@@ -2,7 +2,7 @@
 
 import { HStack, IconButton, Heading } from "@chakra-ui/react";
 import { MenuDrawer } from "./MenuDrawer";
-import { LuShieldHalf } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -22,7 +22,7 @@ export const AppHeader = () => {
             <MenuDrawer />
             <Heading size="lg" textTransform="uppercase">Doinfine</Heading>
             <IconButton variant="ghost" onClick={() => router.push("/scopes")} aria-label="Groups">
-                <LuShieldHalf />
+                <LuUsers />
             </IconButton>
         </HStack>
     );

@@ -1,7 +1,7 @@
 'use client';
 
 import { Drawer, Portal, CloseButton, IconButton } from "@chakra-ui/react";
-import { LuShieldPlus } from "react-icons/lu";
+import { LuPlus } from "react-icons/lu";
 import { CreateScopeSteps } from "./CreateScopeSteps";
 import { useState } from "react";
 import { Scope } from "@prisma/client";
@@ -19,7 +19,7 @@ export const CreateScopeDrawer = () => {
         <Drawer.Root placement="bottom" size="full" open={open} onOpenChange={(event) => setOpen(event.open)}>
             <Drawer.Trigger asChild>
                 <IconButton aria-label="Create group">
-                    <LuShieldPlus />
+                    <LuPlus />
                 </IconButton>
             </Drawer.Trigger>
             <Portal>

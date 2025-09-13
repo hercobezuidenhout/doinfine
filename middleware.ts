@@ -1,8 +1,12 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
     console.info("Middleware triggered for request:", request.nextUrl.pathname);
+    if (request.nextUrl.pathname === '/api/healthcheck') {
+        return NextResponse.next({ request });
+    }
+
     return await updateSession(request);
 }
 

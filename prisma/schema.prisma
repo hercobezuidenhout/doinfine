@@ -48,6 +48,11 @@ enum NotificationType {
   IN_APP
 }
 
+enum InviteResponseType {
+  ACCEPTED
+  DECLINED
+}
+
 // Models
 
 model User {
@@ -63,7 +68,7 @@ model User {
   postReactions           PostReaction[]
   issuedByPosts           Post[]                       @relation("Post_issuedToUser")
   issuedToPosts           Post[]                       @relation("Post_issuedByUser")
-  acceptedInvites         AcceptedInvite[]
+  inviteResponses         InviteResponse[]
   notificationPreferences UserNotificationPreference[]
 }
 
@@ -155,7 +160,7 @@ model Invitation {
   scopeId         Int
   scope           Scope            @relation(fields: [scopeId], references: [id], onDelete: Cascade)
   defaultRole     RoleType         @default(MEMBER)
-  acceptedInvites AcceptedInvite[]
+  responses       InviteResponse[]
 }
 
 model Post {
@@ -225,14 +230,14 @@ model PaidFine {
   @@id([paymentId, fineId])
 }
 
-model AcceptedInvite {
-  id        Int      @id @default(autoincrement())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-
+model InviteResponse {
+  id           Int                @id @default(autoincrement())
+  userId       String
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime           @default(now())
+  responseType InviteResponseType
   invitationId Int
-  invitation   Invitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  invitation   Invitation         @relation(fields: [invitationId], references: [id], onDelete: Cascade)
 }
 
 model UserNotificationPreference {

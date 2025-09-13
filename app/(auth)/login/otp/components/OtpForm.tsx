@@ -45,8 +45,7 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack gap={6}>
-                <Heading size="md">An OTP has been sent to {email}</Heading>
+            <Stack gap={8} alignItems="center">
                 <PinInput.Root otp {...register('otp')}>
                     <PinInput.HiddenInput />
                     <PinInput.Control>
@@ -58,7 +57,7 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
                         <PinInput.Input index={5} />
                     </PinInput.Control>
                 </PinInput.Root>
-                <Button type="submit">Continue</Button>
+                <Button type="submit" width="full">Continue</Button>
             </Stack>
         </form>
     );

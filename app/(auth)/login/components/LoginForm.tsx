@@ -47,7 +47,6 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Stack gap={6}>
-                <Heading size="md">Login</Heading>
                 <Field.Root>
                     <Input {...register('email')} type="email" placeholder="Enter your email" px={2} />
                     <Field.ErrorText>

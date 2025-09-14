@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { HStack, IconButton, Heading, Image } from "@chakra-ui/react"
-import { LuMenu } from "react-icons/lu"
-import { useEffect } from "react"
+import { HStack, Heading, Image } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { MenuDrawer } from "./MenuDrawer";
 
 export const AppHeader = () => {
 
     const checkForUser = async () => {
-        await fetch('/api/v1/current')
-    }
+        await fetch('/api/v1/current');
+    };
 
     useEffect(() => {
-        checkForUser()
-    }, [])
+        checkForUser();
+    }, []);
 
     return (
         <HStack alignItems="center" justifyContent="space-between" padding={{ base: 2, md: 4 }} position="sticky" left={0} right={0} top={0}>
@@ -21,10 +21,8 @@ export const AppHeader = () => {
                 <Heading size="2xl">Doinfine</Heading>
             </HStack>
             <HStack gap={4}>
-                <IconButton size="lg" borderRadius="full">
-                    <LuMenu />
-                </IconButton>
+                <MenuDrawer />
             </HStack>
         </HStack>
-    )
-}
+    );
+};

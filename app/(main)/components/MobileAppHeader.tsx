@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { Box, Heading, HStack, IconButton, Image } from "@chakra-ui/react"
-import { LuMenu } from "react-icons/lu"
+import { Box, Heading, HStack, Image } from "@chakra-ui/react";
+import { MenuDrawer } from "./MenuDrawer";
 
 export const MobileAppHeader = () => {
     return (
@@ -13,10 +13,8 @@ export const MobileAppHeader = () => {
                 <Heading>Doinfine</Heading>
             </Box>
             <Box>
-                <IconButton variant="ghost">
-                    <LuMenu />
-                </IconButton>
+                <MenuDrawer />
             </Box>
         </HStack >
-    )
-}
+    );
+};

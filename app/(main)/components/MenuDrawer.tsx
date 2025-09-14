@@ -29,9 +29,9 @@ export const MenuDrawer = () => {
 
     return (
         <>
-            <Drawer.Root open={open} onOpenChange={(e) => setOpen(e.open)} placement="start">
+            <Drawer.Root open={open} onOpenChange={(e) => setOpen(e.open)} placement="end">
                 <Drawer.Trigger asChild>
-                    <IconButton variant="ghost" aria-label="Menu">
+                    <IconButton variant="ghost" aria-label="Menu" borderRadius="full">
                         <LuMenu />
                     </IconButton>
                 </Drawer.Trigger>

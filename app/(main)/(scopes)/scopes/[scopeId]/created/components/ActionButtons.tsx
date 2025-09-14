@@ -1,13 +1,13 @@
 "use client";
+import { ShareInviteButton } from "@/app/(main)/components/ShareInviteButton";
 import { Button, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 interface ActionButtonsProps {
     scopeId: number;
-    inviteLink: string;
 }
 
-export const ActionButtons = ({ scopeId, inviteLink }: ActionButtonsProps) => {
+export const ActionButtons = ({ scopeId }: ActionButtonsProps) => {
     const router = useRouter();
     const canShare = typeof window !== "undefined" && !!navigator.share;
 
@@ -15,21 +15,12 @@ export const ActionButtons = ({ scopeId, inviteLink }: ActionButtonsProps) => {
         router.push(`/scopes/${scopeId}`);
     };
 
-    const handleShare = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: "Join my group on Doinfine!",
-                text: "Join my group on Doinfine!",
-                url: inviteLink,
-            });
-        }
-    };
 
     return (
         <VStack alignItems="stretch" gap={2}>
             <Button onClick={handleContinue}>Continue</Button>
             {canShare && (
-                <Button variant="outline" onClick={handleShare}>Share</Button>
+                <ShareInviteButton scopeId={scopeId} />
             )}
         </VStack>
     );

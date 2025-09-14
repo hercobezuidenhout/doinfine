@@ -1,9 +1,10 @@
 'use client';
 
 import { Stack, Field, Input, Button } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface LoginFormValues {
     email: string;
@@ -14,6 +15,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ redirectTo }: LoginFormProps) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
         defaultValues: {
@@ -22,6 +24,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
     });
 
     const onSubmit = async (formData: LoginFormValues) => {
+        setLoading(true);
         console.info("Form submitted with data:", formData);
 
         const supabase = createClient();
@@ -38,6 +41,8 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
             }
 
             if (data) console.info("Login data:", data);
+
+            setLoading(false);
 
             router.push(redirectTo || '/');
 
@@ -56,6 +61,8 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
             return;
         }
 
+        setLoading(false);
+
         if (redirectTo) {
             router.push(`/login/otp?email=${encodeURIComponent(formData.email)}&redirectTo=${encodeURIComponent(redirectTo)}`);
         } else {
@@ -72,7 +79,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
                         {errors.email && <span>{errors.email.message}</span>}
                     </Field.ErrorText>
                 </Field.Root>
-                <Button type="submit" width="full">Login</Button>
+                <Button disabled={loading} loading={loading} type="submit" width="full">Login</Button>
             </Stack>
         </form>
     );

@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { Stack, PinInput, Button } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface OtpFormValues {
@@ -15,6 +16,7 @@ interface OtpFormProps {
 }
 
 export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { register, handleSubmit } = useForm<OtpFormValues>({
         defaultValues: {
@@ -23,6 +25,7 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
     });
 
     const onSubmit = async ({ otp }: OtpFormValues) => {
+        setLoading(true);
         const supabase = createClient();
 
         const { error } = await supabase.auth.verifyOtp({
@@ -35,6 +38,8 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
             console.error("OTP verification error:", error);
             return;
         }
+
+        setLoading(false);
 
         if (redirectTo) {
             router.push(redirectTo);
@@ -57,7 +62,7 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
                         <PinInput.Input index={5} />
                     </PinInput.Control>
                 </PinInput.Root>
-                <Button type="submit" width="full">Continue</Button>
+                <Button loading={loading} disabled={loading} type="submit" width="full">Continue</Button>
             </Stack>
         </form>
     );

@@ -12,6 +12,6 @@ export const MainNavigationMenu = () => (
                 </VStack>
             </Card.Body>
         </Card.Root>
-        <Button size="xl">Fine someone</Button>
+        <Button size="xl" fontSize="lg">Fine someone</Button>
     </VStack>
 );

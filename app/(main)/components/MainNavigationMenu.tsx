@@ -6,7 +6,7 @@ export const MainNavigationMenu = () => (
     <VStack alignItems="stretch" gap={4}>
         <Card.Root variant="subtle">
             <Card.Body>
-                <VStack bg="gray.100" alignItems="stretch">
+                <VStack alignItems="stretch">
                     <MainNavigationMenuItem href="/" icon={<LuHouse />} label="Home" />
                     <MainNavigationMenuItem href="/scopes" icon={<LuUsers />} label="Groups" />
                 </VStack>

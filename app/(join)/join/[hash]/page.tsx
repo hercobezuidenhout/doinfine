@@ -25,7 +25,12 @@ export default async function Page({ params, searchParams }: PageParams) {
     }
 
     const supabase = await createClient();
+
     const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+        await fetch('/api/v1/current');
+    }
 
     const responseType = await searchParams.then(params => params.responseType as string | undefined);
 

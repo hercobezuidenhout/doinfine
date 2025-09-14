@@ -1,7 +1,7 @@
 'use client';
 
 import { Stack, Field, Input, Button } from "@chakra-ui/react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from "next/navigation";
 import { useState } from "react";

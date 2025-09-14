@@ -16,7 +16,7 @@ export const CreateScopeDrawer = () => {
     };
 
     return (
-        <Drawer.Root placement="bottom" size="full" open={open} onOpenChange={(event) => setOpen(event.open)}>
+        <Drawer.Root placement={{ base: "bottom", md: 'end' }} size={{ base: "full", md: 'lg' }} open={open} onOpenChange={(event) => setOpen(event.open)}>
             <Drawer.Trigger asChild>
                 <IconButton aria-label="Create group">
                     <LuPlus />

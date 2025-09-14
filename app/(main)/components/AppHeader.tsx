@@ -1,8 +1,7 @@
 'use client';
 
-import { HStack, IconButton, Heading } from "@chakra-ui/react";
-import { MenuDrawer } from "./MenuDrawer";
-import { LuUsers } from "react-icons/lu";
+import { HStack, IconButton, Heading, Image } from "@chakra-ui/react";
+import { LuMenu, LuUser } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -18,12 +17,19 @@ export const AppHeader = () => {
     }, []);
 
     return (
-        <HStack alignItems="center" justifyContent="space-between" padding={4} position="fixed" left={0} right={0} top={0} bg={{ base: "white", _dark: "black" }} zIndex={1000}>
-            <MenuDrawer />
-            <Heading size="lg" textTransform="uppercase">Doinfine</Heading>
-            <IconButton variant="ghost" onClick={() => router.push("/scopes")} aria-label="Groups">
-                <LuUsers />
-            </IconButton>
+        <HStack alignItems="center" justifyContent="space-between" padding={4} position="sticky" left={0} right={0} top={0} bg={{ base: "white", sm: { _dark: "black" }, md: 'transparent' }} zIndex={1000}>
+            <HStack gap={4}>
+                <Image src="/assets/logo.jpg" width="44px" borderRadius="full" />
+                <Heading size="2xl">Doinfine</Heading>
+            </HStack>
+            <HStack gap={4}>
+                <IconButton size="lg" borderRadius="full">
+                    <LuUser />
+                </IconButton>
+                <IconButton size="lg" borderRadius="full">
+                    <LuMenu />
+                </IconButton>
+            </HStack>
         </HStack>
     );
 };

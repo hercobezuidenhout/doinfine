@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ scopeId: numb
 
     return (
         <>
-            <ScopeHeader title={scope.name} scopeId={scopeId} />
+            <ScopeHeader title={scope.name} scopeId={scopeId} href="/scopes" />
             {scope.description && (
                 <Card.Root variant="subtle">
                     <Card.Body>

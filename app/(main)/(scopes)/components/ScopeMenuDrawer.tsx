@@ -34,7 +34,7 @@ export const ScopeMenuDrawer = ({ scopeId }: ScopeMenuDrawerProps) => {
     };
 
     return (
-        <Drawer.Root placement="bottom">
+        <Drawer.Root placement={{ base: 'bottom', md: 'end' }} size={{ base: 'full', md: 'sm' }}>
             <Drawer.Backdrop />
             <Drawer.Trigger asChild>
                 <IconButton aria-label="Scope menu" size="sm">

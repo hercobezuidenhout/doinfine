@@ -5,7 +5,7 @@ import { LuCheck, LuGavel, LuUser, LuUsers } from "react-icons/lu";
 import { SelectScopeStep } from "./SelectScopeStep";
 import { SelectUserStep } from "./SelectUserStep";
 import { SetDescriptionStep } from "./SetDescriptionStep";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Scope, User } from "@prisma/client";
 import { useCreateFineMutation } from "@/mutations/useCreateFineMutation";
 
@@ -34,10 +34,6 @@ export const PostStepper = ({ onDone, ...rest }: PostStepperProps) => {
             component: <SetDescriptionStep {...rest} user={selectedUser} description={description} onDescriptionChange={setDescription} />,
         },
     ];
-
-    useEffect(() => {
-        console.info("Selected group changed:", selectedGroup);
-    }, [selectedGroup]);
 
     const handleCreatePost = async () => {
         await mutateAsync({

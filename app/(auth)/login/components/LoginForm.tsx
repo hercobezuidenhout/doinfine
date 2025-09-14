@@ -25,7 +25,6 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
 
     const onSubmit = async (formData: LoginFormValues) => {
         setLoading(true);
-        console.info("Form submitted with data:", formData);
 
         const supabase = createClient();
 
@@ -39,8 +38,6 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
                 console.info("Login error:", error);
                 return;
             }
-
-            if (data) console.info("Login data:", data);
 
             setLoading(false);
 

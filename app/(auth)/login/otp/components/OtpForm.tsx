@@ -41,6 +41,8 @@ export const OtpForm = ({ email, redirectTo }: OtpFormProps) => {
 
         setLoading(false);
 
+        await fetch('/api/v1/current');
+
         if (redirectTo) {
             router.push(redirectTo);
         } else {

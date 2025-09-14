@@ -10,6 +10,8 @@ import { createInviteResponse } from "@/prisma/commands/create-invite-response";
 import { InviteResponseType } from "@prisma/client";
 import { createScopeRole } from "@/prisma/commands/create-scope-role";
 import { redirect } from "next/navigation";
+import { getUserById } from "@/prisma/queries/get-user-by-id";
+import { createUser } from "@/prisma/commands/create-user";
 
 type PageParams = {
     params: Promise<{ hash: string; }>;
@@ -29,12 +31,17 @@ export default async function Page({ params, searchParams }: PageParams) {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (user) {
-        await fetch('/api/v1/current');
+        const dbUser = await getUserById(user.id);
+
+        if (!dbUser) {
+            await createUser({
+                id: user.id,
+                email: user.email || ''
+            });
+        }
     }
 
     const responseType = await searchParams.then(params => params.responseType as string | undefined);
-
-    console.log("Response Type:", responseType);
 
     if (responseType && user) {
         const scopeMembers = await getScopeMembers(invitation?.scopeId);

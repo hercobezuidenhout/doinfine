@@ -18,7 +18,7 @@ export const ScopeHeader = ({ title = DEFAULT_TITLE, scopeId, href = '/' }: Scop
         {title !== DEFAULT_TITLE && <BackButton href={href} />}
         <HStack justifyContent="space-between" width="full">
             <HStack>
-                <Heading size="5xl">{title}</Heading>
+                <Heading size={{ base: "3xl", md: "5xl" }}>{title}</Heading>
             </HStack>
             {title === DEFAULT_TITLE && <CreateScopeDrawer />}
             {scopeId && <ScopeMenuDrawer scopeId={scopeId} />}

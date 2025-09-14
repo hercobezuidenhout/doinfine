@@ -52,7 +52,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
         const { error } = await supabase.auth.signInWithOtp({
             email: formData.email,
             options: {
-                shouldCreateUser: false
+                shouldCreateUser: true
             }
         });
 

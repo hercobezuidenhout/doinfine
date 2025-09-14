@@ -1,21 +1,22 @@
-'use client';
+'use client'
 
-import { Drawer, Button, Portal, CloseButton } from "@chakra-ui/react";
-import { PostStepper } from "./PostStepper";
-import { useState } from "react";
+import { Drawer, Portal, CloseButton, IconButton } from "@chakra-ui/react"
+import { PostStepper } from "./PostStepper"
+import { useState } from "react"
+import { LuDollarSign } from "react-icons/lu"
 
-const DEFAULT_TITLE = "Fine someone";
+const DEFAULT_TITLE = "Fine someone"
 
 export const PostDrawer = () => {
-    const [title, setTitle] = useState(DEFAULT_TITLE);
-    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState(DEFAULT_TITLE)
+    const [open, setOpen] = useState(false)
 
     return (
         <Drawer.Root placement='bottom' size='full' open={open} onOpenChange={(e) => setOpen(e.open)}>
             <Drawer.Trigger asChild>
-                <Button width="full">
-                    Fine someone
-                </Button>
+                <IconButton variant="ghost">
+                    <LuDollarSign />
+                </IconButton>
             </Drawer.Trigger>
             <Portal>
                 <Drawer.Backdrop />
@@ -36,5 +37,5 @@ export const PostDrawer = () => {
                 </Drawer.Positioner>
             </Portal>
         </Drawer.Root>
-    );
-};
+    )
+}

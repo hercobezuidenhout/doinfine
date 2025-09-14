@@ -1,24 +1,26 @@
-import { PropsWithChildren } from "react";
-import { AppHeader } from "./components/AppHeader";
-import { Container, HStack } from "@chakra-ui/react";
-import { MainNavigationMenu } from "./components/MainNavigationMenu";
+import { PropsWithChildren } from "react"
+import { AppHeader } from "./components/AppHeader"
+import { Box, Container, HStack } from "@chakra-ui/react"
+import { MainNavigationMenu } from "./components/MainNavigationMenu"
 
 export default function MainLayout({ children }: PropsWithChildren) {
 
     return (
         <div>
-            <AppHeader />
-            <HStack width="full" alignItems="start" py={8}>
-                <Container maxWidth="sm" fluid>
+            <Box display={{ base: 'none', md: 'block'}}>
+                <AppHeader />
+            </Box>
+            <HStack width="full" alignItems="start" py={{ base: 4, md: 8 }}>
+                <Container maxWidth="sm" fluid display={{ base: 'none', md: 'block'}}>
                     <MainNavigationMenu />
                 </Container>
                 <Container maxWidth="3xl">
                     {children}
                 </Container>
-                <Container maxWidth="sm" fluid>
+                <Container maxWidth="sm" fluid display={{ base: 'none', md: 'block'}}>
                     {/* <MainNavigationMenu /> */}
                 </Container>
             </HStack>
         </div>
-    );
+    )
 }

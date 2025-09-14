@@ -1,4 +1,4 @@
-import { VStack, HStack, Icon, Text, Card, Button } from "@chakra-ui/react";
+import { VStack, Card, Button } from "@chakra-ui/react";
 import { MainNavigationMenuItem } from "./MainNavigationMenuItem";
 import { LuHouse, LuUsers } from "react-icons/lu";
 

@@ -1,5 +1,4 @@
-import { VStack, HStack, Icon, Heading } from "@chakra-ui/react";
-import { LuUsers } from "react-icons/lu";
+import { VStack, HStack, Heading } from "@chakra-ui/react";
 import { BackButton } from "./BackButton";
 import { CreateScopeDrawer } from "./CreateScopeDrawer";
 import { ScopeMenuDrawer } from "./ScopeMenuDrawer";

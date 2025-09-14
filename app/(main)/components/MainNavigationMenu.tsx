@@ -1,6 +1,7 @@
 import { VStack, Card, Button } from "@chakra-ui/react";
 import { MainNavigationMenuItem } from "./MainNavigationMenuItem";
 import { LuHouse, LuUsers } from "react-icons/lu";
+import { PostDialog } from "./PostDialog";
 
 export const MainNavigationMenu = () => (
     <VStack alignItems="stretch" gap={4}>
@@ -12,6 +13,6 @@ export const MainNavigationMenu = () => (
                 </VStack>
             </Card.Body>
         </Card.Root>
-        <Button size="xl" fontSize="lg">Fine someone</Button>
+        <PostDialog />
     </VStack>
 );

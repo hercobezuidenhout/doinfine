@@ -18,7 +18,8 @@ export const getUserFeed = async (userId: string, scopeId?: number) => {
             },
             issuedTo: {
                 select: { name: true }
-            }
+            },
+            reactions: true
         },
         orderBy: {
             createdAt: 'desc'
@@ -30,7 +31,8 @@ export const getUserFeed = async (userId: string, scopeId?: number) => {
         group: post.scope.name,
         finee: post.issuedTo?.name,
         description: post.description,
-        createdAt: post.createdAt
+        createdAt: post.createdAt,
+        reactions: post.reactions
     }));
 
     return results;

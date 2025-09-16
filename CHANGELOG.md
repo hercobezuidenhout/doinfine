@@ -17,3 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Toggle between light and dark mode.[#1](https://github.com/hercobezuidenhout/doinfine/issues/1)
 - View and post fines in groups [#1](https://github.com/hercobezuidenhout/doinfine/issues/1).
 - Sign in using email OTP [#1](https://github.com/hercobezuidenhout/doinfine/issues/1).
+
+### Fixed
+
+- Fix max clients reached issue caused by reactions [#13](https://github.com/hercobezuidenhout/doinfine/issues/13).

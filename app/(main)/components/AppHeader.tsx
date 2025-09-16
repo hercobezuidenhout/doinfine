@@ -3,6 +3,7 @@
 import { HStack, Heading, Image } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { MenuDrawer } from "./MenuDrawer";
+import { NotificationsDrawer } from "./NotificationsDrawer";
 
 export const AppHeader = () => {
 
@@ -21,6 +22,7 @@ export const AppHeader = () => {
                 <Heading size="2xl">Doinfine</Heading>
             </HStack>
             <HStack gap={4}>
+                <NotificationsDrawer />
                 <MenuDrawer />
             </HStack>
         </HStack>

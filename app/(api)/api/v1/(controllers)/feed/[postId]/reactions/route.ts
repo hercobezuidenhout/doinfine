@@ -2,6 +2,7 @@ import { createPostReaction } from "@/prisma/commands/create-post-reaction";
 import { deletePostReaction } from "@/prisma/commands/delete-post-reaction";
 import { getPostReactions } from "@/prisma/queries/get-post-reactions";
 import { NextParams } from "@/types/next-params";
+import { createNotification } from "@/utils/notifications/notifications";
 import { getUser } from "@/utils/supabase/server";
 
 export async function GET(request: Request, { params }: NextParams<{ postId: number; }>) {
@@ -17,6 +18,18 @@ export async function POST(request: Request, { params }: NextParams<{ postId: nu
     const body = await request.json();
 
     await createPostReaction({ userId: user.id, postId: Number(postId), reaction: body.reaction });
+
+    await createNotification({
+        userId: user.id,
+        type: "REACTION",
+        title: "Someone reacted to your post",
+        description: "Billy reacted to your post",
+        metadata: {
+            postId: Number(postId),
+            actorId: user.id,
+            reaction: body.reaction,
+        },
+    });
 
     return new Response(JSON.stringify({ postId, body }));
 }

@@ -15,7 +15,7 @@ export const Feed = ({ scopeId }: FeedProps) => {
         <Box mt={4} width="full">
             <VStack alignItems="stretch" gap={8}>
                 {data.map((post: Post) => (
-                    <PostCard key={post.id} post={post} />
+                    <PostCard key={post.id} post={post} scopeId={scopeId} />
                 ))}
             </VStack>
         </Box>

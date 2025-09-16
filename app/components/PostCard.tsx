@@ -4,7 +4,6 @@ import { Box, Card, Heading, IconButton, Wrap } from "@chakra-ui/react";
 import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
-import { usePostReactionsQuery } from "@/queries/usePostReactionsQuery";
 import { useCreatePostReactionMutation } from "@/mutations/useCreatePostReactionMutation";
 import { PostReaction } from "@prisma/client";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -17,6 +16,7 @@ export interface Post {
     finee: string;
     description: string;
     createdAt: string;
+    reactions: PostReaction[];
 }
 
 interface GroupedReaction {
@@ -27,18 +27,18 @@ interface GroupedReaction {
 
 interface PostCardProps {
     post: Post;
+    scopeId?: number;
 }
 
-export const PostCard = ({ post }: PostCardProps) => {
+export const PostCard = ({ post, scopeId }: PostCardProps) => {
     const { user } = useAuthContext();
-    const { data: reactions } = usePostReactionsQuery(post.id);
-    const { mutateAsync: createPostReaction } = useCreatePostReactionMutation(post.id);
-    const { mutateAsync: deletePostReaction } = useDeletePostReactionMutation(post.id);
+    const { mutateAsync: createPostReaction } = useCreatePostReactionMutation(post.id, Number(scopeId));
+    const { mutateAsync: deletePostReaction } = useDeletePostReactionMutation(post.id, Number(scopeId));
 
     const [groupedReactions, setGroupedReactions] = useState<GroupedReaction[]>([]);
 
     const handleAddReaction = async (code: string) => {
-        const alreadyReacted = user && reactions?.some((reaction: PostReaction) => reaction.reaction === code && reaction.userId === user.id);
+        const alreadyReacted = user && post.reactions?.some((reaction: PostReaction) => reaction.reaction === code && reaction.userId === user.id);
 
         if (alreadyReacted) {
             await deletePostReaction({ reaction: code });
@@ -50,7 +50,7 @@ export const PostCard = ({ post }: PostCardProps) => {
     useEffect(() => {
         const counts: Record<string, { count: number; userIds: string[]; }> = {};
 
-        reactions?.forEach(({ reaction: code, userId }: PostReaction) => {
+        post.reactions?.forEach(({ reaction: code, userId }: PostReaction) => {
             if (!counts[code]) counts[code] = { count: 0, userIds: [] };
             counts[code].count += 1;
             counts[code].userIds.push(userId);
@@ -63,7 +63,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         }));
 
         setGroupedReactions(grouped);
-    }, [reactions]);
+    }, [post.reactions]);
 
     return (
         <Card.Root size="md" key={post.id}>

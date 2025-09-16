@@ -2,6 +2,7 @@
 
 import { Box, Heading, HStack, Image } from "@chakra-ui/react";
 import { MenuDrawer } from "./MenuDrawer";
+import {NotificationsDrawer} from "@/app/(main)/components/NotificationsDrawer";
 
 export const MobileAppHeader = () => {
     return (
@@ -13,6 +14,7 @@ export const MobileAppHeader = () => {
                 <Heading>Doinfine</Heading>
             </Box>
             <Box>
+                <NotificationsDrawer />
                 <MenuDrawer />
             </Box>
         </HStack >

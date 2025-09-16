@@ -4,6 +4,7 @@ import { Card, Heading, IconButton } from "@chakra-ui/react";
 import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
+import { usePostReactionsQuery } from "@/queries/usePostReactionsQuery";
 
 export interface Post {
     id: number;
@@ -18,12 +19,15 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
+    const { data } = usePostReactionsQuery(post.id);
     const [reactions, setReactions] = useState<string[]>([]);
     const [groupedReactions, setGroupedReactions] = useState<{ code: string; count: number; }[]>([]);
 
     const handleAddReaction = (code: string) => {
         setReactions((prev) => [...prev, code]);
     };
+
+    console.log("data", data);
 
     useEffect(() => {
         const counts: Record<string, number> = {};

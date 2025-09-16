@@ -47,6 +47,7 @@ export const PostCard = ({ post }: PostCardProps) => {
             <Card.Footer>
                 {groupedReactions.map(({ code, count }) => (
                     <IconButton
+                        onClick={() => handleAddReaction(code)}
                         borderRadius="full"
                         variant="subtle"
                         size="xs"

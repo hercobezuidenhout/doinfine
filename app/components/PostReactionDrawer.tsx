@@ -21,7 +21,7 @@ export const PostReactionDrawer = ({ onAddReaction }: PostReactionDrawerProps) =
         <Drawer.Root placement="bottom" open={open} onOpenChange={() => setOpen(!open)}>
             <Drawer.Backdrop />
             <Drawer.Trigger asChild>
-                <IconButton borderRadius="full" size="xs">
+                <IconButton borderRadius="full" size="xs" variant="subtle">
                     <LuSmilePlus />
                 </IconButton>
             </Drawer.Trigger>

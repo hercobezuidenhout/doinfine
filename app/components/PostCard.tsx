@@ -48,7 +48,9 @@ export const PostCard = ({ post }: PostCardProps) => {
                 {groupedReactions.map(({ code, count }) => (
                     <IconButton
                         borderRadius="full"
+                        variant="subtle"
                         size="xs"
+                        px={2}
                         key={code}
                         aria-label={`${code} reaction`}
                     >

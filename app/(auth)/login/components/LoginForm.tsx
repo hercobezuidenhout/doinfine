@@ -29,7 +29,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
         const supabase = createClient();
 
         if (process.env.NODE_ENV === 'development') {
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { error } = await supabase.auth.signInWithPassword({
                 email: formData.email,
                 password: 'supersecret'
             });

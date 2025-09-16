@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Heading, IconButton } from "@chakra-ui/react";
+import { Card, Heading, IconButton, Wrap } from "@chakra-ui/react";
 import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
@@ -73,24 +73,26 @@ export const PostCard = ({ post }: PostCardProps) => {
                 {post.description}
             </Card.Body>
             <Card.Footer>
-                {groupedReactions.map(({ code, count, userIds }) => {
-                    const reactedByCurrentUser = user && userIds.includes(user.id);
+                <Wrap gap={2}>
+                    {groupedReactions.map(({ code, count, userIds }) => {
+                        const reactedByCurrentUser = user && userIds.includes(user.id);
 
-                    return (
-                        <IconButton
-                            key={code}
-                            borderRadius="full"
-                            variant={reactedByCurrentUser ? "solid" : "subtle"} // highlight if reacted
-                            size="xs"
-                            px={2}
-                            aria-label={`${code} reaction`}
-                            onClick={() => handleAddReaction(code)}
-                        >
-                            {codepointsToEmoji(code)} {count}
-                        </IconButton>
-                    );
-                })}
-                <PostReactionDrawer onAddReaction={handleAddReaction} />
+                        return (
+                            <IconButton
+                                key={code}
+                                borderRadius="full"
+                                variant={reactedByCurrentUser ? "solid" : "subtle"} // highlight if reacted
+                                size="xs"
+                                px={2}
+                                aria-label={`${code} reaction`}
+                                onClick={() => handleAddReaction(code)}
+                            >
+                                {codepointsToEmoji(code)} {count}
+                            </IconButton>
+                        );
+                    })}
+                    <PostReactionDrawer onAddReaction={handleAddReaction} />
+                </Wrap>
             </Card.Footer>
         </Card.Root>
     );

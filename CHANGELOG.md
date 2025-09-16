@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- In-app notifications [#15](https://github.com/hercobezuidenhout/doinfine/issues/15).
 - React to posts [#9](https://github.com/hercobezuidenhout/doinfine/issues/11).
 - Add loading states to login flow [#9](https://github.com/hercobezuidenhout/doinfine/issues/9).
 - Properly render on desktop [#7](https://github.com/hercobezuidenhout/doinfine/issues/7).

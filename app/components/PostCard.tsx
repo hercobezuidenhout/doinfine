@@ -5,6 +5,8 @@ import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
 import { usePostReactionsQuery } from "@/queries/usePostReactionsQuery";
+import { useCreatePostReactionMutation } from "@/mutations/useCreatePostReactionMutation";
+import { PostReaction } from "@prisma/client";
 
 export interface Post {
     id: number;
@@ -19,20 +21,19 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
-    const { data } = usePostReactionsQuery(post.id);
-    const [reactions, setReactions] = useState<string[]>([]);
+    const { data: reactions } = usePostReactionsQuery(post.id);
+    const { mutateAsync } = useCreatePostReactionMutation(post.id);
+
     const [groupedReactions, setGroupedReactions] = useState<{ code: string; count: number; }[]>([]);
 
-    const handleAddReaction = (code: string) => {
-        setReactions((prev) => [...prev, code]);
+    const handleAddReaction = async (code: string) => {
+        await mutateAsync({ reaction: code });
     };
-
-    console.log("data", data);
 
     useEffect(() => {
         const counts: Record<string, number> = {};
 
-        reactions.forEach((code) => {
+        reactions?.forEach(({ reaction: code }: PostReaction) => {
             counts[code] = (counts[code] || 0) + 1;
         });
 

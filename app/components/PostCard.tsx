@@ -8,6 +8,7 @@ import { usePostReactionsQuery } from "@/queries/usePostReactionsQuery";
 import { useCreatePostReactionMutation } from "@/mutations/useCreatePostReactionMutation";
 import { PostReaction } from "@prisma/client";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useDeletePostReactionMutation } from "@/mutations/useDeletePostReactionMutation";
 
 export interface Post {
     id: number;
@@ -30,7 +31,8 @@ interface PostCardProps {
 export const PostCard = ({ post }: PostCardProps) => {
     const { user } = useAuthContext();
     const { data: reactions } = usePostReactionsQuery(post.id);
-    const { mutateAsync } = useCreatePostReactionMutation(post.id);
+    const { mutateAsync: createPostReaction } = useCreatePostReactionMutation(post.id);
+    const { mutateAsync: deletePostReaction } = useDeletePostReactionMutation(post.id);
 
     const [groupedReactions, setGroupedReactions] = useState<GroupedReaction[]>([]);
 
@@ -38,11 +40,10 @@ export const PostCard = ({ post }: PostCardProps) => {
         const alreadyReacted = user && reactions?.some((reaction: PostReaction) => reaction.reaction === code && reaction.userId === user.id);
 
         if (alreadyReacted) {
-            alert('You have already reacted.');
-            return;
+            await deletePostReaction({ reaction: code });
+        } else {
+            await createPostReaction({ reaction: code });
         }
-
-        await mutateAsync({ reaction: code });
     };
 
     useEffect(() => {

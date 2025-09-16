@@ -4,6 +4,9 @@ import { getPostReactions } from "@/prisma/queries/get-post-reactions";
 import { NextParams } from "@/types/next-params";
 import { createNotification } from "@/utils/notifications/notifications";
 import { getUser } from "@/utils/supabase/server";
+import {codepointsToEmoji} from "@/utils/lib/code-to-emoji";
+import {getPostById} from "@/prisma/queries/get-post-by-id";
+import {getUserById} from "@/prisma/queries/get-user-by-id";
 
 export async function GET(request: Request, { params }: NextParams<{ postId: number; }>) {
     const { postId } = await params;
@@ -19,11 +22,16 @@ export async function POST(request: Request, { params }: NextParams<{ postId: nu
 
     await createPostReaction({ userId: user.id, postId: Number(postId), reaction: body.reaction });
 
+    const userDetails = await getUserById(user.id);
+    const post = await getPostById(Number(postId))
+
     await createNotification({
         userId: user.id,
         type: "REACTION",
-        title: "Someone reacted to your post",
-        description: "Billy reacted to your post",
+        title: `${codepointsToEmoji(body.reaction)} New reaction`,
+        description: userDetails && post
+            ? `${userDetails.name} reacted with ${codepointsToEmoji(body.reaction)} to your post in ${post.scope.name}`
+            : "Someone reacted to your post",
         metadata: {
             postId: Number(postId),
             actorId: user.id,

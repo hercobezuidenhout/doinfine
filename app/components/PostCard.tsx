@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, Card, Heading, IconButton, Wrap } from "@chakra-ui/react";
-import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
 import { useCreatePostReactionMutation } from "@/mutations/useCreatePostReactionMutation";
@@ -9,6 +8,7 @@ import { PostReaction } from "@prisma/client";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDeletePostReactionMutation } from "@/mutations/useDeletePostReactionMutation";
 import { PostReactionDialog } from "./PostReactionDialog";
+import {codepointsToEmoji} from "@/utils/lib/code-to-emoji";
 
 export interface Post {
     id: number;

@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
+import {codepointsToEmoji} from "@/utils/lib/code-to-emoji";
 
 const EMOJIS = [
     // Smileys & People
@@ -16,9 +17,6 @@ const EMOJIS = [
     // Misc / Activities
     "1f440", "1f924", "1f921", "1f4aa"
 ];
-
-export const codepointsToEmoji = (code: string) =>
-    String.fromCodePoint(...code.split("-").map((c) => parseInt(c, 16)));
 
 export function EmojiPicker({ onSelect }: { onSelect: (code: string) => void; }) {
     return (

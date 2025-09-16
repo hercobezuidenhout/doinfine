@@ -4,6 +4,7 @@ import { HStack, IconButton, Link } from "@chakra-ui/react"
 import { LuHouse, LuUsers } from "react-icons/lu"
 import { PostDrawer } from "./PostDrawer"
 import { usePathname } from "next/navigation"
+import {NotificationsDrawer} from "@/app/(main)/components/NotificationsDrawer";
 
 export const BottomNavigationBar = () => {
     const pathname = usePathname()
@@ -23,6 +24,7 @@ export const BottomNavigationBar = () => {
                     <LuUsers />
                 </IconButton>
             </Link>
+            <NotificationsDrawer />
         </HStack>
     )
 }

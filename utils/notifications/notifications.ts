@@ -1,23 +1,25 @@
 import { adminDb, FieldValue } from "@/utils/firebase/admin";
 
-export type NotificationType = "REACTION" | "NEW_POST" | "INVITE_JOIN";
+export type NotificationType = "REACTION" | "FINE";
 
 export interface NotificationPayload {
     userId: string;
     title: string;
     description: string;
+    href?: string;
     type: NotificationType;
     metadata?: Record<string, any>;
 }
 
 export async function createNotification(payload: NotificationPayload) {
-    const { userId, title, description, type, metadata = {} } = payload;
+    const { userId, title, description, href, type, metadata = {} } = payload;
 
     try {
         await adminDb.collection("notifications").add({
             userId,
             title,
             description,
+            href,
             type,
             metadata,
             read: false,

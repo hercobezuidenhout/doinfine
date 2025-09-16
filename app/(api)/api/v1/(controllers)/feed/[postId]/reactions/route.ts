@@ -25,19 +25,20 @@ export async function POST(request: Request, { params }: NextParams<{ postId: nu
     const userDetails = await getUserById(user.id);
     const post = await getPostById(Number(postId))
 
-    await createNotification({
-        userId: user.id,
-        type: "REACTION",
-        title: `${codepointsToEmoji(body.reaction)} New reaction`,
-        description: userDetails && post
-            ? `${userDetails.name} reacted with ${codepointsToEmoji(body.reaction)} to your post in ${post.scope.name}`
-            : "Someone reacted to your post",
-        metadata: {
-            postId: Number(postId),
-            actorId: user.id,
-            reaction: body.reaction,
-        },
-    });
+    if (userDetails && post) {
+        await createNotification({
+            userId: user.id,
+            type: "REACTION",
+            title: `${codepointsToEmoji(body.reaction)} New reaction`,
+            description: `${userDetails.name} reacted with ${codepointsToEmoji(body.reaction)} to your post in ${post.scope.name}`,
+            href: `/scopes/${post.scope.id}`,
+            metadata: {
+                postId: Number(postId),
+                actorId: user.id,
+                reaction: body.reaction,
+            },
+        });
+    }
 
     return new Response(JSON.stringify({ postId, body }));
 }

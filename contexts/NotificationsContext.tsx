@@ -10,6 +10,7 @@ export interface Notification {
     userId: string;
     title: string;
     description: string;
+    href?: string;
     type: string;
     metadata: Record<string, any>;
     read: boolean;
@@ -34,6 +35,7 @@ export const NotificationsProvider = ({ children }: PropsWithChildren) => {
         const q = query(
             collection(db, "notifications"),
             where("userId", "==", user.id),
+            where("read", "==", false),
             orderBy("createdAt", "desc")
         );
 

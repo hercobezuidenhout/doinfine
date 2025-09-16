@@ -2,7 +2,9 @@
 
 import { Card, Drawer, Heading, IconButton } from "@chakra-ui/react";
 import { LuSmilePlus } from "react-icons/lu";
-import { EmojiPicker } from "./EmojiPicker";
+import { codepointsToEmoji, EmojiPicker } from "./EmojiPicker";
+import { PostReactionDrawer } from "./PostReactionDrawer";
+import { useState } from "react";
 
 export interface Post {
     id: number;
@@ -17,6 +19,11 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
+    const [reactions, setReactions] = useState<string[]>([]);
+
+    const handleAddReaction = (code: string) => {
+        setReactions((prev) => [...prev, code]);
+    };
 
     return (
         <Card.Root size="md" key={post.id}>
@@ -27,26 +34,8 @@ export const PostCard = ({ post }: PostCardProps) => {
                 {post.description}
             </Card.Body>
             <Card.Footer>
-                <Drawer.Root placement="bottom">
-                    <Drawer.Backdrop />
-                    <Drawer.Trigger>
-                        <IconButton borderRadius="full" size="sm">
-                            <LuSmilePlus />
-                        </IconButton>
-                    </Drawer.Trigger>
-                    <Drawer.Positioner>
-                        <Drawer.Content>
-                            <Drawer.CloseTrigger />
-                            <Drawer.Header>
-                                <Drawer.Title />
-                            </Drawer.Header>
-                            <Drawer.Body>
-                                <EmojiPicker onSelect={(emoji) => console.info(emoji)} />
-                            </Drawer.Body>
-                            <Drawer.Footer />
-                        </Drawer.Content>
-                    </Drawer.Positioner>
-                </Drawer.Root>
+                {reactions.map((reaction, index) => <IconButton borderRadius="full" size="xs" key={index}>{codepointsToEmoji(reaction)}</IconButton>)}
+                <PostReactionDrawer onAddReaction={handleAddReaction} />
             </Card.Footer>
         </Card.Root>
     );

@@ -14,6 +14,23 @@ export const useCreatePostReactionMutation = (postId: number) => {
 
     return useMutation({
         mutationFn: createPostReaction,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', postId, 'reactions'] })
+        onMutate: async ({ reaction }) => {
+            const previousReactions = queryClient.getQueryData<PostReaction[]>(['feed', postId, 'reactions']);
+
+            queryClient.setQueryData<PostReaction[]>(['feed', postId, 'reactions'], (old = []) => [
+                ...old,
+                { reaction, postId, userId: 'temp', createdAt: new Date() } as PostReaction,
+            ]);
+
+            return { previousReactions };
+        },
+        onError: (_err, _variables, context) => {
+            if (context?.previousReactions) {
+                queryClient.setQueryData(['feed', postId, 'reactions'], context.previousReactions);
+            }
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['feed', postId, 'reactions'] });
+        },
     });
 };

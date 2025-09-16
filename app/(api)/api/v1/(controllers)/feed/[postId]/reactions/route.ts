@@ -27,7 +27,7 @@ export async function POST(request: Request, { params }: NextParams<{ postId: nu
 
     if (userDetails && post) {
         await createNotification({
-            userId: user.id,
+            userId: post.issuedById,
             type: "REACTION",
             title: `${codepointsToEmoji(body.reaction)} New reaction`,
             description: `${userDetails.name} reacted with ${codepointsToEmoji(body.reaction)} to your post in ${post.scope.name}`,

@@ -3,7 +3,7 @@
 import { Card, Heading, IconButton } from "@chakra-ui/react";
 import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface Post {
     id: number;
@@ -19,10 +19,22 @@ interface PostCardProps {
 
 export const PostCard = ({ post }: PostCardProps) => {
     const [reactions, setReactions] = useState<string[]>([]);
+    const [groupedReactions, setGroupedReactions] = useState<{ code: string; count: number; }[]>([]);
 
     const handleAddReaction = (code: string) => {
         setReactions((prev) => [...prev, code]);
     };
+
+    useEffect(() => {
+        const counts: Record<string, number> = {};
+
+        reactions.forEach((code) => {
+            counts[code] = (counts[code] || 0) + 1;
+        });
+
+        const grouped = Object.entries(counts).map(([code, count]) => ({ code, count }));
+        setGroupedReactions(grouped);
+    }, [reactions]);
 
     return (
         <Card.Root size="md" key={post.id}>
@@ -33,7 +45,16 @@ export const PostCard = ({ post }: PostCardProps) => {
                 {post.description}
             </Card.Body>
             <Card.Footer>
-                {reactions.map((reaction, index) => <IconButton borderRadius="full" size="xs" key={index}>{codepointsToEmoji(reaction)}</IconButton>)}
+                {groupedReactions.map(({ code, count }) => (
+                    <IconButton
+                        borderRadius="full"
+                        size="xs"
+                        key={code}
+                        aria-label={`${code} reaction`}
+                    >
+                        {codepointsToEmoji(code)} {count}
+                    </IconButton>
+                ))}
                 <PostReactionDrawer onAddReaction={handleAddReaction} />
             </Card.Footer>
         </Card.Root>

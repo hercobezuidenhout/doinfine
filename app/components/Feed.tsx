@@ -1,15 +1,8 @@
 'use client';
 
 import { useFeedQuery } from "@/queries/useFeedQuery";
-import { Box, VStack, Card, Heading } from "@chakra-ui/react";
-
-interface Post {
-    id: number;
-    group: string;
-    finee: string;
-    description: string;
-    createdAt: string;
-}
+import { Box, VStack } from "@chakra-ui/react";
+import { Post, PostCard } from "./PostCard";
 
 interface FeedProps {
     scopeId?: number;
@@ -22,14 +15,7 @@ export const Feed = ({ scopeId }: FeedProps) => {
         <Box mt={4} width="full">
             <VStack alignItems="stretch" gap={8}>
                 {data.map((post: Post) => (
-                    <Card.Root size="md" key={post.id}>
-                        <Card.Header>
-                            <Heading size="xs" color="fg.muted">{post.finee} - {post.group}</Heading>
-                        </Card.Header>
-                        <Card.Body>
-                            {post.description}
-                        </Card.Body>
-                    </Card.Root>
+                    <PostCard key={post.id} post={post} />
                 ))}
             </VStack>
         </Box>

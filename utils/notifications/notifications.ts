@@ -8,7 +8,7 @@ export interface NotificationPayload {
     description: string;
     href?: string;
     type: NotificationType;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
 }
 
 export async function createNotification(payload: NotificationPayload) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, ReactNode, PropsWithChildren } from "react";
+import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from "react";
 import { db } from "@/utils/firebase/client";
 import { collection, query, where, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore";
 import { useAuthContext } from "./AuthContext";
@@ -12,7 +12,7 @@ export interface Notification {
     description: string;
     href?: string;
     type: string;
-    metadata: Record<string, any>;
+    metadata: Record<string, unknown>;
     read: boolean;
     createdAt: Date;
 }

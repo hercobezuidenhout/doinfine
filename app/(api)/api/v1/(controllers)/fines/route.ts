@@ -40,17 +40,15 @@ export async function POST(request: Request) {
 
     if (issuedToUser) {
         for (const scopeMember of filteredScopeMembers) {
-            if (scopeMember.id === issuedToUser.id || scopeMember.id === user.id) {
-                return;
+            if (scopeMember.id !== issuedToUser.id || scopeMember.id !== user.id) {
+                await createNotification({
+                    userId: scopeMember.id,
+                    type: "FINE",
+                    title: `${issuedToUser.name} has been fined!`,
+                    description: `${body.description}`,
+                    href: `/scopes/${body.scopeId}`
+                })
             }
-
-            await createNotification({
-                userId: scopeMember.id,
-                type: "FINE",
-                title: `${issuedToUser.name} has been fined!`,
-                description: `${body.description}`,
-                href: `/scopes/${body.scopeId}`
-            })
         }
     }
 

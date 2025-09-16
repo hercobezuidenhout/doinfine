@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Heading, IconButton, Wrap } from "@chakra-ui/react";
+import { Box, Card, Heading, IconButton, Wrap } from "@chakra-ui/react";
 import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { useCreatePostReactionMutation } from "@/mutations/useCreatePostReaction
 import { PostReaction } from "@prisma/client";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDeletePostReactionMutation } from "@/mutations/useDeletePostReactionMutation";
+import { PostReactionDialog } from "./PostReactionDialog";
 
 export interface Post {
     id: number;
@@ -91,7 +92,12 @@ export const PostCard = ({ post }: PostCardProps) => {
                             </IconButton>
                         );
                     })}
-                    <PostReactionDrawer onAddReaction={handleAddReaction} />
+                    <Box display={{ base: 'block', md: 'none' }}>
+                        <PostReactionDrawer onAddReaction={handleAddReaction} />
+                    </Box>
+                    <Box display={{ base: 'none', md: 'block' }}>
+                        <PostReactionDialog onAddReaction={handleAddReaction} />
+                    </Box>
                 </Wrap>
             </Card.Footer>
         </Card.Root>

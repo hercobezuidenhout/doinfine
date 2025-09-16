@@ -34,7 +34,8 @@ export function EmojiPicker({ onSelect }: { onSelect: (code: string) => void; })
                                 fontSize="22px"
                                 p={2}
                                 borderRadius="md"
-                                _hover={{ bg: "gray.100" }}
+                                cursor="pointer"
+                                _hover={{ bg: "bg.subtle" }}
                                 onClick={() => onSelect(code)}
                             >
                                 {emoji}

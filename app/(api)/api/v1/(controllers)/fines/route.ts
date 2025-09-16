@@ -40,6 +40,10 @@ export async function POST(request: Request) {
 
     if (issuedToUser) {
         for (const scopeMember of filteredScopeMembers) {
+            if (scopeMember.id === issuedToUser.id || scopeMember.id === user.id) {
+                return;
+            }
+
             await createNotification({
                 userId: scopeMember.id,
                 type: "FINE",

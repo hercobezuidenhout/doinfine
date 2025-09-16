@@ -1,8 +1,7 @@
 'use client';
 
-import { Card, Drawer, Heading, IconButton } from "@chakra-ui/react";
-import { LuSmilePlus } from "react-icons/lu";
-import { codepointsToEmoji, EmojiPicker } from "./EmojiPicker";
+import { Card, Heading, IconButton } from "@chakra-ui/react";
+import { codepointsToEmoji } from "./EmojiPicker";
 import { PostReactionDrawer } from "./PostReactionDrawer";
 import { useState } from "react";
 

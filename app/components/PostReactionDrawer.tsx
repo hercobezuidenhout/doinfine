@@ -2,7 +2,7 @@
 
 import { Drawer, IconButton } from "@chakra-ui/react";
 import { LuSmilePlus } from "react-icons/lu";
-import { codepointsToEmoji, EmojiPicker } from "./EmojiPicker";
+import { EmojiPicker } from "./EmojiPicker";
 import { useState } from "react";
 
 interface PostReactionDrawerProps {

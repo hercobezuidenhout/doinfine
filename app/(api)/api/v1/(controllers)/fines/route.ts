@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
     const scopeMembers = await getScopeMembers(body.scopeId);
     const filteredScopeMembers = scopeMembers.filter(
-        member => (member.id !== body.issuedToId || member.id !== user.id)
+        member => (member.id !== body.issuedToId && member.id !== user.id)
     );
     const issuedToUser = await getUserById(body.issuedToId);
     const issuedByUser = await getUserById(user.id);
@@ -40,15 +40,13 @@ export async function POST(request: Request) {
 
     if (issuedToUser) {
         for (const scopeMember of filteredScopeMembers) {
-            if (scopeMember.id !== issuedToUser.id || scopeMember.id !== user.id) {
-                await createNotification({
-                    userId: scopeMember.id,
-                    type: "FINE",
-                    title: `${issuedToUser.name} has been fined!`,
-                    description: `${body.description}`,
-                    href: `/scopes/${body.scopeId}`
-                })
-            }
+            await createNotification({
+                userId: scopeMember.id,
+                type: "FINE",
+                title: `${issuedToUser.name} has been fined!`,
+                description: `${body.description}`,
+                href: `/scopes/${body.scopeId}`
+            })
         }
     }
 

@@ -18,13 +18,13 @@ export const BottomNavigationBar = () => {
                     <LuHouse />
                 </IconButton>
             </Link>
-            <PostDrawer />
             <Link href="/scopes">
                 <IconButton borderRadius="full" variant={isCurrentPath("/scopes") ? 'solid' : 'ghost'}>
                     <LuUsers />
                 </IconButton>
             </Link>
             <NotificationsDrawer />
+            <PostDrawer />
         </HStack>
     )
 }

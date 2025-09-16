@@ -1,8 +1,10 @@
+import { useAuthContext } from "@/contexts/AuthContext";
 import { PostReaction } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreatePostReactionMutation = (postId: number) => {
     const queryClient = useQueryClient();
+    const { user } = useAuthContext();
 
     const createPostReaction = (postReaction: Pick<PostReaction, 'reaction'>) => fetch(`/api/v1/feed/${postId}/reactions`, {
         method: "POST",
@@ -19,7 +21,7 @@ export const useCreatePostReactionMutation = (postId: number) => {
 
             queryClient.setQueryData<PostReaction[]>(['feed', postId, 'reactions'], (old = []) => [
                 ...old,
-                { reaction, postId, userId: 'temp', createdAt: new Date() } as PostReaction,
+                { reaction, postId, userId: user?.id, createdAt: new Date() } as PostReaction,
             ]);
 
             return { previousReactions };

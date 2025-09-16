@@ -21,4 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Duplicate notifications for fines [#17](https://github.com/hercobezuidenhout/doinfine/issues/17).
 - Fix max clients reached issue caused by reactions [#13](https://github.com/hercobezuidenhout/doinfine/issues/13).

@@ -22,8 +22,11 @@ export async function POST(request: Request) {
     });
 
     const scopeMembers = await getScopeMembers(body.scopeId);
+    const filteredScopeMembers = scopeMembers.filter(
+        member => (member.id !== body.issuedToId && member.id !== user.id)
+    );
     const issuedToUser = await getUserById(body.issuedToId);
-    const issuedByUser = await getUserById(body.issuedById);
+    const issuedByUser = await getUserById(user.id);
 
     if (issuedByUser) {
         await createNotification({
@@ -35,13 +38,13 @@ export async function POST(request: Request) {
         })
     }
 
-    if (issuedToUser && issuedByUser) {
-        for (const scopeMember of scopeMembers) {
+    if (issuedToUser) {
+        for (const scopeMember of filteredScopeMembers) {
             await createNotification({
                 userId: scopeMember.id,
                 type: "FINE",
                 title: `${issuedToUser.name} has been fined!`,
-                description: `For ${body.description}`,
+                description: `${body.description}`,
                 href: `/scopes/${body.scopeId}`
             })
         }

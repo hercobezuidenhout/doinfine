@@ -1,9 +1,20 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from "react";
-import { db } from "@/utils/firebase/client";
-import { collection, query, where, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore";
+import {db, messaging} from "@/utils/firebase/client";
+import {
+    collection,
+    query,
+    where,
+    orderBy,
+    onSnapshot,
+    updateDoc,
+    doc,
+    serverTimestamp,
+    setDoc
+} from "firebase/firestore";
 import { useAuthContext } from "./AuthContext";
+import {getToken} from "@firebase/messaging";
 
 export interface Notification {
     id: string;

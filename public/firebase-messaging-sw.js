@@ -27,12 +27,19 @@ messaging.onBackgroundMessage((payload) => {
         '[firebase-messaging-sw.js] Received background message ',
         payload
     );
+
+    console.log("Notification permission:", Notification.permission);
+
     // Customize notification here
-    const notificationTitle = 'Background Message Title';
+    const { title, body, icon } = payload.notification || {};
+    const notificationTitle = title || "New notification";
     const notificationOptions = {
-        body: 'Background Message body.',
-        icon: '/firebase-logo.png'
+        body: body || "",
+        icon: icon || "/assets/logo.jpg",
+        data: payload.data || {},
     };
 
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
 });

@@ -5,6 +5,7 @@ import {db, messaging} from "@/utils/firebase/client";
 import {getToken, onMessage} from "@firebase/messaging";
 import {useAuthContext} from "@/contexts/AuthContext";
 import {doc, serverTimestamp, setDoc} from "firebase/firestore";
+import {Toaster, toaster} from "@/components/ui/toaster";
 
 export const PushNotificationsProvider = ({ children }: PropsWithChildren) => {
     const {user} = useAuthContext();
@@ -29,13 +30,20 @@ export const PushNotificationsProvider = ({ children }: PropsWithChildren) => {
         });
         onMessage(messaging, (payload) => {
             console.log('Message received. ', payload);
-
+            toaster.create({
+                title: payload.notification?.title,
+                description: payload.notification?.body,
+                type: 'info',
+            })
         });
     }, [user]);
 
 
 
     return (
-        <>{children}</>
+        <>
+            <Toaster />
+            {children}
+        </>
     )
 }

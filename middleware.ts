@@ -20,13 +20,16 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
+        /**
+         * Match all request paths except for:
          * - _next/static (static files)
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
-         * Feel free to modify this pattern to include more paths.
+         * - manifest.webmanifest (PWA manifest)
+         * - *.webmanifest (just in case you use a different name)
+         * - *.json (optional if you serve assetlinks.json for Android)
+         * - service-worker.js (for PWA service worker)
          */
-        '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+        '/((?!_next/static|_next/image|favicon.ico|manifest\\.webmanifest|.*\\.webmanifest|service-worker\\.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 };

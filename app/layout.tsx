@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
 import ClientProviders from "./providers";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+      </Head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ClientProviders>
           <Provider>

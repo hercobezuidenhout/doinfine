@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- PWA Support for iOS Safari Push Notifications [21](https://github.com/hercobezuidenhout/doinfine/issues/21).
+- User profile page to enable a user to update their name and bio [#29](https://github.com/hercobezuidenhout/doinfine/issues/29).
+- PWA Support for iOS Safari Push Notifications [#21](https://github.com/hercobezuidenhout/doinfine/issues/21).
 - Push notifications [#19](https://github.com/hercobezuidenhout/doinfine/issues/19).
 - In-app notifications [#15](https://github.com/hercobezuidenhout/doinfine/issues/15).
 - React to posts [#9](https://github.com/hercobezuidenhout/doinfine/issues/11).

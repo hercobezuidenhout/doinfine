@@ -1,3 +1,4 @@
+import { unsubscribeUser } from "@/app/actions";
 import { adminDb, FieldValue } from "@/utils/firebase/admin";
 import webpush from 'web-push';
 
@@ -42,14 +43,27 @@ export async function createNotification(payload: NotificationPayload) {
 
         if (!settingsData) return;
 
-        await webpush.sendNotification(
-            settingsData.subscription,
-            JSON.stringify({
-                title: title,
-                body: description,
-                icon: '/icon.png',
-            })
-        );
+        for (let subscriptionIndex = 0; subscriptionIndex < settingsData.subscriptions.length; subscriptionIndex++) {
+            const userSubscription = settingsData.subscriptions[subscriptionIndex];
+            console.info('sendNotification', userSubscription);
+            try {
+                await webpush.sendNotification(
+                    settingsData.subscription,
+                    JSON.stringify({
+                        title: title,
+                        body: description,
+                        icon: '/icon.png',
+                    })
+                );
+            } catch (error) {
+                console.error('Error sending push notification:', error);
+                if ((error as webpush.SendResult).statusCode === 410) {
+                    await unsubscribeUser(userSubscription);
+                }
+            }
+
+        }
+
     } catch (err) {
         console.error("Failed to create notification or send push", err);
         throw err;

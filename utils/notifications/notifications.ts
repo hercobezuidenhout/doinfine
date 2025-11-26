@@ -48,7 +48,7 @@ export async function createNotification(payload: NotificationPayload) {
             console.info('sendNotification', userSubscription);
             try {
                 await webpush.sendNotification(
-                    settingsData.subscription,
+                    userSubscription,
                     JSON.stringify({
                         title: title,
                         body: description,

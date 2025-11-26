@@ -13,7 +13,7 @@ interface MenuSectionProps extends PropsWithChildren {
 }
 
 export const MenuSection = ({ title, items }: MenuSectionProps) => (
-    <VStack alignItems="stretch" mt={8}>
+    <VStack alignItems="stretch">
         <Heading size="xs">{title.toUpperCase()}</Heading>
         <VStack alignItems="stretch">
             {items?.map((item, index) => (

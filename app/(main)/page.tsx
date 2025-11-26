@@ -1,5 +1,7 @@
-import { Heading, VStack } from "@chakra-ui/react"
-import { Feed } from "../components/Feed"
+'use client';
+
+import { Heading, VStack } from "@chakra-ui/react";
+import { Feed } from "../components/Feed";
 
 export default function Home() {
     return (
@@ -7,5 +9,5 @@ export default function Home() {
             <Heading size={{ base: "3xl", md: "5xl" }}>Feed</Heading>
             <Feed />
         </VStack>
-    )
+    );
 }

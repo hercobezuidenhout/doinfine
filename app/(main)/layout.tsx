@@ -6,14 +6,14 @@ import { BottomNavigationBar } from "./components/BottomNavigationBar";
 import { MobileAppHeader } from "./components/MobileAppHeader";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { NotificationsProvider } from "@/contexts/NotificationsContext";
-import {PushNotificationsProvider} from "@/contexts/PushNotificationsProvider";
+import { PushNotificationsProvider } from "@/contexts/PushNotificationsContext";
 
 export default function MainLayout({ children }: PropsWithChildren) {
 
     return (
         <AuthProvider>
-            <NotificationsProvider>
-                <PushNotificationsProvider>
+            <PushNotificationsProvider>
+                <NotificationsProvider>
                     <div>
                         <Box display={{ base: 'none', md: 'block' }}>
                             <AppHeader />
@@ -36,8 +36,8 @@ export default function MainLayout({ children }: PropsWithChildren) {
                             <BottomNavigationBar />
                         </Box>
                     </div>
-                </PushNotificationsProvider>
-            </NotificationsProvider>
+                </NotificationsProvider>
+            </PushNotificationsProvider>
         </AuthProvider>
     );
 }

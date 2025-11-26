@@ -1,4 +1,6 @@
-import {adminDb, adminMessaging, FieldValue} from "@/utils/firebase/admin";
+import { unsubscribeUser } from "@/app/actions";
+import { adminDb, FieldValue } from "@/utils/firebase/admin";
+import webpush from 'web-push';
 
 export type NotificationType = "REACTION" | "FINE";
 
@@ -10,6 +12,12 @@ export interface NotificationPayload {
     type: NotificationType;
     metadata?: Record<string, unknown>;
 }
+
+webpush.setVapidDetails(
+    'mailto:support@doinfine.app',
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+);
 
 export async function createNotification(payload: NotificationPayload) {
     const { userId, title, description, href, type, metadata = {} } = payload;
@@ -26,30 +34,35 @@ export async function createNotification(payload: NotificationPayload) {
             createdAt: FieldValue.serverTimestamp(),
         });
 
-        const tokensSnapshot = await adminDb
-            .collection("users")
+        const userNotificationSettingsSnapshot = await adminDb
+            .collection("userNotificationSettings")
             .doc(userId)
-            .collection("deviceTokens")
             .get();
 
+        const settingsData = userNotificationSettingsSnapshot.data();
 
-        const tokens = tokensSnapshot.docs.map((doc) => doc.id);
-        console.info(tokens);
-        if (!tokens.length) return;// get the messaging service
+        if (!settingsData) return;
 
-        const response = await adminMessaging.sendEachForMulticast({
-            tokens,
-            notification: {
-                title,
-                body: description,
-            },
-            data: {
-                type,
-                href: href || "",
-            },
-        });
+        for (let subscriptionIndex = 0; subscriptionIndex < settingsData.subscriptions.length; subscriptionIndex++) {
+            const userSubscription = settingsData.subscriptions[subscriptionIndex];
+            console.info('sendNotification', userSubscription);
+            try {
+                await webpush.sendNotification(
+                    userSubscription,
+                    JSON.stringify({
+                        title: title,
+                        body: description,
+                        icon: '/icon.png',
+                    })
+                );
+            } catch (error) {
+                console.error('Error sending push notification:', error);
+                if ((error as webpush.SendResult).statusCode === 410) {
+                    await unsubscribeUser(userSubscription);
+                }
+            }
 
-        console.info(response);
+        }
 
     } catch (err) {
         console.error("Failed to create notification or send push", err);

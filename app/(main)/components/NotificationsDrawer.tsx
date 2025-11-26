@@ -1,6 +1,6 @@
 'use client';
 
-import {Notification, useNotifications} from "@/contexts/NotificationsContext";
+import { Notification, useNotifications } from "@/contexts/NotificationsContext";
 import {
     Badge,
     Button,
@@ -14,13 +14,14 @@ import {
     Text,
     VStack
 } from "@chakra-ui/react";
-import {LuBell} from "react-icons/lu";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import { LuBell } from "react-icons/lu";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { PushNotificationManager } from "./PushNotificationsManager";
 
 export const NotificationsDrawer = () => {
     const [open, setOpen] = useState(false);
-    const {notifications, unreadCount, markAsRead} = useNotifications();
+    const { notifications, unreadCount, markAsRead } = useNotifications();
     const router = useRouter();
 
     const handleNotificationClick = async (notification: Notification) => {
@@ -30,14 +31,14 @@ export const NotificationsDrawer = () => {
             setOpen(false);
             router.push(notification.href);
         }
-    }
+    };
 
     return (
         <>
             <Drawer.Root placement="end" open={open} onOpenChange={(event) => setOpen(event.open)}>
                 <Drawer.Trigger asChild>
                     <IconButton variant="ghost" aria-label="Menu" borderRadius="full">
-                        <LuBell/>
+                        <LuBell />
                         {unreadCount > 0 && (
                             <Badge
                                 ml="-4"
@@ -52,23 +53,24 @@ export const NotificationsDrawer = () => {
                     </IconButton>
                 </Drawer.Trigger>
                 <Portal>
-                    <Drawer.Backdrop/>
+                    <Drawer.Backdrop />
                     <Drawer.Positioner>
                         <Drawer.Content>
                             <Drawer.CloseTrigger asChild>
-                                <CloseButton/>
+                                <CloseButton />
                             </Drawer.CloseTrigger>
 
                             <Drawer.Header>
                                 <Text fontSize="lg" fontWeight="bold">Notifications <Badge>{unreadCount}</Badge></Text>
                             </Drawer.Header>
                             <Drawer.Body>
+                                <PushNotificationManager />
                                 <VStack gap={3} align="stretch">
                                     {notifications.length === 0 && <Text>No notifications</Text>}
 
                                     {notifications.map((notification) => (
                                         <Card.Root key={notification.id} variant="subtle"
-                                                   onClick={() => handleNotificationClick(notification)}>
+                                            onClick={() => handleNotificationClick(notification)}>
                                             <Card.Body>
                                                 <Stack gap={2}>
                                                     <Heading size="md">{notification.title}</Heading>

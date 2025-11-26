@@ -2,10 +2,10 @@
 
 import { useColorMode } from "@/components/ui/color-mode";
 import { createClient } from "@/utils/supabase/client";
-import { Blockquote, Button, CloseButton, Drawer, IconButton, Portal } from "@chakra-ui/react";
+import { Button, CloseButton, Drawer, IconButton, Portal, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuLogOut, LuMenu, LuMoon, LuSun } from "react-icons/lu";
+import { LuBell, LuLogOut, LuMenu, LuMoon, LuSettings, LuSun } from "react-icons/lu";
 import { MenuSection } from "./MenuSection";
 
 export const MenuDrawer = () => {
@@ -43,22 +43,22 @@ export const MenuDrawer = () => {
                                 <Drawer.Title>Menu</Drawer.Title>
                             </Drawer.Header>
                             <Drawer.Body>
-                                <Blockquote.Root>
-                                    <Blockquote.Content cite="Plato">
-                                        You can discover more about a person in an hour of play than in a year of conversation.
-                                    </Blockquote.Content>
-                                    <Blockquote.Caption>
-                                        — <cite>Plato</cite>
-                                    </Blockquote.Caption>
-                                </Blockquote.Root>
-
-                                <MenuSection title="theme" items={[
-                                    {
-                                        label: colorMode.colorMode === 'dark' ? "Switch to light mode" : "Switch to dark mode",
-                                        icon: colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />,
-                                        onClick: colorMode.toggleColorMode
-                                    }
-                                ]} />
+                                <Stack gap={8}>
+                                    <MenuSection title="theme" items={[
+                                        {
+                                            label: colorMode.colorMode === 'dark' ? "Switch to light mode" : "Switch to dark mode",
+                                            icon: colorMode.colorMode === 'dark' ? <LuSun /> : <LuMoon />,
+                                            onClick: colorMode.toggleColorMode
+                                        }
+                                    ]} />
+                                    <MenuSection title="settings" items={[
+                                        {
+                                            label: 'Settings',
+                                            icon: <LuSettings />,
+                                            onClick: () => router.push('/settings')
+                                        }
+                                    ]} />
+                                </Stack>
                             </Drawer.Body>
                             <Drawer.Footer>
                                 <Button width="full" variant="outline" onClick={handleSignOut}><LuLogOut /> Sign Out</Button>

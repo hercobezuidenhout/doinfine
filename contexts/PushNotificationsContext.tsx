@@ -35,11 +35,12 @@ export const PushNotificationsProvider = ({ children }: PropsWithChildren) => {
             updateViaCache: 'none',
         });
         const sub = await registration.pushManager.getSubscription();
+
+        console.info('registerServiceWorker', sub);
         setSubscription(sub);
     }
 
     async function subscribeToPush() {
-        console.info('subscribeToPush');
         const registration = await navigator.serviceWorker.ready;
         const sub = await registration.pushManager.subscribe({
             userVisibleOnly: true,
@@ -49,7 +50,8 @@ export const PushNotificationsProvider = ({ children }: PropsWithChildren) => {
         });
         setSubscription(sub);
         const serializedSub = JSON.parse(JSON.stringify(sub));
-        await subscribeUser(serializedSub);
+        const response = await subscribeUser(serializedSub);
+        console.info('subscribeToPush', response);
     }
 
     async function unsubscribeFromPush() {

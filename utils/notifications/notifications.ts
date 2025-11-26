@@ -1,4 +1,5 @@
 import { adminDb, FieldValue } from "@/utils/firebase/admin";
+import webpush from 'web-push';
 
 export type NotificationType = "REACTION" | "FINE";
 
@@ -10,6 +11,12 @@ export interface NotificationPayload {
     type: NotificationType;
     metadata?: Record<string, unknown>;
 }
+
+webpush.setVapidDetails(
+    'mailto:support@doinfine.app',
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+);
 
 export async function createNotification(payload: NotificationPayload) {
     const { userId, title, description, href, type, metadata = {} } = payload;
@@ -26,16 +33,23 @@ export async function createNotification(payload: NotificationPayload) {
             createdAt: FieldValue.serverTimestamp(),
         });
 
-        const tokensSnapshot = await adminDb
-            .collection("users")
+        const userNotificationSettingsSnapshot = await adminDb
+            .collection("userNotificationSettings")
             .doc(userId)
-            .collection("deviceTokens")
             .get();
 
+        const settingsData = userNotificationSettingsSnapshot.data();
 
-        const tokens = tokensSnapshot.docs.map((doc) => doc.id);
-        console.info(tokens);
-        if (!tokens.length) return;
+        if (!settingsData) return;
+
+        await webpush.sendNotification(
+            settingsData.subscription,
+            JSON.stringify({
+                title: title,
+                body: description,
+                icon: '/icon.png',
+            })
+        );
     } catch (err) {
         console.error("Failed to create notification or send push", err);
         throw err;

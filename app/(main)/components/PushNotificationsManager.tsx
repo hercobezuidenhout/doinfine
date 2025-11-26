@@ -30,6 +30,7 @@ export function PushNotificationManager() {
         const message = "Hello from Doinfine 👋!";
 
         if (subscription) {
+            console.info('sendTestNotification', subscription);
             sendNotificationMutation.mutate(message);
         }
     }

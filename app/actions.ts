@@ -1,5 +1,7 @@
 'use server';
 
+import { adminDb } from '@/utils/firebase/admin';
+import { createClient } from '@/utils/supabase/server';
 import webpush from 'web-push';
 
 webpush.setVapidDetails(
@@ -11,36 +13,70 @@ webpush.setVapidDetails(
 let subscription: webpush.PushSubscription | null = null;
 
 export async function subscribeUser(sub: webpush.PushSubscription) {
+    const supabaseClient = await createClient();
     subscription = sub;
     // In a production environment, you would want to store the subscription in a database
     // For example: await db.subscriptions.create({ data: sub })
-    return { success: true };
+    const { data } = await supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+        await adminDb.collection('userNotificationSettings').doc(data.user?.id).set({
+            subscription: sub
+        });
+
+        return { success: true };
+    } else {
+        return { success: false, message: 'User not authenticated' };
+    }
 }
 
 export async function unsubscribeUser() {
     subscription = null;
     // In a production environment, you would want to remove the subscription from the database
     // For example: await db.subscriptions.delete({ where: { ... } })
-    return { success: true };
+    const supabaseClient = await createClient();
+    const { data } = await supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+        await adminDb.collection('userNotificationSettings').doc(data.user.id).delete();
+        return { success: true };
+    } else {
+        return { success: false };
+    }
 }
 
 export async function sendNotification(message: string) {
-    if (!subscription) {
-        throw new Error('No subscription available');
+    const supabaseClient = await createClient();
+    const { data } = await supabaseClient.auth.getUser();
+    if (data && data.user) {
+        const userNotificationSettings = await adminDb.collection('userNotificationSettings').doc(data.user.id).get();
+        const userNotificationSettingsData = userNotificationSettings.data();
+        if (!userNotificationSettings || !userNotificationSettingsData) {
+            throw new Error('No subscription available');
+        }
+
+
+        try {
+            await webpush.sendNotification(
+                userNotificationSettingsData.subscription,
+                JSON.stringify({
+                    title: 'Test Notification',
+                    body: message,
+                    icon: '/icon.png',
+                })
+            );
+            return { success: true };
+        } catch (error) {
+            console.error('Error sending push notification:', error);
+            return { success: false, error: 'Failed to send notification' };
+        }
+
+        return { success: true };
+    } else {
+        return { success: false, message: 'User not authenticated' };
     }
 
-    try {
-        await webpush.sendNotification(
-            subscription,
-            JSON.stringify({
-                title: 'Test Notification',
-                body: message,
-                icon: '/icon.png',
-            })
-        );
-        return { success: true };
-    } catch (error) {
-        console.error('Error sending push notification:', error);
-        return { success: false, error: 'Failed to send notification' };
+    if (!subscription) {
+        throw new Error('No subscription available');
     }
 }

@@ -1,4 +1,4 @@
-import {adminDb, adminMessaging, FieldValue} from "@/utils/firebase/admin";
+import { adminDb, FieldValue } from "@/utils/firebase/admin";
 
 export type NotificationType = "REACTION" | "FINE";
 
@@ -35,22 +35,7 @@ export async function createNotification(payload: NotificationPayload) {
 
         const tokens = tokensSnapshot.docs.map((doc) => doc.id);
         console.info(tokens);
-        if (!tokens.length) return;// get the messaging service
-
-        const response = await adminMessaging.sendEachForMulticast({
-            tokens,
-            notification: {
-                title,
-                body: description,
-            },
-            data: {
-                type,
-                href: href || "",
-            },
-        });
-
-        console.info(response);
-
+        if (!tokens.length) return;
     } catch (err) {
         console.error("Failed to create notification or send push", err);
         throw err;

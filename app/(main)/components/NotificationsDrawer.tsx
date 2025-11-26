@@ -17,7 +17,6 @@ import {
 import { LuBell } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { PushNotificationManager } from "./PushNotificationsManager";
 
 export const NotificationsDrawer = () => {
     const [open, setOpen] = useState(false);
@@ -64,7 +63,6 @@ export const NotificationsDrawer = () => {
                                 <Text fontSize="lg" fontWeight="bold">Notifications <Badge>{unreadCount}</Badge></Text>
                             </Drawer.Header>
                             <Drawer.Body>
-                                <PushNotificationManager />
                                 <VStack gap={3} align="stretch">
                                     {notifications.length === 0 && <Text>No notifications</Text>}
 

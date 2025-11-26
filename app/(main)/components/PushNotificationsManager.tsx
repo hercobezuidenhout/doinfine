@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, Card, HStack, IconButton, Switch, SwitchCheckedChangeDetails, Text } from '@chakra-ui/react';
-import { subscribeUser, unsubscribeUser, sendNotification } from '../../actions';
+import { Card, HStack, IconButton, Switch, SwitchCheckedChangeDetails, Text } from '@chakra-ui/react';
+import { sendNotification } from '../../actions';
 import { useEffect, useState } from "react";
 import { usePushNotifications } from '@/contexts/PushNotificationsContext';
-import { LuBug, LuSend } from 'react-icons/lu';
+import { LuSend } from 'react-icons/lu';
 import { useMutation } from '@tanstack/react-query';
 
 export function PushNotificationManager() {

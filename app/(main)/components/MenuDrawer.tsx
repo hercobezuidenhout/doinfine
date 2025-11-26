@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Button, CloseButton, Drawer, IconButton, Portal, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuBell, LuLogOut, LuMenu, LuMoon, LuSettings, LuSun } from "react-icons/lu";
+import { LuLogOut, LuMenu, LuMoon, LuSettings, LuSun } from "react-icons/lu";
 import { MenuSection } from "./MenuSection";
 
 export const MenuDrawer = () => {

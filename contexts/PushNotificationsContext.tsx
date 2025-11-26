@@ -56,9 +56,11 @@ export const PushNotificationsProvider = ({ children }: PropsWithChildren) => {
 
     async function unsubscribeFromPush() {
         console.info('unsubscribeFromPush');
+        if (!subscription) return;
         await subscription?.unsubscribe();
         setSubscription(null);
-        await unsubscribeUser();
+        const serializedSub = JSON.parse(JSON.stringify(subscription));
+        await unsubscribeUser(serializedSub);
     }
 
     return (<PushNotificationsContext.Provider value={{

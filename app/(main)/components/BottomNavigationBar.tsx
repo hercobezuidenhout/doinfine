@@ -1,6 +1,6 @@
 'use client';
 
-import { HStack, IconButton, Link } from "@chakra-ui/react";
+import { HStack, IconButton } from "@chakra-ui/react";
 import { LuHouse, LuUser, LuUsers } from "react-icons/lu";
 import { PostDrawer } from "./PostDrawer";
 import { usePathname, useRouter } from "next/navigation";

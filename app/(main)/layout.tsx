@@ -1,3 +1,5 @@
+'use client';
+
 import { PropsWithChildren } from "react";
 import { AppHeader } from "./components/AppHeader";
 import { Box, Container, HStack } from "@chakra-ui/react";

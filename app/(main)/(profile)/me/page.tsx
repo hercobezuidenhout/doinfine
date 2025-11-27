@@ -1,7 +1,6 @@
 'use client';
 
-import { VStack, HStack, Heading, Card, Text, IconButton, Link, Center, Spinner } from "@chakra-ui/react";
-import { BackButton } from "../../components/BackButton";
+import { VStack, HStack, Heading, Card, Text, IconButton, Center, Spinner } from "@chakra-ui/react";
 import { LuPen } from "react-icons/lu";
 import { useMeQuery } from "@/queries/useMeQuery";
 import { useRouter } from "next/navigation";
@@ -17,7 +16,6 @@ export default function Page() {
     ) : (
         <VStack alignItems="stretch" gap={4}>
             <VStack alignItems="start" width="full">
-                <BackButton href="/" />
                 <HStack justifyContent="space-between" width="full">
                     <HStack>
                         <Heading size={{ base: "3xl", md: "5xl" }}>{user?.name}</Heading>

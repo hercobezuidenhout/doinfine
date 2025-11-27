@@ -23,7 +23,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                         <Box display={{ base: 'block', md: 'none' }}>
                             <MobileAppHeader />
                         </Box>
-                        <HStack width="full" alignItems="start" py={{ base: 4, md: 8 }}>
+                        <HStack width="full" alignItems="start" py={{ base: 16, md: 8 }}>
                             <Container maxWidth="sm" fluid display={{ base: 'none', md: 'block' }}>
                                 <MainNavigationMenu />
                             </Container>

@@ -55,7 +55,10 @@ export const MenuDrawer = () => {
                                         {
                                             label: 'Settings',
                                             icon: <LuSettings />,
-                                            onClick: () => router.push('/settings')
+                                            onClick: () => {
+                                                setOpen(false);
+                                                router.push('/settings');
+                                            }
                                         }
                                     ]} />
                                 </Stack>

@@ -3,7 +3,8 @@
 import { useCurrentUserQuery } from "@/queries/useCurrentUserQuery";
 import { Center, Spinner } from "@chakra-ui/react";
 import { User } from "@supabase/supabase-js";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, ReactNode } from "react";
 
 interface AuthContextValue {
     user: User | undefined | null;
@@ -13,6 +14,12 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode; }) => {
     const { data: user, isLoading } = useCurrentUserQuery();
+    const router = useRouter();
+
+    if (!isLoading && !user) {
+        router.push('/login');
+        return null;
+    }
 
     return (
         <AuthContext.Provider value={{ user: user?.data.user }}>

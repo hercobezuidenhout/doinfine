@@ -4,9 +4,11 @@ import { VStack, HStack, Heading, Card, Text, IconButton, Link, Center, Spinner 
 import { BackButton } from "../../components/BackButton";
 import { LuPen } from "react-icons/lu";
 import { useMeQuery } from "@/queries/useMeQuery";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
     const { data: user, isLoading } = useMeQuery();
+    const router = useRouter();
 
     return isLoading ? (
         <Center height="60vh">
@@ -20,11 +22,9 @@ export default function Page() {
                     <HStack>
                         <Heading size={{ base: "3xl", md: "5xl" }}>{user?.name}</Heading>
                     </HStack>
-                    <Link href="/me/edit">
-                        <IconButton aria-label="Edit profile" size="sm">
-                            <LuPen />
-                        </IconButton>
-                    </Link>
+                    <IconButton onClick={() => router.push('/me/edit')} aria-label="Edit profile" size="sm">
+                        <LuPen />
+                    </IconButton>
                 </HStack>
             </VStack>
             {user?.aboutMe && (

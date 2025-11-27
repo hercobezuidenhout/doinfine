@@ -66,6 +66,6 @@ export async function createNotification(payload: NotificationPayload) {
 
     } catch (err) {
         console.error("Failed to create notification or send push", err);
-        throw err;
+        return;
     }
 }

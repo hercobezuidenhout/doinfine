@@ -1,8 +1,6 @@
 'use client';
 
-import { useCurrentUserQuery } from "@/queries/useCurrentUserQuery";
 import { createClient } from "@/utils/supabase/client";
-import { Center, Spinner } from "@chakra-ui/react";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, ReactNode, useEffect, useState } from "react";

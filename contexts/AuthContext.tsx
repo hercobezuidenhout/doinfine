@@ -13,14 +13,15 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode; }) => {
-    const { data: user, isLoading } = useCurrentUserQuery();
+    const { data: user, isLoading, isFetched } = useCurrentUserQuery();
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoading && !user?.data.user) {
+        if (isFetched || isLoading) return;
+        if (!user?.data.user) {
             router.push('/login');
         }
-    }, [isLoading, user, router]);
+    }, [isLoading, isFetched, user, router]);
 
     if (!isLoading && !user?.data.user) {
         return null;

@@ -1,14 +1,18 @@
-import { getUserById } from "@/prisma/queries/get-user-by-id";
-import { getUser } from "@/utils/supabase/server";
-import { VStack, HStack, Heading, Card, Text, IconButton, Link } from "@chakra-ui/react";
+'use client';
+
+import { VStack, HStack, Heading, Card, Text, IconButton, Link, Center, Spinner } from "@chakra-ui/react";
 import { BackButton } from "../../components/BackButton";
 import { LuPen } from "react-icons/lu";
+import { useMeQuery } from "@/queries/useMeQuery";
 
-export default async function Page() {
-    const currentUser = await getUser();
-    const user = await getUserById(currentUser.id);
+export default function Page() {
+    const { data: user, isLoading } = useMeQuery();
 
-    return (
+    return isLoading ? (
+        <Center height="60vh">
+            <Spinner />
+        </Center>
+    ) : (
         <VStack alignItems="stretch" gap={4}>
             <VStack alignItems="start" width="full">
                 <BackButton href="/" />

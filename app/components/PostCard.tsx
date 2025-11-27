@@ -8,7 +8,7 @@ import { PostReaction } from "@prisma/client";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDeletePostReactionMutation } from "@/mutations/useDeletePostReactionMutation";
 import { PostReactionDialog } from "./PostReactionDialog";
-import {codepointsToEmoji} from "@/utils/lib/code-to-emoji";
+import { codepointsToEmoji } from "@/utils/lib/code-to-emoji";
 
 export interface Post {
     id: number;
@@ -66,14 +66,14 @@ export const PostCard = ({ post, scopeId }: PostCardProps) => {
     }, [post.reactions]);
 
     return (
-        <Card.Root size="md" key={post.id}>
-            <Card.Header>
+        <Card.Root bg="bg" size="sm" borderRight="none" borderLeft="none" borderTop="none" borderRadius="0" key={post.id} px={0}>
+            <Card.Header px={0}>
                 <Heading size="xs" color="fg.muted">{post.finee} - {post.group}</Heading>
             </Card.Header>
-            <Card.Body>
+            <Card.Body px={0}>
                 {post.description}
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer px={0}>
                 <Wrap gap={2}>
                     {groupedReactions.map(({ code, count, userIds }) => {
                         const reactedByCurrentUser = user && userIds.includes(user.id);
@@ -82,7 +82,7 @@ export const PostCard = ({ post, scopeId }: PostCardProps) => {
                             <IconButton
                                 key={code}
                                 borderRadius="full"
-                                variant={reactedByCurrentUser ? "solid" : "subtle"} // highlight if reacted
+                                variant={reactedByCurrentUser ? "solid" : "subtle"}
                                 size="xs"
                                 px={2}
                                 aria-label={`${code} reaction`}

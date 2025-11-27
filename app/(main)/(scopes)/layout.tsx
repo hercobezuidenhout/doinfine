@@ -1,5 +1,7 @@
-import { VStack } from "@chakra-ui/react"
-import { PropsWithChildren } from "react"
+'use client';
+
+import { VStack } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
 
 export default function Layout({ children }: PropsWithChildren) {
 
@@ -7,5 +9,5 @@ export default function Layout({ children }: PropsWithChildren) {
         <VStack alignItems="stretch" gap={4}>
             {children}
         </VStack>
-    )
+    );
 }

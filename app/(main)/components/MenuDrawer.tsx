@@ -24,7 +24,7 @@ export const MenuDrawer = () => {
 
         console.info("Successfully signed out");
         setOpen(false);
-        router.refresh();
+        router.push('/login');
     };
 
     return (
@@ -55,7 +55,10 @@ export const MenuDrawer = () => {
                                         {
                                             label: 'Settings',
                                             icon: <LuSettings />,
-                                            onClick: () => router.push('/settings')
+                                            onClick: () => {
+                                                setOpen(false);
+                                                router.push('/settings');
+                                            }
                                         }
                                     ]} />
                                 </Stack>

@@ -1,14 +1,15 @@
-import {createPost} from "@/prisma/commands/create-post";
-import {getUser} from "@/utils/supabase/server";
-import {getScopeMembers} from "@/prisma/queries/get-scope-members";
-import {getUserById} from "@/prisma/queries/get-user-by-id";
-import {createNotification} from "@/utils/notifications/notifications";
+import { createPost } from "@/prisma/commands/create-post";
+import { getUser } from "@/utils/supabase/server";
+import { getScopeMembers } from "@/prisma/queries/get-scope-members";
+import { getUserById } from "@/prisma/queries/get-user-by-id";
+import { createNotification } from "@/utils/notifications/notifications";
 
 export async function POST(request: Request) {
+
     const user = await getUser();
 
     if (!user) {
-        return new Response("Unauthorized", {status: 401});
+        return new Response("Unauthorized", { status: 401 });
     }
 
     const body = await request.json();
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
             title: "You have been fined!",
             description: `${issuedByUser.name} has fined you for ${body.description}`,
             href: `/scopes/${body.scopeId}`
-        })
+        });
     }
 
     if (issuedToUser) {
@@ -46,9 +47,9 @@ export async function POST(request: Request) {
                 title: `${issuedToUser.name} has been fined!`,
                 description: `${body.description}`,
                 href: `/scopes/${body.scopeId}`
-            })
+            });
         }
     }
 
-    return new Response(JSON.stringify({scopeId: body.scopeId}), {status: 201});
+    return new Response(JSON.stringify({ scopeId: body.scopeId }), { status: 201 });
 }

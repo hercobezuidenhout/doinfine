@@ -12,8 +12,8 @@ export const Feed = ({ scopeId }: FeedProps) => {
     const { data } = useFeedQuery(Number(scopeId));
 
     return data?.length > 0 && (
-        <Box mt={4} width="full">
-            <VStack alignItems="stretch" gap={8}>
+        <Box width="full">
+            <VStack alignItems="stretch" gap={4}>
                 {data.map((post: Post) => (
                     <PostCard key={post.id} post={post} scopeId={scopeId} />
                 ))}

@@ -5,7 +5,7 @@ import { MenuDrawer } from "./MenuDrawer";
 
 export const MobileAppHeader = () => {
     return (
-        <HStack justifyContent="space-between" py={2} px={4} position="sticky" top={0}>
+        <HStack justifyContent="space-between" py={2} px={4} position="fixed" left={0} right={0} top={0} bg="bg" zIndex={10}>
             <Box>
                 <Image src="/assets/logo.jpg" width="35px" borderRadius="full" alt="Doinfine logo" />
             </Box >
@@ -15,6 +15,6 @@ export const MobileAppHeader = () => {
             <Box>
                 <MenuDrawer />
             </Box>
-        </HStack >
+        </HStack>
     );
 };

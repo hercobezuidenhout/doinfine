@@ -24,7 +24,6 @@ export const MenuDrawer = () => {
 
         console.info("Successfully signed out");
         setOpen(false);
-        router.push('/login');
     };
 
     return (

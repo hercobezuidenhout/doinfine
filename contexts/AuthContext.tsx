@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
     const { data: user, isLoading } = useCurrentUserQuery();
     const router = useRouter();
 
-    if (!isLoading && !user) {
+    if (!isLoading && !user?.data.user) {
         router.push('/login');
         return null;
     }
